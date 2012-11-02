@@ -203,31 +203,38 @@ typedef struct {
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         context.duration = kAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectSlide) {
-            switch (self.toggleEdge) {
-                case CNToggleEdgeTop:               applicationFrame.origin.y -= NSHeight(applicationFrame); break;
-                case CNToggleEdgeBottom:            applicationFrame.origin.y += NSHeight(applicationFrame); break;
-                case CNToggleEdgeLeft:              applicationFrame.origin.x += NSWidth(applicationFrame); break;
-                case CNToggleEdgeRight:             applicationFrame.origin.x -= NSWidth(applicationFrame); break;
-                case CNToggleEdgeSplitHorizontal:
-                    break;
-                case CNToggleEdgeSplitVertical:
-                    break;
-            }
-        }
+        switch (self.toggleAnimationEffect) {
+            case CNToggleAnimationEffectStatic:
+                break;
 
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectFade) {
-            [[self.applicationView animator] setAlphaValue:1.0];
+            case CNToggleAnimationEffectFade: {
+                [[self.applicationView animator] setAlphaValue:1.0];
+                break;
+            }
+
+            case CNToggleAnimationEffectSlide: {
+                switch (self.toggleEdge) {
+                    case CNToggleEdgeTop:       applicationFrame.origin.y -= NSHeight(applicationFrame); break;
+                    case CNToggleEdgeBottom:    applicationFrame.origin.y += NSHeight(applicationFrame); break;
+                    case CNToggleEdgeLeft:      applicationFrame.origin.x += NSWidth(applicationFrame); break;
+                    case CNToggleEdgeRight:     applicationFrame.origin.x -= NSWidth(applicationFrame); break;
+
+                    case CNToggleEdgeSplitHorizontal:
+                    case CNToggleEdgeSplitVertical:
+                        break;
+                }
+                break;
+            }
         }
 
         // configure the finder snapshot view
         switch (self.toggleEdge) {
-            case CNToggleEdgeTop:               finderSnapshotFrame.origin.y -= floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaY); break;
-            case CNToggleEdgeBottom:            finderSnapshotFrame.origin.y += floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaY); break;
-            case CNToggleEdgeLeft:              finderSnapshotFrame.origin.x += floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaX); break;
-            case CNToggleEdgeRight:             finderSnapshotFrame.origin.x -= floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaX); break;
+            case CNToggleEdgeTop:       finderSnapshotFrame.origin.y -= floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaY); break;
+            case CNToggleEdgeBottom:    finderSnapshotFrame.origin.y += floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaY); break;
+            case CNToggleEdgeLeft:      finderSnapshotFrame.origin.x += floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaX); break;
+            case CNToggleEdgeRight:     finderSnapshotFrame.origin.x -= floor([self toggleDeltasForFrame:finderSnapshotFrame].deltaX); break;
+
             case CNToggleEdgeSplitHorizontal:
-                break;
             case CNToggleEdgeSplitVertical:
                 break;
         }
@@ -255,21 +262,27 @@ typedef struct {
         context.duration = kAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectSlide) {
-            switch (self.toggleEdge) {
-                case CNToggleEdgeTop:               applicationFrame.origin.y += NSHeight(applicationFrame); break;
-                case CNToggleEdgeBottom:            applicationFrame.origin.y -= NSHeight(applicationFrame); break;
-                case CNToggleEdgeLeft:              applicationFrame.origin.x -= NSWidth(applicationFrame); break;
-                case CNToggleEdgeRight:             applicationFrame.origin.x += NSWidth(applicationFrame); break;
-                case CNToggleEdgeSplitHorizontal:
-                    break;
-                case CNToggleEdgeSplitVertical:
-                    break;
-            }
-        }
+        switch (self.toggleAnimationEffect) {
+            case CNToggleAnimationEffectStatic:
+                break;
 
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectFade) {
-            [[self.applicationView animator] setAlphaValue:0.0];
+            case CNToggleAnimationEffectFade: {
+                [[self.applicationView animator] setAlphaValue:0.0];
+                break;
+            }
+
+            case CNToggleAnimationEffectSlide: {
+                switch (self.toggleEdge) {
+                    case CNToggleEdgeTop:       applicationFrame.origin.y += NSHeight(applicationFrame); break;
+                    case CNToggleEdgeBottom:    applicationFrame.origin.y -= NSHeight(applicationFrame); break;
+                    case CNToggleEdgeLeft:      applicationFrame.origin.x -= NSWidth(applicationFrame); break;
+                    case CNToggleEdgeRight:     applicationFrame.origin.x += NSWidth(applicationFrame); break;
+
+                    case CNToggleEdgeSplitHorizontal:
+                    case CNToggleEdgeSplitVertical:
+                        break;
+                }
+            }
         }
 
         // animate the snapshot
@@ -424,15 +437,13 @@ typedef struct {
         case CNToggleEdgeTop: {
             resultRect.size = NSMakeSize(NSWidth(self.window.frame), [self toggleDeltasForFrame:self.window.frame].deltaY);
             switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectStatic:
                 case CNToggleAnimationEffectFade:
                     resultRect.origin.y = NSHeight(self.window.frame) - NSHeight(resultRect);
                     break;
 
                 case CNToggleAnimationEffectSlide:
                     resultRect.origin.y = NSHeight(self.window.frame);
-                    break;
-
-                default:
                     break;
             }
             break;
@@ -441,15 +452,13 @@ typedef struct {
         case CNToggleEdgeBottom: {
             resultRect.size = NSMakeSize(NSWidth(self.window.frame), [self toggleDeltasForFrame:self.window.frame].deltaY);
             switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectStatic:
                 case CNToggleAnimationEffectFade:
                     resultRect.origin.y = 0;
                     break;
 
                 case CNToggleAnimationEffectSlide:
                     resultRect.origin.y = 0 - NSHeight(resultRect);
-                    break;
-
-                default:
                     break;
             }
             break;
@@ -458,15 +467,13 @@ typedef struct {
         case CNToggleEdgeLeft: {
             resultRect.size = NSMakeSize([self toggleDeltasForFrame:self.window.frame].deltaX, NSHeight(self.window.frame));
             switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectStatic:
                 case CNToggleAnimationEffectFade:
                     resultRect.origin.x = 0;
                     break;
 
                 case CNToggleAnimationEffectSlide:
                     resultRect.origin.x = 0 - NSWidth(resultRect);
-                    break;
-
-                default:
                     break;
             }
             break;
@@ -476,15 +483,13 @@ typedef struct {
             resultRect.size = NSMakeSize([self toggleDeltasForFrame:self.window.frame].deltaX, NSHeight(self.window.frame));
             resultRect.origin.x  = self.window.frame.size.width - resultRect.size.width;
             switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectStatic:
                 case CNToggleAnimationEffectFade:
                     resultRect.origin.x = NSWidth(self.window.frame) - NSWidth(resultRect);
                     break;
 
                 case CNToggleAnimationEffectSlide:
                     resultRect.origin.x = NSWidth(self.window.frame);
-                    break;
-
-                default:
                     break;
             }
             break;
@@ -517,6 +522,7 @@ typedef struct {
     [self.shadowView removeFromSuperview];
     [self.finderSnapshotView removeFromSuperview];
     [self.finderSnapshotViewOverlay removeFromSuperview];
+    self.applicationView.alphaValue = 1.0;
 
     self.shadowView = [[CNBackstageShadowView alloc] init];
     self.finderSnapshotView = [[NSView alloc] init];
@@ -620,6 +626,7 @@ typedef struct {
 
 static NSColor *startColor;
 static NSColor *endColor;
+static CGFloat shadowWidth = 10.0;
 
 @interface CNBackstageShadowView ()
 @end
@@ -642,10 +649,10 @@ static NSColor *endColor;
     CGRect gradientRect = NSZeroRect;
     CGFloat angle = 0;
     switch (self.toggleEdge) {
-        case CNToggleEdgeTop:       gradientRect = NSMakeRect(0, floor(NSHeight(dirtyRect))-11, NSWidth(dirtyRect), 11); angle = -90; break;
-        case CNToggleEdgeRight:     gradientRect = NSMakeRect(0, 0, 11, NSHeight(dirtyRect)); angle = 0; break;
-        case CNToggleEdgeBottom:    gradientRect = NSMakeRect(0, floor(NSHeight(dirtyRect))-11, NSWidth(dirtyRect), 11); angle = -90; break;
-        case CNToggleEdgeLeft:      gradientRect = NSMakeRect(floor(NSWidth(dirtyRect))-12, 0, 11, NSHeight(dirtyRect));  angle = 180; break;
+        case CNToggleEdgeTop:       gradientRect = NSMakeRect(0, NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth); angle = -90; break;
+        case CNToggleEdgeRight:     gradientRect = NSMakeRect(0, 0, shadowWidth, NSHeight(dirtyRect)); angle = 0; break;
+        case CNToggleEdgeBottom:    gradientRect = NSMakeRect(0, NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth); angle = -90; break;
+        case CNToggleEdgeLeft:      gradientRect = NSMakeRect(NSWidth(dirtyRect)-shadowWidth, 0, shadowWidth, NSHeight(dirtyRect));  angle = 180; break;
         default: break;
     }
     NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations: startColor, 0.0, endColor, 1.0, nil];
@@ -655,7 +662,7 @@ static NSColor *endColor;
 
 - (NSView *)hitTest:(NSPoint)aPoint
 {
-    // pass-through events that don't hit one of the visible subviews
+    // pass-through all events
     for (NSView *subView in [self subviews]) {
         if (![subView isHidden] && [subView hitTest:aPoint])
             return subView;

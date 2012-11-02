@@ -445,27 +445,23 @@ see the results. You may also take a look an the Example project.</p>
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Each time if the <code>applicationView</code> is shown, the animation can make use of different effects while toggling. The supported
-effects are specified in <code>CNToggleAnimationEffect</code>. These constants can be combined using the C-bitwise OR operator.</p>
+effects are specified in <code>CNToggleAnimationEffect</code>.</p>
 
 <pre><code>typedef enum {
-    CNToggleAnimationEffectFade             = 0,
-    CNToggleAnimationEffectSlide            = (1 &lt;&lt; 0),
-    CNToggleAnimationEffectSplitHorzontally = (1 &lt;&lt; 1),
-    CNToggleAnimationEffectSplitVertically  = (1 &lt;&lt; 2)
+    CNToggleAnimationEffectStatic = 0,
+    CNToggleAnimationEffectFade,
+    CNToggleAnimationEffectSlide
 } CNToggleAnimationEffect;
 </code></pre>
+
+<p><code>CNToggleAnimationEffectStatic</code><br>
+While the controller is toggling, the content of the application view keep staying on its place.</p>
 
 <p><code>CNToggleAnimationEffectApplicationContentFade</code><br>
 While the controller is toggling, the content of the application view will be fade in.</p>
 
 <p><code>CNToggleAnimationEffectApplicationContentSlide</code><br>
 While the controller is toggling, the content of the application view will be slide in.</p>
-
-<p><code>CNToggleAnimationEffectSplitHorzontally</code><br>
-<strong>Not yet implemented.</strong></p>
-
-<p><code>CNToggleAnimationEffectSplitVertically</code><br>
-<strong>Not yet implemented.</strong></p>
 
 <p>The default value is <code>CNToggleAnimationEffectSlide</code>.</p><div class="warning"><p><strong>Warning:</strong> Using the <code>CNToggleAnimationEffectGaussianBlur</code> will decrease the animation performance!</p></div>
 	</div>
@@ -588,10 +584,10 @@ The applicationView will appear from the left side of the screen that was select
 The applicationView will appear from the right side of the screen that was selected by the property <a href="#//api/name/toggleDisplay"><code>toggleDisplay</code></a>.</p>
 
 <p><code>CNToggleEdgeSplitHorizontal</code><br>
-Not yet implemented.</p>
+<strong>Not yet implemented.</strong></p>
 
 <p><code>CNToggleEdgeSplitVertical</code><br>
-Not yet implemented.</p>
+<strong>Not yet implemented.</strong></p>
 	</div>
 	
 	
@@ -715,11 +711,11 @@ myController.toggleSize = 369;
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>On toggling the application view in and out you can use visual effects to focus the users attention more or less on its application view.
-The supported effects are specified in <code>CNToggleVisualEffect</code>. These constants can be combined using the C-bitwise OR operator.</p>
+The supported effects are specified in <code>CNToggleVisualEffect</code>.</p>
 
 <pre><code>typedef enum {
-    CNToggleVisualEffectNone            = 0,
-    CNToggleVisualEffectOverlayBlack    = (1 &lt;&lt; 0),
+    CNToggleVisualEffectNone = 0,
+    CNToggleVisualEffectOverlayBlack
 } CNToggleVisualEffect;
 </code></pre>
 
@@ -736,6 +732,15 @@ property <a href="#//api/name/overlayAlpha">overlayAlpha</a>.</p>
 	
 	
 	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/overlayAlpha">@property overlayAlpha</a>.</p></code></li>
+			
+		</ul>
+	</div>
 	
 	
 	

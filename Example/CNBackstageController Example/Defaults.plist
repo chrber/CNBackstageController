@@ -6,9 +6,11 @@
 	<integer>0</integer>
 	<key>CNToggleEdge</key>
 	<integer>2</integer>
-	<key>CNToggleDisplayEffect</key>
+	<key>CNToggleVisualEffect</key>
 	<integer>1</integer>
-	<key>CNApplicationViewBehavior</key>
+	<key>CNToggleAnimationEffect</key>
 	<integer>0</integer>
+	<key>CNToggleAlphaValue</key>
+	<string>65</string>
 </dict>
 </plist>

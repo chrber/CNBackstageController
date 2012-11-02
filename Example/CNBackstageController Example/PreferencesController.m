@@ -7,7 +7,7 @@
 //
 
 #import "PreferencesController.h"
-
+#import "CNBackstageController.h"
 
 
 typedef enum {
@@ -47,19 +47,17 @@ typedef enum {
 
     // application behavior
     {
-        self.toggleEdgeLabel.stringValue = NSLocalizedString(@"Toggle application on", @"application behavior: label for toggle edge");
-        self.toggleDisplayLabel.stringValue = NSLocalizedString(@"Show application on", @"application behavior: label for toggle screen");
-        self.applicationBehaviorLabel.stringValue = NSLocalizedString(@"Content of Application view", @"application behavior: label for toggle screen");
-
+        self.toggleEdgeLabel.stringValue = NSLocalizedString(@"Toggle application on", @"");
         [self.toggleEdgePopupButton removeAllItems];
         [self.toggleEdgePopupButton addItemsWithTitles:[NSArray arrayWithObjects:
-                                                        NSLocalizedString(@"Top Edge", @"application behavior: content for toggle edge"),
-                                                        NSLocalizedString(@"Bottom Edge", @"application behavior: content for toggle edge"),
-                                                        NSLocalizedString(@"Left Edge", @"application behavior: content for toggle edge"),
-                                                        NSLocalizedString(@"Right Edge", @"application behavior: content for toggle edge"),
+                                                        NSLocalizedString(@"Top Edge", @""),
+                                                        NSLocalizedString(@"Bottom Edge", @""),
+                                                        NSLocalizedString(@"Left Edge", @""),
+                                                        NSLocalizedString(@"Right Edge", @""),
                                                         nil]];
 
 
+        self.toggleDisplayLabel.stringValue = NSLocalizedString(@"Show application on", @"");
         [self.toggleDisplayPopupButton removeAllItems];
         __block NSMutableArray *screens = [NSMutableArray array];
         [[NSScreen screens] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -67,12 +65,23 @@ typedef enum {
         }];
         [self.toggleDisplayPopupButton addItemsWithTitles:screens];
 
-        [self.applicationBehaviorPopupButton removeAllItems];
-        [self.applicationBehaviorPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
-                                                                 NSLocalizedString(@"should be static", @"application behavior: content for application bevavior"),
-                                                                 NSLocalizedString(@"should fade in", @"application behavior: content for application bevavior"),
-                                                                 NSLocalizedString(@"should slide in", @"application behavior: content for application bevavior"),
-                                                                 nil]];
+        self.visualEffectLabel.stringValue = NSLocalizedString(@"Finder Snapshot should", @"");
+        [self.visualEffectPopupButton removeAllItems];
+        [self.visualEffectPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
+                                                          NSLocalizedString(@"kept untouched", @""),
+                                                          NSLocalizedString(@"have a black overlay", @""),
+                                                          nil]];
+
+        self.animationEffectLabel.stringValue = NSLocalizedString(@"Content of Application view", @"");
+        [self.animationEffectPopupButton removeAllItems];
+        [self.animationEffectPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
+                                                             NSLocalizedString(@"should be static", @""),
+                                                             NSLocalizedString(@"should fade in", @""),
+                                                             NSLocalizedString(@"should slide in", @""),
+                                                             nil]];
+
+        self.alphaValueLabel.stringValue = NSLocalizedString(@"Opacity of Finder Snapshot Overlay", @"");
+
     }
 
     [self restorePreferences];
@@ -86,8 +95,11 @@ typedef enum {
 
 - (void)restorePreferences {
     self.userDefaults = [NSUserDefaults standardUserDefaults];
-    [self.toggleEdgePopupButton selectItemAtIndex:[self.userDefaults integerForKey:kToggleEdgePrefsKey]];
-    [self.toggleDisplayPopupButton selectItemAtIndex:[self.userDefaults integerForKey:kToggleDisplayPrefsKey]];
+    [self.toggleEdgePopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleEdgePreferencesKey]];
+    [self.toggleDisplayPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleDisplayPreferencesKey]];
+    [self.visualEffectPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleVisualEffectPreferencesKey]];
+    [self.animationEffectPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleAnimationEffectPreferencesKey]];
+    self.alphaValueSlider.integerValue = [self.userDefaults integerForKey:CNToggleAlphaValuePreferencesKey];
 }
 
 - (void)defaultsChangedNotification
@@ -103,14 +115,21 @@ typedef enum {
 - (IBAction)preferencesChangedAction:(id)sender
 {
     if (sender == self.toggleEdgePopupButton) {
-        [self.userDefaults setInteger:[self.toggleEdgePopupButton indexOfSelectedItem] forKey:kToggleEdgePrefsKey];
+        [self.userDefaults setInteger:[self.toggleEdgePopupButton indexOfSelectedItem] forKey:CNToggleEdgePreferencesKey];
     }
     if (sender == self.toggleDisplayPopupButton) {
-        [self.userDefaults setInteger:[self.toggleDisplayPopupButton indexOfSelectedItem] forKey:kToggleDisplayPrefsKey];
+        [self.userDefaults setInteger:[self.toggleDisplayPopupButton indexOfSelectedItem] forKey:CNToggleDisplayPreferencesKey];
     }
-    if (sender == self.applicationBehaviorPopupButton) {
-        [self.userDefaults setInteger:(1 << [self.applicationBehaviorPopupButton indexOfSelectedItem]) forKey:kApplicationViewBehaviorPrefsKey];
+    if (sender == self.visualEffectPopupButton) {
+        [self.userDefaults setInteger:[self.visualEffectPopupButton indexOfSelectedItem] forKey:CNToggleVisualEffectPreferencesKey];
     }
+    if (sender == self.animationEffectPopupButton) {
+        [self.userDefaults setInteger:[self.animationEffectPopupButton indexOfSelectedItem] forKey:CNToggleAnimationEffectPreferencesKey];
+    }
+    if (sender == self.alphaValueSlider) {
+        [self.userDefaults setInteger:self.alphaValueSlider.integerValue forKey:CNToggleAlphaValuePreferencesKey];
+    }
+    [self.userDefaults synchronize];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kDefaultsChangedNotificationKey object:nil];
 }

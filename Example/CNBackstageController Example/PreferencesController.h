@@ -22,8 +22,14 @@
 @property (nonatomic, strong) IBOutlet NSPopUpButton *toggleDisplayPopupButton;
 @property (nonatomic, strong) IBOutlet NSTextField *toggleDisplayLabel;
 
-@property (nonatomic, strong) IBOutlet NSPopUpButton *applicationBehaviorPopupButton;
-@property (nonatomic, strong) IBOutlet NSTextField *applicationBehaviorLabel;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *visualEffectPopupButton;
+@property (nonatomic, strong) IBOutlet NSTextField *visualEffectLabel;
+
+@property (nonatomic, strong) IBOutlet NSSlider *alphaValueSlider;
+@property (nonatomic, strong) IBOutlet NSTextField *alphaValueLabel;
+
+@property (nonatomic, strong) IBOutlet NSPopUpButton *animationEffectPopupButton;
+@property (nonatomic, strong) IBOutlet NSTextField *animationEffectLabel;
 
 - (IBAction)changeView:(id)sender;
 - (IBAction)preferencesChangedAction:(id)sender;
