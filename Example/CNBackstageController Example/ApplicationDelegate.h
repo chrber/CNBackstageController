@@ -14,4 +14,6 @@
 @interface ApplicationDelegate : NSObject <NSApplicationDelegate>
 @property (assign) NSView *applicationView;
 @property (strong) CNBackstageController *backstageController;
+
+- (void)toggleApplicationView:(id)sender;
 @end

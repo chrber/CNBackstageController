@@ -10,6 +10,9 @@
 #import "CNBackstageController.h"
 
 
-@interface CNApplicationViewController : NSViewController <CNBackstageDelegate, CNBackstageDataSource>
+@interface CNApplicationViewController : NSViewController <CNBackstageDelegate>
+@property (strong) IBOutlet NSButton *preferencesButton;
+@property (strong) IBOutlet NSButton *quitApplicationButton;
 
+- (IBAction)buttonAction:(id)sender;
 @end

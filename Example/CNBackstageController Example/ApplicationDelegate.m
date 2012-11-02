@@ -29,9 +29,9 @@
 
     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
     self.backstageController = [[CNBackstageController alloc] initWithApplicationViewController:self.appController];
-    self.backstageController.toggleEdge = CNToggleEdgeLeft;
-    self.backstageController.toggleSize = CNToggleSizeQuarterScreen;
-    self.backstageController.toggleDisplay = CNToggleDisplaySecond;
+    self.backstageController.toggleEdge = CNToggleEdgeRight;
+    self.backstageController.toggleSize = 640.0;
+    self.backstageController.applicationViewBehavior = CNApplicationViewBehaviorFade | CNApplicationViewBehaviorSlide;
 }
 
 

@@ -40,6 +40,12 @@
  */
 + (NSScreen*)screenWithMenubar;
 
+/**
+ Returns the `NSScreen` of the given displayID.
+ 
+ @param     The ID of the requested display.
+ @return    A NSScreen object.
+ */
 + (NSScreen*)screenWithDisplayID:(CGDirectDisplayID)displayID;
 
 /**

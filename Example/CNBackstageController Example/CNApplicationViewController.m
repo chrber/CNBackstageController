@@ -8,21 +8,17 @@
 
 #import "CNApplicationViewController.h"
 
-@interface CNApplicationViewController ()
-
-@end
 
 @implementation CNApplicationViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Actions
+
+- (IBAction)buttonAction:(id)sender
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
+
 }
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,10 +33,5 @@
 {
     CNLog(@"screen: %@ -- didToggleOnEdge: %i", toggleScreen, toggleEdge);
 }
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - CNBackstage DataSource
 
 @end

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>--project-name</key>
+	<string>CNBackstageController</string>
+	<key>--project-company</key>
+	<string>cocoa:naut</string>
+	<key>--company-id</key>
+	<string>com.cocoanaut</string>
+	<key>--create-docset</key>
+	<false/>
+	<key>--install-docset</key>
+	<false/>
+	<key>--create-html</key>
+	<true/>
+	<key>--ignore</key>
+	<array>
+		<string>*.m</string>
+	</array>
+	<key>--index-desc</key>
+	<string>./DocIndex.md</string>
+	<key>--output</key>
+	<string>./Documentation</string>
+	<key>include</key>
+	<string>./Documentation/Images</string>
+	<key>--verbose</key>
+	<string>xcode</string>
+	<key>--explicit-crossref</key>
+	<false/>
+	<key>--repeat-first-par</key>
+	<false/>
+</dict>
+</plist>

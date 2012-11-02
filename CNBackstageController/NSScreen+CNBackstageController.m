@@ -31,19 +31,17 @@
 #import "NSScreen+CNBackstageController.h"
 
 
-#define kDefaultsDockDesktopKey     @"com.apple.dock"
-#define kDefaultsDomainDesktopKey   @"com.apple.desktop"
-
-#define kNSScreenNumberKey          @"NSScreenNumber"
-#define kImageFilePathKey           @"ImageFilePath"
+static NSString *kDefaultsDockDomainKey     = @"com.apple.dock";
+static NSString *kDefaultsDesktopDomainKey  = @"com.apple.desktop";
+static NSString *kNSScreenNumberKey         = @"NSScreenNumber";
+static NSString *kImageFilePathKey          = @"ImageFilePath";
 
 enum {
     CNDockOrientationLeft = 0,
-    CNDockOrientationRight = 1,
-    CNDockOrientationBottom = 2
+    CNDockOrientationRight,
+    CNDockOrientationBottom
 };
 typedef NSUInteger CNDockOrientation;
-
 
 
 @interface NSScreen (CNBackstageControllerExtension)
@@ -54,9 +52,8 @@ typedef NSUInteger CNDockOrientation;
 
 @implementation NSScreen (CNBackstageController)
 
-// --------------------------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - API
-// --------------------------------------------------------------------------------------------------------------------------
 
 + (NSScreen*)screenWithMenubar
 {
@@ -87,7 +84,7 @@ typedef NSUInteger CNDockOrientation;
 + (NSImage*)desktopImageForScreen:(NSScreen*)aScreen
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *desktopDefaults = [defaults persistentDomainForName:kDefaultsDomainDesktopKey];
+    NSDictionary *desktopDefaults = [defaults persistentDomainForName:kDefaultsDesktopDomainKey];
     NSDictionary *screenDefaults = [desktopDefaults objectForKey:[[aScreen deviceDescription] valueForKey:kNSScreenNumberKey]];
     return [NSImage imageNamed:[screenDefaults valueForKey:kImageFilePathKey]];
 }
@@ -102,11 +99,11 @@ typedef NSUInteger CNDockOrientation;
     switch ([NSScreen dockOrientation]) {
         case CNDockOrientationLeft:
         case CNDockOrientationRight:
-            result = (visibleFrame.size.width == totalFrame.size.width ? NO : YES);
+            result = (NSWidth(visibleFrame) == NSWidth(totalFrame) ? NO : YES);
             break;
             
         case CNDockOrientationBottom:
-            result = (visibleFrame.size.height == (totalFrame.size.height - statusBarThickness) ? NO : YES);
+            result = (NSHeight(visibleFrame) == (NSHeight(totalFrame) - statusBarThickness) ? NO : YES);
             break;
     }
     return result;
@@ -163,7 +160,7 @@ typedef NSUInteger CNDockOrientation;
 - (NSString*)desktopImageFilePath
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *desktopDefaults = [defaults persistentDomainForName:kDefaultsDomainDesktopKey];
+    NSDictionary *desktopDefaults = [defaults persistentDomainForName:kDefaultsDesktopDomainKey];
     NSDictionary *screenDefaults = [desktopDefaults objectForKey:[[self deviceDescription] valueForKey:kNSScreenNumberKey]];
     return [screenDefaults valueForKey:kImageFilePathKey];
 }
@@ -174,14 +171,14 @@ typedef NSUInteger CNDockOrientation;
 }
 
 
-// --------------------------------------------------------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Helper
-// --------------------------------------------------------------------------------------------------------------------------
 
 + (CNDockOrientation)dockOrientation
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dockDefaults = [defaults persistentDomainForName:kDefaultsDockDesktopKey];
+    NSDictionary *dockDefaults = [defaults persistentDomainForName:kDefaultsDockDomainKey];
     return [self.dockOrientations indexOfObject:[dockDefaults valueForKey:@"orientation"]];
 }
 
