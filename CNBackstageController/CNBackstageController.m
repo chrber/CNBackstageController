@@ -430,6 +430,9 @@ typedef struct {
                 case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.y = NSHeight(self.window.frame);
                     break;
+
+                default:
+                    break;
             }
             break;
         }
@@ -443,6 +446,9 @@ typedef struct {
 
                 case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.y = 0 - NSHeight(resultRect);
+                    break;
+
+                default:
                     break;
             }
             break;
@@ -458,6 +464,9 @@ typedef struct {
                 case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.x = 0 - NSWidth(resultRect);
                     break;
+
+                default:
+                    break;
             }
             break;
         }
@@ -472,6 +481,9 @@ typedef struct {
 
                 case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.x = NSWidth(self.window.frame);
+                    break;
+
+                default:
                     break;
             }
             break;
