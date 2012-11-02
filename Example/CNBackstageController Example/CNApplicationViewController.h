@@ -12,7 +12,8 @@
 
 @interface CNApplicationViewController : NSViewController <CNBackstageDelegate>
 @property (strong) IBOutlet NSButton *preferencesButton;
-@property (strong) IBOutlet NSButton *quitApplicationButton;
+@property (strong) IBOutlet NSButton *terminateButton;
 
-- (IBAction)buttonAction:(id)sender;
+- (IBAction)preferencesButtonAction:(id)sender;
+- (IBAction)terminateButtonAction:(id)sender;
 @end

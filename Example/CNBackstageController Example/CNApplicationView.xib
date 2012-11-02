@@ -125,27 +125,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">quitApplicationButton</string>
+						<string key="label">terminateButton</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="688059877"/>
 					</object>
-					<int key="connectionID">21</int>
+					<int key="connectionID">25</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">buttonAction:</string>
+						<string key="label">preferencesButtonAction:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="46758297"/>
 					</object>
-					<int key="connectionID">22</int>
+					<int key="connectionID">26</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">buttonAction:</string>
+						<string key="label">terminateButtonAction:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="688059877"/>
 					</object>
-					<int key="connectionID">23</int>
+					<int key="connectionID">27</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -178,8 +178,8 @@
 						<int key="objectID">1</int>
 						<reference key="object" ref="1005"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="46758297"/>
 							<reference ref="688059877"/>
+							<reference ref="46758297"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -225,35 +225,38 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">27</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">CNApplicationViewController</string>
 					<string key="superclassName">NSViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">buttonAction:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">buttonAction:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">buttonAction:</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="preferencesButtonAction:">id</string>
+						<string key="terminateButtonAction:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="preferencesButtonAction:">
+							<string key="name">preferencesButtonAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="terminateButtonAction:">
+							<string key="name">terminateButtonAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="preferencesButton">NSButton</string>
-						<string key="quitApplicationButton">NSButton</string>
+						<string key="terminateButton">NSButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="preferencesButton">
 							<string key="name">preferencesButton</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="quitApplicationButton">
-							<string key="name">quitApplicationButton</string>
+						<object class="IBToOneOutletInfo" key="terminateButton">
+							<string key="name">terminateButton</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
 					</dictionary>

@@ -6,3 +6,11 @@
     #import <Cocoa/Cocoa.h>
     #import "CNLog.h"
 #endif
+
+#define kApplicationViewBehaviorPrefsKey		@"CNApplicationViewBehavior"
+#define kToggleEdgePrefsKey						@"CNToggleEdge"
+#define kToggleDisplayPrefsKey					@"CNToggleDisplay"
+#define kToggleDisplayEffectPrefsKey			@"CNToggleDisplayEffect"
+#define CNPrefsToolbarItemBehaviorItenfier      @"CNPrefsToolbarItemBehaviorItenfier"
+
+#define kDefaultsChangedNotificationKey         @"DefaultsChangedNotification"

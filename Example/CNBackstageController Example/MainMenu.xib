@@ -30,7 +30,7 @@
 			<object class="NSCustomObject" id="1050">
 				<string key="NSClassName">NSApplication</string>
 			</object>
-			<object class="NSCustomObject" id="568620071">
+			<object class="NSCustomObject" id="56425996">
 				<string key="NSClassName">ApplicationDelegate</string>
 			</object>
 		</array>
@@ -40,7 +40,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="1021"/>
-						<reference key="destination" ref="568620071"/>
+						<reference key="destination" ref="56425996"/>
 					</object>
 					<int key="connectionID">796</int>
 				</object>
@@ -73,7 +73,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">795</int>
-						<reference key="object" ref="568620071"/>
+						<reference key="object" ref="56425996"/>
 						<reference key="parent" ref="0"/>
 					</object>
 				</array>

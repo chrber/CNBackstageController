@@ -13,13 +13,23 @@
 
 @interface ApplicationDelegate ()
 @property (strong) NSStatusItem *statusItem;
+@property (strong) CNBackstageController *backstageController;
 @property (strong) CNApplicationViewController *appController;
+@property (strong) NSUserDefaults *defaults;
 @end
 
 @implementation ApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    self.defaults = [NSUserDefaults standardUserDefaults];
+    [self.defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"]]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(defaultsChanged:)
+                                                 name:kDefaultsChangedNotificationKey
+                                               object:nil];
+
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     self.statusItem.image = [NSImage imageNamed:@"CNStatusbarIcon-Normal"];
     self.statusItem.alternateImage = [NSImage imageNamed:@"CNStatusbarIcon-Highlight"];
@@ -28,12 +38,19 @@
     self.statusItem.action = @selector(toggleApplicationView:);
 
     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
-    self.backstageController = [[CNBackstageController alloc] initWithApplicationViewController:self.appController];
-    self.backstageController.toggleEdge = CNToggleEdgeRight;
-    self.backstageController.toggleSize = 640.0;
-    self.backstageController.applicationViewBehavior = CNApplicationViewBehaviorFade | CNApplicationViewBehaviorSlide;
+    self.backstageController = [CNBackstageController sharedInstance];
+    self.backstageController.applicationViewController = self.appController;
+    self.backstageController.backstageViewBackgroundColor = [NSColor colorWithPatternImage:[NSImage imageNamed:@"TexturedBackground-Paper"]];
+    [self configureBackstageController];
 }
 
+- (void)configureBackstageController
+{
+    self.backstageController.toggleEdge = [self.defaults integerForKey:kToggleEdgePrefsKey];
+    self.backstageController.toggleDisplay = [self.defaults integerForKey:kToggleDisplayPrefsKey];
+    self.backstageController.toggleAnimationEffect = [self.defaults integerForKey:kApplicationViewBehaviorPrefsKey];
+    self.backstageController.toggleSize = 300;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +59,19 @@
 - (void)toggleApplicationView:(id)sender
 {
     [self.backstageController toggleViewState];
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSNotifications
+
+- (void)defaultsChanged:(NSNotification *)notif
+{
+    if (self.backstageController.currentToggleState == CNToggleStateOpened) {
+        [self.backstageController toggleViewState];
+    }
+    [self configureBackstageController];
 }
 
 @end

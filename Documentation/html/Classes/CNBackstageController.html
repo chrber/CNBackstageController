@@ -40,15 +40,17 @@
 	
 	<option value="properties">Properties</option>
 	
-	<option value="//api/name/applicationViewBehavior">&nbsp;&nbsp;&nbsp;&nbsp;applicationViewBehavior</option>
+	<option value="//api/name/backstageViewBackgroundColor">&nbsp;&nbsp;&nbsp;&nbsp;backstageViewBackgroundColor</option>
 	
 	<option value="//api/name/delegate">&nbsp;&nbsp;&nbsp;&nbsp;delegate</option>
+	
+	<option value="//api/name/overlayAlpha">&nbsp;&nbsp;&nbsp;&nbsp;overlayAlpha</option>
+	
+	<option value="//api/name/toggleAnimationEffect">&nbsp;&nbsp;&nbsp;&nbsp;toggleAnimationEffect</option>
 	
 	<option value="//api/name/toggleDisplay">&nbsp;&nbsp;&nbsp;&nbsp;toggleDisplay</option>
 	
 	<option value="//api/name/toggleEdge">&nbsp;&nbsp;&nbsp;&nbsp;toggleEdge</option>
-	
-	<option value="//api/name/toggleEffect">&nbsp;&nbsp;&nbsp;&nbsp;toggleEffect</option>
 	
 	<option value="//api/name/toggleSize">&nbsp;&nbsp;&nbsp;&nbsp;toggleSize</option>
 	
@@ -59,9 +61,7 @@
 	
 	<option value="instance_methods">Instance Methods</option>
 	
-	<option value="//api/name/initWithApplicationViewController:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithApplicationViewController:</option>
-	
-	<option value="//api/name/initWithApplicationWindow:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithApplicationWindow:</option>
+	<option value="//api/name/currentToggleState">&nbsp;&nbsp;&nbsp;&nbsp;- currentToggleState</option>
 	
 	<option value="//api/name/toggleViewState">&nbsp;&nbsp;&nbsp;&nbsp;- toggleViewState</option>
 	
@@ -81,13 +81,11 @@
 
 <li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Initialization">Initialization</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Backstage Controller Creation">Backstage Controller Creation</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Properties">Properties</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Initialization">Initialization</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_API">API</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Public API">Public API</a></span></li>
 	
 </ul></li>
 
@@ -97,15 +95,17 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applicationViewBehavior">applicationViewBehavior</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageViewBackgroundColor">backstageViewBackgroundColor</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delegate">delegate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/overlayAlpha">overlayAlpha</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleAnimationEffect">toggleAnimationEffect</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleDisplay">toggleDisplay</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleEdge">toggleEdge</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleEffect">toggleEffect</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleSize">toggleSize</a></span></li>
 	
@@ -117,9 +117,7 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithApplicationViewController:">initWithApplicationViewController:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithApplicationWindow:">initWithApplicationWindow:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/currentToggleState">currentToggleState</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleViewState">toggleViewState</a></span></li>
 	
@@ -160,25 +158,45 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p><code>CNBackstageController</code> is an derivative of <code>NSWindowController</code> and a special impelementation to show you the content
-you would like to see. The goal of <code>CNBackstageController</code> is to provide the developer a slightly different interface
-for presenting an application. It mimics the behavior you&rsquo;ve just seen Notification Center of Mountain Lion.
-Instead of showing a normal window and menu bar an application build with <code>CNBackstageController</code> offer you a <em>behind the Finder</em>-like
-desktop and will be shown with smooth animations. The common use is an application nested as a statusbar item that is not
-visible in the Dock.</p>
-
-<p>The use of <code>CNBackstageController</code> is quite simple and straight forward. If you would like to create a new aplication project
+						<p>The use of <code>CNBackstageController</code> is quite simple and straight forward. If you would like to create a new aplication project
 that uses <code>CNBackstageController</code> just follow these steps:</p>
 
 <ol>
-<li><p>Open Xcode and create a new <em>Cocoa Application</em> project. Now click on the <em>MainMenu.xib</em> file in your Project Browser, locate
- the Object Browser and delete all included items, <strong>but</strong> the <strong>Application Delegate</strong> controller object.</p>
+<li>Open Xcode and create a new <em>Cocoa Application</em> project.<br /></li>
+<li><p>Click on the <em>MainMenu.xib</em> file in your Project Browser, locate the Object Browser and delete all included items,
+ <strong>except</strong> the <strong>Application Delegate</strong>  object.</p>
 
-<p> It should look like this:</p>
+<p> It should look like this one:</p>
 
 <p> <img src="/images/XcodeObjectsBrowser.png"></p></li>
+<li><p>Create your <code>NSViewController</code> instance with a NIB file containing all your application sepcific stuff, place your controls
+ and objects and make all the connections in Interface Builder related to your needs.</p></li>
+<li><p>In your AppDelegate define two properties. One will be our backstage controller, the other one will be our <code>NSViewController</code>
+ from step 3.</p>
+
+<pre><code> @property (strong) CNBackstageController *backstageController;      // our backstage controller
+ @property (strong) CNApplicationViewController *appController;      // our application view controller
+</code></pre></li>
+<li><p>Now you create instances for these two properties:</p>
+
+<pre><code> - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+ {
+     [...]
+
+     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
+     self.backstageController = [CNBackstageController sharedInstance];
+     self.backstageController.applicationViewController = self.appController;
+ }
+</code></pre></li>
 </ol>
 
+
+<p>After these five steps you will have a fully functional backstage controller. Play around with all the other properties and
+see the results. You may also take a look an the Example project.</p>
+
+<p><strong>Related Sample Code</strong></p>
+
+<p><a href="https://github.com/phranck/CNBackstageController">CNBackstageController Example</a></p>
 					</div>
 					
 					
@@ -190,23 +208,16 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 						<h2 class="subtitle subtitle-tasks">Tasks</h2>
 						
 						
-						<a title="Initialization" name="task_Initialization"></a>
-						<h3 class="subsubtitle task-title">Initialization</h3>
+						<a title="Backstage Controller Creation" name="task_Backstage Controller Creation"></a>
+						<h3 class="subsubtitle task-title">Backstage Controller Creation</h3>
 
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
-		<span class="tooltip"><p>delegate</p></span>
+		<span class="tooltip"><p>Property for getting and setting the receivers delegate.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/initWithApplicationViewController:">&ndash;&nbsp;initWithApplicationViewController:</a></code>
-		<span class="tooltip"><p>initWithApplicationViewController:</p></span>
-	</span>
-	
 	
 </li>
 						</ul>
@@ -226,7 +237,7 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/toggleSize">&nbsp;&nbsp;toggleSize</a></code>
-		<span class="tooltip"><p>Defines the width the <code>applicationWindow</code>&rsquo;s view should move in.</p></span>
+		<span class="tooltip"><p>Defines the inset the applicationViewController&rsquo;s view should toddle.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -239,15 +250,22 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/toggleEffect">&nbsp;&nbsp;toggleEffect</a></code>
-		<span class="tooltip"><p>Specifies the visible effect, while the display is toggling.</p></span>
+		<code><a href="#//api/name/toggleAnimationEffect">&nbsp;&nbsp;toggleAnimationEffect</a></code>
+		<span class="tooltip"><p>Specifies the visible effects, while the display is toggling.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/applicationViewBehavior">&nbsp;&nbsp;applicationViewBehavior</a></code>
-		<span class="tooltip"><p>Property that describes the behavior of the applicationView while toggling.</p></span>
+		<code><a href="#//api/name/backstageViewBackgroundColor">&nbsp;&nbsp;backstageViewBackgroundColor</a></code>
+		
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/overlayAlpha">&nbsp;&nbsp;overlayAlpha</a></code>
+		
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -255,29 +273,21 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 						</ul>
 						
 						
-						<a title="Initialization" name="task_Initialization"></a>
-						<h3 class="subsubtitle task-title">Initialization</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/initWithApplicationWindow:">&ndash;&nbsp;initWithApplicationWindow:</a></code>
-		<span class="tooltip"><p>Initialize and returns a <code>CNBackstageController</code> using a given <code>NSView</code>.</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						<a title="API" name="task_API"></a>
-						<h3 class="subsubtitle task-title">API</h3>
+						<a title="Public API" name="task_Public API"></a>
+						<h3 class="subsubtitle task-title">Public API</h3>
 
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/toggleViewState">&ndash;&nbsp;toggleViewState</a></code>
 		<span class="tooltip"><p>toggleViewState</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/currentToggleState">&ndash;&nbsp;currentToggleState</a></code>
+		
 	</span>
 	
 	
@@ -295,18 +305,14 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 						<h2 class="subtitle subtitle-methods">Properties</h2>
 						
 						<div class="section-method">
-	<a name="//api/name/applicationViewBehavior" title="applicationViewBehavior"></a>
-	<h3 class="subsubtitle method-title">applicationViewBehavior</h3>
+	<a name="//api/name/backstageViewBackgroundColor" title="backstageViewBackgroundColor"></a>
+	<h3 class="subsubtitle method-title">backstageViewBackgroundColor</h3>
 	
 	
-	
-	<div class="method-subsection brief-description">
-		<p>Property that describes the behavior of the applicationView while toggling.</p>
-	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>@property (assign) CNApplicationViewBehavior applicationViewBehavior</code></div>
+	<div class="method-subsection method-declaration"><code>@property (strong) NSColor *backstageViewBackgroundColor</code></div>
 
     
 	
@@ -315,16 +321,6 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 	
 	
 	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<pre><code>typedef enum {
-    CNApplicationViewBehaviorStatic = 1 &lt;&lt; 0,
-    CNApplicationViewBehaviorFade   = 1 &lt;&lt; 1,
-    CNApplicationViewBehaviorSlide  = 1 &lt;&lt; 2
-} CNApplicationViewBehavior;
-</code></pre>
-	</div>
 	
 	
 	
@@ -347,7 +343,7 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 	
 	
 	<div class="method-subsection brief-description">
-		<p>delegate</p>
+		<p>Property for getting and setting the receivers delegate.</p>
 	</div>		
 	
     
@@ -358,9 +354,111 @@ that uses <code>CNBackstageController</code> just follow these steps:</p>
 	
 	
 	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The receivers delegate.</p>
+	</div>
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/overlayAlpha" title="overlayAlpha"></a>
+	<h3 class="subsubtitle method-title">overlayAlpha</h3>
+	
+	
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) CGFloat overlayAlpha</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/toggleAnimationEffect" title="toggleAnimationEffect"></a>
+	<h3 class="subsubtitle method-title">toggleAnimationEffect</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies the visible effects, while the display is toggling.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) CNToggleAnimationEffect toggleAnimationEffect</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Each time if the <code>applicationView</code> is shown, the animation can make use of different effects while toggling. The supported
+effects are specified in <code>CNToggleAnimationEffect</code>. These constants can be combined using the C-bitwise OR operator.</p>
+
+<pre><code>typedef enum {
+    CNToggleAnimationEffectOverlayBlack             = 1 &lt;&lt; 0,
+    CNToggleAnimationEffectOverlayGaussianBlur      = 1 &lt;&lt; 1,
+    CNToggleAnimationEffectApplicationContentFade   = 1 &lt;&lt; 2,
+    CNToggleAnimationEffectApplicationContentSlide  = 1 &lt;&lt; 3
+} CNToggleAnimationEffect;
+</code></pre>
+
+<p><code>CNToggleAnimationEffectOverlayBlack</code><br>
+A black transparent overlay is shown over the Finder snapshot area. Its alpha value can be manipulated using the
+property <a href="#//api/name/overlayAlpha">overlayAlpha</a>.</p>
+
+<p><code>CNToggleAnimationEffectOverlayGaussianBlur</code><br>
+Manipulates the Finder snapshot area using a Gaussian blur filter.</p>
+
+<p><code>CNToggleAnimationEffectApplicationContentFade</code><br>
+While the controller is toggling, the content of the application view will be fade in.</p>
+
+<p><code>CNToggleAnimationEffectApplicationContentSlide</code><br>
+While the controller is toggling, the content of the application view will be slide in.</p>
+
+<p>The default value after instanciating a <code>CNBackstageController</code> is <code>CNToggleEffectBlackOverlay</code>.</p><div class="warning"><p><strong>Warning:</strong> Using the <code>CNToggleAnimationEffectGaussianBlur</code> will decrease the animation performance!</p></div>
+	</div>
 	
 	
 	
@@ -501,71 +599,13 @@ Not yet implemented.</p>
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/toggleEffect" title="toggleEffect"></a>
-	<h3 class="subsubtitle method-title">toggleEffect</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Specifies the visible effect, while the display is toggling.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>@property (assign) CNToggleEffect toggleEffect</code></div>
-
-    
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Each time if the <code>applicationView</code> is shown, the animation can make use of different effects while toggling. The supported
-effects are specified in <code>CNtoggleEffect</code>. These constants can be combined using the C-bitwise OR operator.</p>
-
-<pre><code>enum {
-    CNToggleEffectNone           = 0,
-    CNToggleEffectBlackOverlay   = (1 &lt;&lt; 0) 
-};
-typedef NSUInteger CNToggleEffect;
-</code></pre>
-
-<p><code>CNToggleEffectNone</code><br>
-No effect is shown while toggling.</p>
-
-<p><code>CNToggleEffectBlackOverlay</code><br>
-A black transparent plane is shown over the Finder snapshot area.<br>
-This is the default value.</p>
-
-<p>The default value after instanciating a <code>CNBackstageController</code> is <code>CNToggleEffectBlackOverlay</code>.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
 	<a name="//api/name/toggleSize" title="toggleSize"></a>
 	<h3 class="subsubtitle method-title">toggleSize</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Defines the width the <code>applicationWindow</code>&rsquo;s view should move in.</p>
+		<p>Defines the inset the applicationViewController&rsquo;s view should toddle.</p>
 	</div>		
 	
     
@@ -651,18 +691,14 @@ myController.toggleSize = 369;
 						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
 						
 						<div class="section-method">
-	<a name="//api/name/initWithApplicationViewController:" title="initWithApplicationViewController:"></a>
-	<h3 class="subsubtitle method-title">initWithApplicationViewController:</h3>
+	<a name="//api/name/currentToggleState" title="currentToggleState"></a>
+	<h3 class="subsubtitle method-title">currentToggleState</h3>
 	
 	
-	
-	<div class="method-subsection brief-description">
-		<p>initWithApplicationViewController:</p>
-	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (id)initWithApplicationViewController:(NSViewController *)<em>applicationViewController</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (CNToggleState)currentToggleState</code></div>
 
     
 	
@@ -671,55 +707,6 @@ myController.toggleSize = 369;
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/initWithApplicationWindow:" title="initWithApplicationWindow:"></a>
-	<h3 class="subsubtitle method-title">initWithApplicationWindow:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Initialize and returns a <code>CNBackstageController</code> using a given <code>NSView</code>.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>- (id)initWithApplicationWindow:(NSWindow *)<em>theApplicationWindow</em></code></div>
-
-    
-	
-	
-	
-	<div class="method-subsection return">
-		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>An initialized CNBackstageController instance.</p>
-	</div>
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>The designated Initializer.
-<code>CNBackstageController</code> uses this view placing it as content of the resulting (internal) applicationView. In the <CNBackstageControllerDelegate>
-there is a method <code>buildApplicationInView:</code>. This method is automatically called if all default settings are done and <code>CNBackstageController</code>
-is ready for use.</p>
-	</div>
 	
 	
 	

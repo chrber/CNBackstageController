@@ -33,7 +33,6 @@
 
 
 
-
 typedef enum {
     CNToggleEdgeTop = 0,
     CNToggleEdgeBottom,
@@ -60,15 +59,16 @@ typedef enum {
 } CNToggleDisplay;
 
 typedef enum {
-    CNToggleEffectNone         = 0x00,
-    CNToggleEffectBlackOverlay = 0x01
-} CNToggleEffect;
+    CNToggleAnimationEffectOverlayBlack             = 1 << 0,
+    CNToggleAnimationEffectOverlayGaussianBlur      = 1 << 1,
+    CNToggleAnimationEffectApplicationContentFade   = 1 << 2,
+    CNToggleAnimationEffectApplicationContentSlide  = 1 << 3
+} CNToggleAnimationEffect;
 
 typedef enum {
-    CNApplicationViewBehaviorStatic = 1 << 0,
-    CNApplicationViewBehaviorFade   = 1 << 1,
-    CNApplicationViewBehaviorSlide  = 1 << 2
-} CNApplicationViewBehavior;
+    CNToggleStateClosed = -1,
+    CNToggleStateOpened = 1
+} CNToggleState;
 
 
 
@@ -105,48 +105,66 @@ typedef enum {
 
 
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstageController
 
 
-/**
- `CNBackstageController` is an derivative of `NSWindowController` and a special impelementation to show you the content
- you would like to see. The goal of `CNBackstageController` is to provide the developer a slightly different interface
- for presenting an application. It mimics the behavior you've just seen Notification Center of Mountain Lion.
- Instead of showing a normal window and menu bar an application build with `CNBackstageController` offer you a *behind the Finder*-like
- desktop and will be shown with smooth animations. The common use is an application nested as a statusbar item that is not 
- visible in the Dock.
 
+/**
  The use of `CNBackstageController` is quite simple and straight forward. If you would like to create a new aplication project
  that uses `CNBackstageController` just follow these steps:
- 
- 1. Open Xcode and create a new *Cocoa Application* project. Now click on the *MainMenu.xib* file in your Project Browser, locate
-    the Object Browser and delete all included items, **but** the **Application Delegate**  object.
-    
+
+ 1. Open Xcode and create a new *Cocoa Application* project.<br />
+ 2. Click on the *MainMenu.xib* file in your Project Browser, locate the Object Browser and delete all included items,
+    **except** the **Application Delegate**  object.
+
     It should look like this one:
- 
+
     <img src="/images/XcodeObjectsBrowser.png">
 
+ 3. Create your `NSViewController` instance with a NIB file containing all your application sepcific stuff, place your controls
+    and objects and make all the connections in Interface Builder related to your needs.
+ 4. In your AppDelegate define two properties. One will be our backstage controller, the other one will be our `NSViewController`
+    from step 3.
+
+        @property (strong) CNBackstageController *backstageController;      // our backstage controller
+        @property (strong) CNApplicationViewController *appController;      // our application view controller
+
+ 5. Now you create instances for these two properties:
+
+        - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+        {
+            [...]
+
+            self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
+            self.backstageController = [CNBackstageController sharedInstance];
+            self.backstageController.applicationViewController = self.appController;
+        }
+
+ After these five steps you will have a fully functional backstage controller. Play around with all the other properties and
+ see the results. You may also take a look an the Example project.
+ 
+ **Related Sample Code**
+ 
+ [CNBackstageController Example](https://github.com/phranck/CNBackstageController)
  */
 
-
-//@protocol CNBackstageDelegate;
 @interface CNBackstageController : NSWindowController
 
-/** @name Initialization */
+/** @name Backstage Controller Creation */
+
++ (id)sharedInstance;
 
 /**
- delegate
+ Property for getting and setting the receivers delegate.
+
+ @return    The receivers delegate.
  */
 @property (strong) id<CNBackstageDelegate>delegate;
 
-
-/**
- initWithApplicationViewController:
- */
-- (id)initWithApplicationViewController:(NSViewController *)applicationViewController;
-
+@property (strong, nonatomic) NSViewController <CNBackstageDelegate> *applicationViewController;
 
 
 
@@ -189,7 +207,7 @@ typedef enum {
 @property (assign, nonatomic) CNToggleEdge toggleEdge;
 
 /**
- Defines the width the `applicationWindow`'s view should move in.
+ Defines the inset the applicationViewController's view should toddle.
  
  This property knows two pre defined constants:
  
@@ -254,71 +272,62 @@ typedef enum {
 
 
 /**
- Specifies the visible effect, while the display is toggling.
+ Specifies the visible effects, while the display is toggling.
  
  Each time if the `applicationView` is shown, the animation can make use of different effects while toggling. The supported 
- effects are specified in `CNtoggleEffect`. These constants can be combined using the C-bitwise OR operator.
+ effects are specified in `CNToggleAnimationEffect`. These constants can be combined using the C-bitwise OR operator.
  
-    enum {
-        CNToggleEffectNone           = 0,
-        CNToggleEffectBlackOverlay   = (1 << 0) 
-    };
-    typedef NSUInteger CNToggleEffect;
-
- `CNToggleEffectNone`<br>
- No effect is shown while toggling.
- 
- `CNToggleEffectBlackOverlay`<br>
- A black transparent plane is shown over the Finder snapshot area.<br>
- This is the default value.
- 
- The default value after instanciating a `CNBackstageController` is `CNToggleEffectBlackOverlay`.
- */
-@property (assign) CNToggleEffect toggleEffect;
-
-
-/**
- Property that describes the behavior of the applicationView while toggling.
-
     typedef enum {
-        CNApplicationViewBehaviorStatic = 1 << 0,
-        CNApplicationViewBehaviorFade   = 1 << 1,
-        CNApplicationViewBehaviorSlide  = 1 << 2
-    } CNApplicationViewBehavior;
+        CNToggleAnimationEffectOverlayBlack             = 1 << 0,
+        CNToggleAnimationEffectOverlayGaussianBlur      = 1 << 1,
+        CNToggleAnimationEffectApplicationContentFade   = 1 << 2,
+        CNToggleAnimationEffectApplicationContentSlide  = 1 << 3
+    } CNToggleAnimationEffect;
 
- */
-@property (assign) CNApplicationViewBehavior applicationViewBehavior;
+ `CNToggleAnimationEffectOverlayBlack`<br>
+ A black transparent overlay is shown over the Finder snapshot area. Its alpha value can be manipulated using the
+ property overlayAlpha.
 
+ `CNToggleAnimationEffectOverlayGaussianBlur`<br>
+ Manipulates the Finder snapshot area using a Gaussian blur filter.
 
+ `CNToggleAnimationEffectApplicationContentFade`<br>
+ While the controller is toggling, the content of the application view will be fade in.
 
-#pragma mark - Initialization
-/** @name Initialization */
+ `CNToggleAnimationEffectApplicationContentSlide`<br>
+ While the controller is toggling, the content of the application view will be slide in.
+
+ The default value after instanciating a `CNBackstageController` is `CNToggleEffectBlackOverlay`.
+
+ @warning Using the `CNToggleAnimationEffectGaussianBlur` will decrease the animation performance!
+*/
+@property (assign) CNToggleAnimationEffect toggleAnimationEffect;
 
 /**
- Initialize and returns a `CNBackstageController` using a given `NSView`.
- 
- The designated Initializer.
- `CNBackstageController` uses this view placing it as content of the resulting (internal) applicationView. In the <CNBackstageControllerDelegate>
- there is a method `buildApplicationInView:`. This method is automatically called if all default settings are done and `CNBackstageController`
- is ready for use.
- 
- @return An initialized CNBackstageController instance.
+ ...
  */
-- (id)initWithApplicationWindow:(NSWindow *)theApplicationWindow;
+@property (strong) NSColor *backstageViewBackgroundColor;
+
+/**
+ ...
+ */
+@property (assign) CGFloat overlayAlpha;
 
 
-
-#pragma mark - API
-/** @name API */
+#pragma mark - Public API
+/** @name Public API */
 
 /**
  toggleViewState
  */
 - (void)toggleViewState;
 
+/**
+ ...
+ */
+- (CNToggleState)currentToggleState;
+
 @end
-
-
 
 
 
@@ -329,4 +338,3 @@ typedef enum {
 @interface CNBackstageShadowView : NSView
 @property (assign, nonatomic) CNToggleEdge toggleEdge;
 @end
-

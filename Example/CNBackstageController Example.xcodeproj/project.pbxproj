@@ -32,8 +32,11 @@
 		AA3457141643222F00E4CCE6 /* TexturedBackground-Paper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA34570C1643222F00E4CCE6 /* TexturedBackground-Paper.jpg */; };
 		AA34572716432D9C00E4CCE6 /* CNApplicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */; };
 		AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */; };
-		AA34572D164332E700E4CCE6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572C164332E700E4CCE6 /* MainMenu.xib */; };
 		AA6FA3C41643E8E100A90505 /* Grey_Curtains.icns in Resources */ = {isa = PBXBuildFile; fileRef = AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */; };
+		AA6FA3C71643ED2B00A90505 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA6FA3C61643ED2B00A90505 /* MainMenu.xib */; };
+		AAAF85E51644034600D9744F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAAF85E01644034600D9744F /* Preferences.xib */; };
+		AAAF85E61644034600D9744F /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAF85E21644034600D9744F /* PreferencesController.m */; };
+		AAAF85EC16440ECA00D9744F /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAAF85EB16440ECA00D9744F /* Defaults.plist */; };
 		AAB960EB16430A6200F952BC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB960EA16430A6200F952BC /* Cocoa.framework */; };
 		AAB960F516430A6200F952BC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAB960F316430A6200F952BC /* InfoPlist.strings */; };
 		AAB960F716430A6200F952BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB960F616430A6200F952BC /* main.m */; };
@@ -57,8 +60,12 @@
 		AA34572416432D9C00E4CCE6 /* CNApplicationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNApplicationViewController.h; sourceTree = "<group>"; };
 		AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNApplicationViewController.m; sourceTree = "<group>"; };
 		AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CNApplicationView.xib; sourceTree = "<group>"; };
-		AA34572C164332E700E4CCE6 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Grey_Curtains.icns; path = ../Grey_Curtains.icns; sourceTree = "<group>"; };
+		AA6FA3C61643ED2B00A90505 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		AAAF85E01644034600D9744F /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		AAAF85E11644034600D9744F /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
+		AAAF85E21644034600D9744F /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
+		AAAF85EB16440ECA00D9744F /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		AAB960E616430A6200F952BC /* CNBackstageController Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CNBackstageController Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB960EA16430A6200F952BC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		AAB960ED16430A6200F952BC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -115,6 +122,16 @@
 			name = "Application View Controller";
 			sourceTree = "<group>";
 		};
+		AAAF85DC1644032700D9744F /* Preferences Panel */ = {
+			isa = PBXGroup;
+			children = (
+				AAAF85E11644034600D9744F /* PreferencesController.h */,
+				AAAF85E21644034600D9744F /* PreferencesController.m */,
+				AAAF85E01644034600D9744F /* Preferences.xib */,
+			);
+			name = "Preferences Panel";
+			sourceTree = "<group>";
+		};
 		AAB960DB16430A6200F952BC = {
 			isa = PBXGroup;
 			children = (
@@ -157,8 +174,9 @@
 			children = (
 				AAB960FC16430A6200F952BC /* ApplicationDelegate.h */,
 				AAB960FD16430A6200F952BC /* ApplicationDelegate.m */,
-				AA34572C164332E700E4CCE6 /* MainMenu.xib */,
+				AA6FA3C61643ED2B00A90505 /* MainMenu.xib */,
 				AA34572916432DA200E4CCE6 /* Application View Controller */,
+				AAAF85DC1644032700D9744F /* Preferences Panel */,
 				AAB960F116430A6200F952BC /* Supporting Files */,
 				AAB9610716430A7B00F952BC /* Libraries */,
 			);
@@ -176,6 +194,7 @@
 				AAB960F816430A6200F952BC /* CNBackstageController Example-Prefix.pch */,
 				AAB960F916430A6200F952BC /* Credits.rtf */,
 				AA34571A1643273100E4CCE6 /* CNLog.h */,
+				AAAF85EB16440ECA00D9744F /* Defaults.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -264,8 +283,10 @@
 				AA3457131643222F00E4CCE6 /* TexturedBackground-Linen-Middle.png in Resources */,
 				AA3457141643222F00E4CCE6 /* TexturedBackground-Paper.jpg in Resources */,
 				AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */,
-				AA34572D164332E700E4CCE6 /* MainMenu.xib in Resources */,
 				AA6FA3C41643E8E100A90505 /* Grey_Curtains.icns in Resources */,
+				AA6FA3C71643ED2B00A90505 /* MainMenu.xib in Resources */,
+				AAAF85E51644034600D9744F /* Preferences.xib in Resources */,
+				AAAF85EC16440ECA00D9744F /* Defaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,7 +305,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "cd ../\n/usr/bin/appledoc .\n./bin/deployDoc.sh\nexit 0";
+			shellScript = "cd ../\n`which appledoc` .\n./bin/deployDoc.sh\nexit 0";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -299,6 +320,7 @@
 				AAB9610D16430A9100F952BC /* CNBackstageController.m in Sources */,
 				AAB9610E16430A9100F952BC /* NSScreen+CNBackstageController.m in Sources */,
 				AA34572716432D9C00E4CCE6 /* CNApplicationViewController.m in Sources */,
+				AAAF85E61644034600D9744F /* PreferencesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

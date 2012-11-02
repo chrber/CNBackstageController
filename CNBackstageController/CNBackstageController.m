@@ -33,17 +33,12 @@
 
 
 
-static CGFloat kAnimationDuration = 0.30;
+static CGFloat kAnimationDuration = 0.35;
 
 typedef struct {
     CGFloat deltaX;
     CGFloat deltaY;
 } CNToggleFrameDeltas;
-
-typedef enum {
-    CNToggleStateClosed = -1,
-    CNToggleStateOpened = 1
-} CNToggleState;
 
 
 
@@ -53,18 +48,17 @@ typedef enum {
 #pragma mark CNBackstageController Extension
 
 @interface CNBackstageController()
-@property (strong) NSViewController <CNBackstageDelegate> *applicationViewController;
 @property (strong) NSView *applicationView;
 
-@property (nonatomic, strong) NSView *finderSnapshotView;
-@property (nonatomic, strong) NSView *finderSnapshotViewOverlay;
+@property (strong) CNBackstageShadowView *shadowView;
+@property (strong) NSView *finderSnapshotView;
+@property (strong) NSView *finderSnapshotViewOverlay;
 
-@property (nonatomic, assign) CNToggleState toggleState;
-@property (nonatomic, strong) NSApplication *sharedApplication;
-@property (nonatomic, assign) BOOL dockIsHidden;
-@property (nonatomic, assign) BOOL iAmToggling;
-@property (nonatomic, assign, getter = isNibInstanced) BOOL nibInstanced;
-@property (nonatomic, readonly) CGRect toggleDisplayFrame;
+@property (assign) CNToggleState toggleState;
+@property (assign) BOOL dockIsHidden;
+@property (assign) BOOL iAmToggling;
+@property (assign, getter = isNibInstanced) BOOL nibInstanced;
+@property (readonly) CGRect toggleDisplayFrame;
 
 #pragma mark - Helper
 - (void)toggleViewStateOpen;
@@ -100,6 +94,16 @@ typedef enum {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Initialization
 
++ (id)sharedInstance
+{
+	static CNBackstageController *sharedInstance = nil;
+	static dispatch_once_t predicate;
+	dispatch_once(&predicate, ^{
+        sharedInstance = [[[self class] alloc] init];
+	});
+    return sharedInstance;
+}
+
 - (id)init
 {
     self = [super init];
@@ -108,28 +112,18 @@ typedef enum {
         _toggleEdge                     = CNToggleEdgeTop;
         _toggleSize                     = CNToggleSizeHalfScreen;
         _toggleDisplay                  = CNToggleDisplayMain;
-        _toggleEffect                   = CNToggleEffectBlackOverlay;
-        _applicationViewBehavior        = CNApplicationViewBehaviorStatic;
+        _toggleAnimationEffect          = CNToggleAnimationEffectOverlayBlack;
         _finderSnapshotView             = [[NSView alloc] init];
         _finderSnapshotViewOverlay      = [[NSView alloc] init];
         _applicationView                = [[NSView alloc] init];
         _iAmToggling                    = NO;
         _dockIsHidden                   = NO;
         _nibInstanced                   = NO;
-        _sharedApplication              = [NSApplication sharedApplication];
-        _applicationView                = nil;
+        _delegate                       = nil;
         _applicationViewController      = nil;
-    }
-    return self;
-}
-
-- (id)initWithApplicationViewController:(NSViewController <CNBackstageDelegate> *)applicationViewController
-{
-    self = [self init];
-    if (self) {
-        _delegate = applicationViewController;
-        _applicationViewController = applicationViewController;
-        _applicationView = _applicationViewController.view;
+        _applicationView                = nil;
+        _backstageViewBackgroundColor   = [NSColor darkGrayColor];
+        _overlayAlpha                   = 0.25;
     }
     return self;
 }
@@ -138,6 +132,12 @@ typedef enum {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Accessors
+
+- (void)setApplicationViewController:(NSViewController<CNBackstageDelegate> *)applicationViewController
+{
+    _applicationViewController = applicationViewController;
+    self.applicationView = _applicationViewController.view;
+}
 
 - (void)setToggleSize:(CNToggleSize)aToggleSize
 {
@@ -162,7 +162,7 @@ typedef enum {
     if (self.iAmToggling == NO) {
         self.iAmToggling = YES;
 
-        [NSApp activateIgnoringOtherApps:YES];
+        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 
         /// inform the delegate
         [self screen:self.toggleScreen willToggleOnEdge:self.toggleEdge];
@@ -172,6 +172,11 @@ typedef enum {
             case CNToggleStateOpened: [self toggleViewStateClose]; break;
         }
     }
+}
+
+- (CNToggleState)currentToggleState
+{
+    return self.toggleState;
 }
 
 
@@ -187,18 +192,17 @@ typedef enum {
     [self hideDock];
     
 
-    if (self.applicationViewBehavior & CNApplicationViewBehaviorFade) {
+    if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentFade) {
         self.applicationView.alphaValue = 0.0;
     }
 
     __block NSRect applicationFrame = self.applicationView.frame;
-    __block NSRect finderSnapshotFrame = self.finderSnapshotView.frame;
+    __block NSRect finderSnapshotFrame = self.finderSnapshotView.bounds;
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         context.duration = kAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-
-        if (self.applicationViewBehavior & CNApplicationViewBehaviorSlide) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentSlide) {
             switch (self.toggleEdge) {
                 case CNToggleEdgeTop:               applicationFrame.origin.y -= NSHeight(applicationFrame); break;
                 case CNToggleEdgeBottom:            applicationFrame.origin.y += NSHeight(applicationFrame); break;
@@ -211,7 +215,7 @@ typedef enum {
             }
         }
 
-        if (self.applicationViewBehavior & CNApplicationViewBehaviorFade) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentFade) {
             [[self.applicationView animator] setAlphaValue:1.0];
         }
 
@@ -250,7 +254,7 @@ typedef enum {
         context.duration = kAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
-        if (self.applicationViewBehavior & CNApplicationViewBehaviorSlide) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentSlide) {
             switch (self.toggleEdge) {
                 case CNToggleEdgeTop:               applicationFrame.origin.y += NSHeight(applicationFrame); break;
                 case CNToggleEdgeBottom:            applicationFrame.origin.y -= NSHeight(applicationFrame); break;
@@ -263,7 +267,7 @@ typedef enum {
             }
         }
 
-        if (self.applicationViewBehavior & CNApplicationViewBehaviorFade) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentFade) {
             [[self.applicationView animator] setAlphaValue:0.0];
         }
 
@@ -284,6 +288,7 @@ typedef enum {
     } completionHandler:^{
         [self showDock];
         [self resignApplicationWindow];
+
         self.iAmToggling = NO;
         self.toggleState = CNToggleStateClosed;
 
@@ -294,15 +299,15 @@ typedef enum {
 
 - (void)toggleEffectOn
 {
-    if (self.toggleEffect & CNToggleEffectBlackOverlay) {
+    if (self.toggleAnimationEffect & CNToggleAnimationEffectOverlayBlack) {
         self.finderSnapshotViewOverlay.layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
-        [[self.finderSnapshotViewOverlay animator] setAlphaValue:0.75];
+        [[self.finderSnapshotViewOverlay animator] setAlphaValue:self.overlayAlpha];
     }
 }
 
 - (void)toggleEffectOff
 {
-    if (self.toggleEffect & CNToggleEffectBlackOverlay) {
+    if (self.toggleAnimationEffect & CNToggleAnimationEffectOverlayBlack) {
         [[self.finderSnapshotViewOverlay animator] setAlphaValue:0.0];
     }
 }
@@ -381,8 +386,7 @@ typedef enum {
     [self.window setHasShadow:NO];
     [self.window setDisplaysWhenScreenProfileChanges:YES];
     [self.window setReleasedWhenClosed:NO];
-    [self.window setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"TexturedBackground-Linen-Middle"]]];
-    //    [self.window setBackgroundColor:[NSColor darkGrayColor]];
+    [self.window setBackgroundColor:self.backstageViewBackgroundColor];
     self.window.collectionBehavior = (NSWindowCollectionBehaviorDefault |
                                       NSWindowCollectionBehaviorManaged |
                                       NSWindowCollectionBehaviorFullScreenAuxiliary);
@@ -396,6 +400,11 @@ typedef enum {
     self.applicationView.frame = [self frameForApplicationView];
     self.finderSnapshotView.frame = self.window.frame;
 
+    // a shadow on an edge of application view
+    self.shadowView = [[CNBackstageShadowView alloc] initWithFrame:self.applicationView.bounds];
+    self.shadowView.toggleEdge = self.toggleEdge;
+    [self.applicationView addSubview:self.shadowView];
+
     // Application
     [[self.window contentView] addSubview:self.applicationView];
 
@@ -405,9 +414,6 @@ typedef enum {
     // Finder Snapshot Overlay
     self.finderSnapshotViewOverlay.alphaValue = 0.0;
     [self.finderSnapshotView addSubview:self.finderSnapshotViewOverlay];
-    CNBackstageShadowView *shadowView = [[CNBackstageShadowView alloc] initWithFrame:self.finderSnapshotView.frame];
-    shadowView.toggleEdge = self.toggleEdge;
-    [self.finderSnapshotView addSubview:shadowView];
 }
 
 - (NSRect)frameForApplicationView
@@ -416,13 +422,12 @@ typedef enum {
     switch (self.toggleEdge) {
         case CNToggleEdgeTop: {
             resultRect.size = NSMakeSize(NSWidth(self.window.frame), [self toggleDeltasForFrame:self.window.frame].deltaY);
-            switch (self.applicationViewBehavior) {
-                case CNApplicationViewBehaviorFade:
-                case CNApplicationViewBehaviorStatic:
+            switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectApplicationContentFade:
                     resultRect.origin.y = NSHeight(self.window.frame) - NSHeight(resultRect);
                     break;
 
-                case CNApplicationViewBehaviorSlide:
+                case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.y = NSHeight(self.window.frame);
                     break;
             }
@@ -431,13 +436,12 @@ typedef enum {
 
         case CNToggleEdgeBottom: {
             resultRect.size = NSMakeSize(NSWidth(self.window.frame), [self toggleDeltasForFrame:self.window.frame].deltaY);
-            switch (self.applicationViewBehavior) {
-                case CNApplicationViewBehaviorFade:
-                case CNApplicationViewBehaviorStatic:
+            switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectApplicationContentFade:
                     resultRect.origin.y = 0;
                     break;
 
-                case CNApplicationViewBehaviorSlide:
+                case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.y = 0 - NSHeight(resultRect);
                     break;
             }
@@ -446,13 +450,12 @@ typedef enum {
 
         case CNToggleEdgeLeft: {
             resultRect.size = NSMakeSize([self toggleDeltasForFrame:self.window.frame].deltaX, NSHeight(self.window.frame));
-            switch (self.applicationViewBehavior) {
-                case CNApplicationViewBehaviorFade:
-                case CNApplicationViewBehaviorStatic:
+            switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectApplicationContentFade:
                     resultRect.origin.x = 0;
                     break;
 
-                case CNApplicationViewBehaviorSlide:
+                case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.x = 0 - NSWidth(resultRect);
                     break;
             }
@@ -462,13 +465,12 @@ typedef enum {
         case CNToggleEdgeRight: {
             resultRect.size = NSMakeSize([self toggleDeltasForFrame:self.window.frame].deltaX, NSHeight(self.window.frame));
             resultRect.origin.x  = self.window.frame.size.width - resultRect.size.width;
-            switch (self.applicationViewBehavior) {
-                case CNApplicationViewBehaviorFade:
-                case CNApplicationViewBehaviorStatic:
+            switch (self.toggleAnimationEffect) {
+                case CNToggleAnimationEffectApplicationContentFade:
                     resultRect.origin.x = NSWidth(self.window.frame) - NSWidth(resultRect);
                     break;
 
-                case CNApplicationViewBehaviorSlide:
+                case CNToggleAnimationEffectApplicationContentSlide:
                     resultRect.origin.x = NSWidth(self.window.frame);
                     break;
             }
@@ -499,9 +501,13 @@ typedef enum {
 
 - (void)resignApplicationWindow
 {
+    [self.shadowView removeFromSuperview];
+    [self.finderSnapshotView removeFromSuperview];
+    [self.finderSnapshotViewOverlay removeFromSuperview];
+
+    self.shadowView = [[CNBackstageShadowView alloc] init];
     self.finderSnapshotView = [[NSView alloc] init];
     self.finderSnapshotViewOverlay = [[NSView alloc] init];
-    self.window.contentView = [[NSView alloc] init];
     [self.window close];
     self.window = [NSWindow new];
 }
@@ -527,7 +533,7 @@ typedef enum {
 - (void)showDock
 {
     if (self.dockIsHidden) {
-        self.sharedApplication.presentationOptions = NSApplicationPresentationDefault;
+        [[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationDefault];
         self.dockIsHidden = NO;
     }
 }
@@ -535,7 +541,7 @@ typedef enum {
 - (void)hideDock
 {
     if ([self.toggleScreen containsDock]) {
-        self.sharedApplication.presentationOptions = NSApplicationPresentationHideDock;
+        [[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationHideDock];
         self.dockIsHidden = YES;
     }
 }
@@ -608,7 +614,7 @@ static NSColor *endColor;
 
 + (void)initialize
 {
-    startColor = [[NSColor blackColor] colorWithAlphaComponent:0.42];
+    startColor = [[NSColor blackColor] colorWithAlphaComponent:0.45];
     endColor = [NSColor clearColor];
 }
 
@@ -623,10 +629,10 @@ static NSColor *endColor;
     CGRect gradientRect = NSZeroRect;
     CGFloat angle = 0;
     switch (self.toggleEdge) {
-        case CNToggleEdgeTop:       gradientRect = NSMakeRect(0, NSHeight(dirtyRect)-12, NSWidth(dirtyRect), 11); angle = -90; break;
-        case CNToggleEdgeRight:     gradientRect = NSMakeRect(NSWidth(dirtyRect)-12, 0, 11, NSHeight(dirtyRect)); angle = 180; break;
-        case CNToggleEdgeBottom:    angle = 90; break;
-        case CNToggleEdgeLeft:      gradientRect = NSMakeRect(0, 0, 11, NSHeight(dirtyRect));  angle = 0; break;
+        case CNToggleEdgeTop:       gradientRect = NSMakeRect(0, floor(NSHeight(dirtyRect))-11, NSWidth(dirtyRect), 11); angle = -90; break;
+        case CNToggleEdgeRight:     gradientRect = NSMakeRect(0, 0, 11, NSHeight(dirtyRect)); angle = 0; break;
+        case CNToggleEdgeBottom:    gradientRect = NSMakeRect(0, floor(NSHeight(dirtyRect))-11, NSWidth(dirtyRect), 11); angle = -90; break;
+        case CNToggleEdgeLeft:      gradientRect = NSMakeRect(floor(NSWidth(dirtyRect))-12, 0, 11, NSHeight(dirtyRect));  angle = 180; break;
         default: break;
     }
     NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations: startColor, 0.0, endColor, 1.0, nil];
@@ -634,5 +640,15 @@ static NSColor *endColor;
     [gradient drawInBezierPath:gradienPath angle:angle];
 }
 
-@end
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+    // pass-through events that don't hit one of the visible subviews
+    for (NSView *subView in [self subviews]) {
+        if (![subView isHidden] && [subView hitTest:aPoint])
+            return subView;
+    }
 
+    return nil;
+}
+
+@end

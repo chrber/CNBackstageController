@@ -7,18 +7,31 @@
 //
 
 #import "CNApplicationViewController.h"
+#import "PreferencesController.h"
 
+
+@interface CNApplicationViewController ()
+@property (strong) PreferencesController *preferences;
+@end
 
 @implementation CNApplicationViewController
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Actions
 
-- (IBAction)buttonAction:(id)sender
+- (IBAction)preferencesButtonAction:(id)sender
 {
-
+    if (!self.preferences)
+        self.preferences = [[PreferencesController alloc] init];
+    [NSApp activateIgnoringOtherApps:YES];
+    // [self.prefsController.window makeKeyAndOrderFront:self];
+    [self.preferences showWindow:self];
 }
 
+- (IBAction)terminateButtonAction:(id)sender
+{
+    [[NSApplication sharedApplication] terminate:self];
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,12 +39,12 @@
 
 - (void)screen:(NSScreen *)toggleScreen willToggleOnEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen: %@ -- willToggleOnEdge: %i", toggleScreen, toggleEdge);
+    CNLog(@"screen:willToggleOnEdge:");
 }
 
 - (void)screen:(NSScreen *)toggleScreen didToggleOnEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen: %@ -- didToggleOnEdge: %i", toggleScreen, toggleEdge);
+    CNLog(@"screen:didToggleOnEdge:");
 }
 
 @end
