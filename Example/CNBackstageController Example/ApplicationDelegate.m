@@ -48,7 +48,7 @@
 {
     self.backstageController.toggleEdge = [self.defaults integerForKey:kToggleEdgePrefsKey];
     self.backstageController.toggleDisplay = [self.defaults integerForKey:kToggleDisplayPrefsKey];
-    self.backstageController.toggleAnimationEffect = [self.defaults integerForKey:kApplicationViewBehaviorPrefsKey];
+    self.backstageController.toggleVisualEffect = CNToggleVisualEffectNone;
     self.backstageController.toggleSize = 300;
 }
 

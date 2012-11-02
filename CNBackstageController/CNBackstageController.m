@@ -33,7 +33,7 @@
 
 
 
-static CGFloat kAnimationDuration = 0.35;
+static CGFloat kAnimationDuration = 0.25;
 
 typedef struct {
     CGFloat deltaX;
@@ -63,8 +63,8 @@ typedef struct {
 #pragma mark - Helper
 - (void)toggleViewStateOpen;
 - (void)toggleViewStateClose;
-- (void)toggleEffectOn;
-- (void)toggleEffectOff;
+- (void)toggleVisualEffectsOn;
+- (void)toggleVisualEffectsOff;
 - (CGRect)toggleDisplayFrame;
 - (NSScreen*)toggleScreen;
 - (CNToggleFrameDeltas)toggleDeltasForFrame:(NSRect)aFrame;
@@ -112,7 +112,8 @@ typedef struct {
         _toggleEdge                     = CNToggleEdgeTop;
         _toggleSize                     = CNToggleSizeHalfScreen;
         _toggleDisplay                  = CNToggleDisplayMain;
-        _toggleAnimationEffect          = CNToggleAnimationEffectOverlayBlack;
+        _toggleVisualEffect             = CNToggleVisualEffectOverlayBlack;
+        _toggleAnimationEffect          = CNToggleAnimationEffectStatic;
         _finderSnapshotView             = [[NSView alloc] init];
         _finderSnapshotViewOverlay      = [[NSView alloc] init];
         _applicationView                = [[NSView alloc] init];
@@ -123,7 +124,7 @@ typedef struct {
         _applicationViewController      = nil;
         _applicationView                = nil;
         _backstageViewBackgroundColor   = [NSColor darkGrayColor];
-        _overlayAlpha                   = 0.25;
+        _overlayAlpha                   = 0.75;
     }
     return self;
 }
@@ -192,7 +193,7 @@ typedef struct {
     [self hideDock];
     
 
-    if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentFade) {
+    if (self.toggleAnimationEffect & CNToggleAnimationEffectFade) {
         self.applicationView.alphaValue = 0.0;
     }
 
@@ -202,7 +203,7 @@ typedef struct {
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         context.duration = kAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentSlide) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectSlide) {
             switch (self.toggleEdge) {
                 case CNToggleEdgeTop:               applicationFrame.origin.y -= NSHeight(applicationFrame); break;
                 case CNToggleEdgeBottom:            applicationFrame.origin.y += NSHeight(applicationFrame); break;
@@ -215,7 +216,7 @@ typedef struct {
             }
         }
 
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentFade) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectFade) {
             [[self.applicationView animator] setAlphaValue:1.0];
         }
 
@@ -231,7 +232,7 @@ typedef struct {
                 break;
         }
 
-        [self toggleEffectOn];
+        [self toggleVisualEffectsOn];
         [[self.finderSnapshotView animator] setFrame:finderSnapshotFrame];
         [[self.applicationView animator] setFrame:applicationFrame];
 
@@ -254,7 +255,7 @@ typedef struct {
         context.duration = kAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentSlide) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectSlide) {
             switch (self.toggleEdge) {
                 case CNToggleEdgeTop:               applicationFrame.origin.y += NSHeight(applicationFrame); break;
                 case CNToggleEdgeBottom:            applicationFrame.origin.y -= NSHeight(applicationFrame); break;
@@ -267,7 +268,7 @@ typedef struct {
             }
         }
 
-        if (self.toggleAnimationEffect & CNToggleAnimationEffectApplicationContentFade) {
+        if (self.toggleAnimationEffect & CNToggleAnimationEffectFade) {
             [[self.applicationView animator] setAlphaValue:0.0];
         }
 
@@ -280,7 +281,7 @@ typedef struct {
             default: break;
         }
 
-        [self toggleEffectOff];
+        [self toggleVisualEffectsOff];
         [[self.applicationView animator] setFrame:applicationFrame];
         [[self.finderSnapshotView animator] setFrame:snapshotFrame];
 
@@ -297,17 +298,17 @@ typedef struct {
     }];
 }
 
-- (void)toggleEffectOn
+- (void)toggleVisualEffectsOn
 {
-    if (self.toggleAnimationEffect & CNToggleAnimationEffectOverlayBlack) {
+    if (self.toggleVisualEffect & CNToggleVisualEffectOverlayBlack) {
         self.finderSnapshotViewOverlay.layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
         [[self.finderSnapshotViewOverlay animator] setAlphaValue:self.overlayAlpha];
     }
 }
 
-- (void)toggleEffectOff
+- (void)toggleVisualEffectsOff
 {
-    if (self.toggleAnimationEffect & CNToggleAnimationEffectOverlayBlack) {
+    if (self.toggleVisualEffect & CNToggleVisualEffectOverlayBlack) {
         [[self.finderSnapshotViewOverlay animator] setAlphaValue:0.0];
     }
 }
@@ -423,11 +424,11 @@ typedef struct {
         case CNToggleEdgeTop: {
             resultRect.size = NSMakeSize(NSWidth(self.window.frame), [self toggleDeltasForFrame:self.window.frame].deltaY);
             switch (self.toggleAnimationEffect) {
-                case CNToggleAnimationEffectApplicationContentFade:
+                case CNToggleAnimationEffectFade:
                     resultRect.origin.y = NSHeight(self.window.frame) - NSHeight(resultRect);
                     break;
 
-                case CNToggleAnimationEffectApplicationContentSlide:
+                case CNToggleAnimationEffectSlide:
                     resultRect.origin.y = NSHeight(self.window.frame);
                     break;
 
@@ -440,11 +441,11 @@ typedef struct {
         case CNToggleEdgeBottom: {
             resultRect.size = NSMakeSize(NSWidth(self.window.frame), [self toggleDeltasForFrame:self.window.frame].deltaY);
             switch (self.toggleAnimationEffect) {
-                case CNToggleAnimationEffectApplicationContentFade:
+                case CNToggleAnimationEffectFade:
                     resultRect.origin.y = 0;
                     break;
 
-                case CNToggleAnimationEffectApplicationContentSlide:
+                case CNToggleAnimationEffectSlide:
                     resultRect.origin.y = 0 - NSHeight(resultRect);
                     break;
 
@@ -457,11 +458,11 @@ typedef struct {
         case CNToggleEdgeLeft: {
             resultRect.size = NSMakeSize([self toggleDeltasForFrame:self.window.frame].deltaX, NSHeight(self.window.frame));
             switch (self.toggleAnimationEffect) {
-                case CNToggleAnimationEffectApplicationContentFade:
+                case CNToggleAnimationEffectFade:
                     resultRect.origin.x = 0;
                     break;
 
-                case CNToggleAnimationEffectApplicationContentSlide:
+                case CNToggleAnimationEffectSlide:
                     resultRect.origin.x = 0 - NSWidth(resultRect);
                     break;
 
@@ -475,11 +476,11 @@ typedef struct {
             resultRect.size = NSMakeSize([self toggleDeltasForFrame:self.window.frame].deltaX, NSHeight(self.window.frame));
             resultRect.origin.x  = self.window.frame.size.width - resultRect.size.width;
             switch (self.toggleAnimationEffect) {
-                case CNToggleAnimationEffectApplicationContentFade:
+                case CNToggleAnimationEffectFade:
                     resultRect.origin.x = NSWidth(self.window.frame) - NSWidth(resultRect);
                     break;
 
-                case CNToggleAnimationEffectApplicationContentSlide:
+                case CNToggleAnimationEffectSlide:
                     resultRect.origin.x = NSWidth(self.window.frame);
                     break;
 
@@ -626,7 +627,7 @@ static NSColor *endColor;
 
 + (void)initialize
 {
-    startColor = [[NSColor blackColor] colorWithAlphaComponent:0.45];
+    startColor = [[NSColor blackColor] colorWithAlphaComponent:0.55];
     endColor = [NSColor clearColor];
 }
 

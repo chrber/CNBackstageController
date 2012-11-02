@@ -32,7 +32,9 @@
 #import "NSScreen+CNBackstageController.h"
 
 
-
+/**
+ ...
+ */
 typedef enum {
     CNToggleEdgeTop = 0,
     CNToggleEdgeBottom,
@@ -41,6 +43,7 @@ typedef enum {
     CNToggleEdgeSplitHorizontal,
     CNToggleEdgeSplitVertical
 } CNToggleEdge;
+static NSString *CNToggleEdgePreferencesKey = @"CNToggleEdge";
 
 enum {
     CNToggleSizeHalfScreen = 0,                         // in relation to the toggleEdge property the toggle size will be the half of a screen (height or width), or...
@@ -50,6 +53,7 @@ enum {
     CNToggleSizeTwoThirdsScreen                         // two thirds of a screen (height or width)
 };
 typedef NSInteger CNToggleSize;
+static NSString *CNToggleSizePreferencesKey = @"CNToggleSize";
 
 typedef enum {
     CNToggleDisplayMain = 0,                            // Main Display means where the system statusbar is placed
@@ -57,13 +61,22 @@ typedef enum {
     CNToggleDisplayThird,
     CNToggleDisplayFourth
 } CNToggleDisplay;
+static NSString *CNToggleDisplayPreferencesKey = @"CNToggleDisplay";
 
 typedef enum {
-    CNToggleAnimationEffectOverlayBlack             = 1 << 0,
-    CNToggleAnimationEffectOverlayGaussianBlur      = 1 << 1,
-    CNToggleAnimationEffectApplicationContentFade   = 1 << 2,
-    CNToggleAnimationEffectApplicationContentSlide  = 1 << 3
+    CNToggleVisualEffectNone            = 0,
+    CNToggleVisualEffectOverlayBlack    = (1 << 0),
+} CNToggleVisualEffect;
+static NSString *CNToggleVisualEffectPreferencesKey = @"CNToggleVisualEffect";
+
+typedef enum {
+    CNToggleAnimationEffectStatic               = 0,
+    CNToggleAnimationEffectFade                 = (1 << 0),
+    CNToggleAnimationEffectSlide                = (1 << 1),
+    CNToggleAnimationEffectSplitHorizontally    = (1 << 2),
+    CNToggleAnimationEffectSplitVertically      = (1 << 3)
 } CNToggleAnimationEffect;
+static NSString *CNToggleAnimationEffectPreferencesKey = @"CNToggleAnimationEffect";
 
 typedef enum {
     CNToggleStateClosed = -1,
@@ -272,26 +285,44 @@ typedef enum {
  */
 @property (assign) CNToggleDisplay toggleDisplay;
 
-
 /**
- Specifies the visible effects, while the display is toggling.
+ Specifies the visual effects, while the display is toggling.
  
- Each time if the `applicationView` is shown, the animation can make use of different effects while toggling. The supported 
- effects are specified in `CNToggleAnimationEffect`. These constants can be combined using the C-bitwise OR operator.
+ On toggling the application view in and out you can use visual effects to focus the users attention more or less on its application view.
+ The supported effects are specified in `CNToggleVisualEffect`. These constants can be combined using the C-bitwise OR operator.
  
     typedef enum {
-        CNToggleAnimationEffectOverlayBlack             = 1 << 0,
-        CNToggleAnimationEffectOverlayGaussianBlur      = 1 << 1,
-        CNToggleAnimationEffectApplicationContentFade   = 1 << 2,
-        CNToggleAnimationEffectApplicationContentSlide  = 1 << 3
-    } CNToggleAnimationEffect;
+        CNToggleVisualEffectNone            = 0,
+        CNToggleVisualEffectOverlayBlack    = (1 << 0),
+    } CNToggleVisualEffect;
+
+ `CNToggleVisualEffectNone`<br>
+ There is no visual effect over Finder snapshot area.
 
  `CNToggleAnimationEffectOverlayBlack`<br>
  A black transparent overlay is shown over the Finder snapshot area. Its alpha value can be manipulated using the
  property overlayAlpha.
 
- `CNToggleAnimationEffectOverlayGaussianBlur`<br>
- Manipulates the Finder snapshot area using a Gaussian blur filter. **Not yet implemented**
+ The default value is `CNToggleVisualEffectOverlayBlack`.
+*/
+@property (assign) CNToggleAnimationEffect toggleVisualEffect;
+
+/**
+ Specifies the animation effects, while the display is toggling.
+
+ Each time if the `applicationView` is shown, the animation can make use of different effects while toggling. The supported
+ effects are specified in `CNToggleAnimationEffect`. These constants can be combined using the C-bitwise OR operator.
+
+    typedef enum {
+        CNToggleAnimationEffectStatic               = 0,
+        CNToggleAnimationEffectFade                 = (1 << 0),
+        CNToggleAnimationEffectSlide                = (1 << 1),
+        CNToggleAnimationEffectSplitHorizontally    = (1 << 2),
+        CNToggleAnimationEffectSplitVertically      = (1 << 3)
+    } CNToggleAnimationEffect;
+
+ `CNToggleAnimationEffectStatic`<br>
+ While the controller is toggling, the content of the application view keep staying on its place.
 
  `CNToggleAnimationEffectApplicationContentFade`<br>
  While the controller is toggling, the content of the application view will be fade in.
@@ -299,10 +330,15 @@ typedef enum {
  `CNToggleAnimationEffectApplicationContentSlide`<br>
  While the controller is toggling, the content of the application view will be slide in.
 
- The default value after instanciating a `CNBackstageController` is `CNToggleEffectBlackOverlay`.
+ `CNToggleAnimationEffectSplitHorizontally`<br>
+ **Not yet implemented.**
 
+ `CNToggleAnimationEffectSplitVertically`<br>
+ **Not yet implemented.**
+
+ The default value is `CNToggleAnimationEffectSlide`.
  @warning Using the `CNToggleAnimationEffectGaussianBlur` will decrease the animation performance!
-*/
+ */
 @property (assign) CNToggleAnimationEffect toggleAnimationEffect;
 
 /**
