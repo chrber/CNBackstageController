@@ -33,6 +33,7 @@
 		AA34572716432D9C00E4CCE6 /* CNApplicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */; };
 		AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */; };
 		AA34572D164332E700E4CCE6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572C164332E700E4CCE6 /* MainMenu.xib */; };
+		AA6FA3C41643E8E100A90505 /* Grey_Curtains.icns in Resources */ = {isa = PBXBuildFile; fileRef = AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */; };
 		AAB960EB16430A6200F952BC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB960EA16430A6200F952BC /* Cocoa.framework */; };
 		AAB960F516430A6200F952BC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAB960F316430A6200F952BC /* InfoPlist.strings */; };
 		AAB960F716430A6200F952BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB960F616430A6200F952BC /* main.m */; };
@@ -57,6 +58,7 @@
 		AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNApplicationViewController.m; sourceTree = "<group>"; };
 		AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CNApplicationView.xib; sourceTree = "<group>"; };
 		AA34572C164332E700E4CCE6 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Grey_Curtains.icns; path = ../Grey_Curtains.icns; sourceTree = "<group>"; };
 		AAB960E616430A6200F952BC /* CNBackstageController Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CNBackstageController Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB960EA16430A6200F952BC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		AAB960ED16430A6200F952BC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				AA3457041643222F00E4CCE6 /* Images */,
+				AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */,
 				AAB960F216430A6200F952BC /* CNBackstageController Example-Info.plist */,
 				AAB960F316430A6200F952BC /* InfoPlist.strings */,
 				AAB960F616430A6200F952BC /* main.m */,
@@ -262,6 +265,7 @@
 				AA3457141643222F00E4CCE6 /* TexturedBackground-Paper.jpg in Resources */,
 				AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */,
 				AA34572D164332E700E4CCE6 /* MainMenu.xib in Resources */,
+				AA6FA3C41643E8E100A90505 /* Grey_Curtains.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +427,7 @@
 				AA93C3D91643B1DF0053B260 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AAB960E016430A6200F952BC /* Build configuration list for PBXProject "CNBackstageController Example" */ = {
 			isa = XCConfigurationList;
