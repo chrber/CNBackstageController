@@ -1,0 +1,393 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA3456FE16431DB500E4CCE6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3456FD16431DB500E4CCE6 /* QuartzCore.framework */; };
+		AA34570D1643222F00E4CCE6 /* CNPreferencesAppBehavior.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3457051643222F00E4CCE6 /* CNPreferencesAppBehavior.png */; };
+		AA34570E1643222F00E4CCE6 /* CNPreferencesGeneral.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3457061643222F00E4CCE6 /* CNPreferencesGeneral.png */; };
+		AA34570F1643222F00E4CCE6 /* CNStatusbarIcon-Highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3457071643222F00E4CCE6 /* CNStatusbarIcon-Highlight.png */; };
+		AA3457101643222F00E4CCE6 /* CNStatusbarIcon-Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3457081643222F00E4CCE6 /* CNStatusbarIcon-Normal.png */; };
+		AA3457111643222F00E4CCE6 /* TexturedBackground-Linen-Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3457091643222F00E4CCE6 /* TexturedBackground-Linen-Dark.png */; };
+		AA3457121643222F00E4CCE6 /* TexturedBackground-Linen-Light.png in Resources */ = {isa = PBXBuildFile; fileRef = AA34570A1643222F00E4CCE6 /* TexturedBackground-Linen-Light.png */; };
+		AA3457131643222F00E4CCE6 /* TexturedBackground-Linen-Middle.png in Resources */ = {isa = PBXBuildFile; fileRef = AA34570B1643222F00E4CCE6 /* TexturedBackground-Linen-Middle.png */; };
+		AA3457141643222F00E4CCE6 /* TexturedBackground-Paper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA34570C1643222F00E4CCE6 /* TexturedBackground-Paper.jpg */; };
+		AA34572716432D9C00E4CCE6 /* CNApplicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */; };
+		AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */; };
+		AA34572D164332E700E4CCE6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572C164332E700E4CCE6 /* MainMenu.xib */; };
+		AAB960EB16430A6200F952BC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB960EA16430A6200F952BC /* Cocoa.framework */; };
+		AAB960F516430A6200F952BC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAB960F316430A6200F952BC /* InfoPlist.strings */; };
+		AAB960F716430A6200F952BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB960F616430A6200F952BC /* main.m */; };
+		AAB960FB16430A6200F952BC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AAB960F916430A6200F952BC /* Credits.rtf */; };
+		AAB960FE16430A6200F952BC /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB960FD16430A6200F952BC /* ApplicationDelegate.m */; };
+		AAB9610D16430A9100F952BC /* CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9610A16430A9100F952BC /* CNBackstageController.m */; };
+		AAB9610E16430A9100F952BC /* NSScreen+CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA3456FD16431DB500E4CCE6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		AA3457051643222F00E4CCE6 /* CNPreferencesAppBehavior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CNPreferencesAppBehavior.png; sourceTree = "<group>"; };
+		AA3457061643222F00E4CCE6 /* CNPreferencesGeneral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CNPreferencesGeneral.png; sourceTree = "<group>"; };
+		AA3457071643222F00E4CCE6 /* CNStatusbarIcon-Highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CNStatusbarIcon-Highlight.png"; sourceTree = "<group>"; };
+		AA3457081643222F00E4CCE6 /* CNStatusbarIcon-Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CNStatusbarIcon-Normal.png"; sourceTree = "<group>"; };
+		AA3457091643222F00E4CCE6 /* TexturedBackground-Linen-Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TexturedBackground-Linen-Dark.png"; sourceTree = "<group>"; };
+		AA34570A1643222F00E4CCE6 /* TexturedBackground-Linen-Light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TexturedBackground-Linen-Light.png"; sourceTree = "<group>"; };
+		AA34570B1643222F00E4CCE6 /* TexturedBackground-Linen-Middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TexturedBackground-Linen-Middle.png"; sourceTree = "<group>"; };
+		AA34570C1643222F00E4CCE6 /* TexturedBackground-Paper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Paper.jpg"; sourceTree = "<group>"; };
+		AA34571A1643273100E4CCE6 /* CNLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNLog.h; sourceTree = "<group>"; };
+		AA34572416432D9C00E4CCE6 /* CNApplicationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNApplicationViewController.h; sourceTree = "<group>"; };
+		AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNApplicationViewController.m; sourceTree = "<group>"; };
+		AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CNApplicationView.xib; sourceTree = "<group>"; };
+		AA34572C164332E700E4CCE6 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		AAB960E616430A6200F952BC /* CNBackstageController Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CNBackstageController Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAB960EA16430A6200F952BC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		AAB960ED16430A6200F952BC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		AAB960EE16430A6200F952BC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		AAB960EF16430A6200F952BC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AAB960F216430A6200F952BC /* CNBackstageController Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CNBackstageController Example-Info.plist"; sourceTree = "<group>"; };
+		AAB960F416430A6200F952BC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AAB960F616430A6200F952BC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AAB960F816430A6200F952BC /* CNBackstageController Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CNBackstageController Example-Prefix.pch"; sourceTree = "<group>"; };
+		AAB960FA16430A6200F952BC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		AAB960FC16430A6200F952BC /* ApplicationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationDelegate.h; sourceTree = "<group>"; };
+		AAB960FD16430A6200F952BC /* ApplicationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApplicationDelegate.m; sourceTree = "<group>"; };
+		AAB9610916430A9100F952BC /* CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageController.h; sourceTree = "<group>"; };
+		AAB9610A16430A9100F952BC /* CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBackstageController.m; sourceTree = "<group>"; };
+		AAB9610B16430A9100F952BC /* NSScreen+CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScreen+CNBackstageController.h"; sourceTree = "<group>"; };
+		AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScreen+CNBackstageController.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AAB960E316430A6200F952BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA3456FE16431DB500E4CCE6 /* QuartzCore.framework in Frameworks */,
+				AAB960EB16430A6200F952BC /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA3457041643222F00E4CCE6 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				AA3457051643222F00E4CCE6 /* CNPreferencesAppBehavior.png */,
+				AA3457061643222F00E4CCE6 /* CNPreferencesGeneral.png */,
+				AA3457071643222F00E4CCE6 /* CNStatusbarIcon-Highlight.png */,
+				AA3457081643222F00E4CCE6 /* CNStatusbarIcon-Normal.png */,
+				AA3457091643222F00E4CCE6 /* TexturedBackground-Linen-Dark.png */,
+				AA34570A1643222F00E4CCE6 /* TexturedBackground-Linen-Light.png */,
+				AA34570B1643222F00E4CCE6 /* TexturedBackground-Linen-Middle.png */,
+				AA34570C1643222F00E4CCE6 /* TexturedBackground-Paper.jpg */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		AA34572916432DA200E4CCE6 /* Application View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AA34572416432D9C00E4CCE6 /* CNApplicationViewController.h */,
+				AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */,
+				AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */,
+			);
+			name = "Application View Controller";
+			sourceTree = "<group>";
+		};
+		AAB960DB16430A6200F952BC = {
+			isa = PBXGroup;
+			children = (
+				AAB960F016430A6200F952BC /* CNBackstageController Example */,
+				AAB960E916430A6200F952BC /* Frameworks */,
+				AAB960E716430A6200F952BC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AAB960E716430A6200F952BC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAB960E616430A6200F952BC /* CNBackstageController Example.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AAB960E916430A6200F952BC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA3456FD16431DB500E4CCE6 /* QuartzCore.framework */,
+				AAB960EA16430A6200F952BC /* Cocoa.framework */,
+				AAB960EC16430A6200F952BC /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AAB960EC16430A6200F952BC /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AAB960ED16430A6200F952BC /* AppKit.framework */,
+				AAB960EE16430A6200F952BC /* CoreData.framework */,
+				AAB960EF16430A6200F952BC /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		AAB960F016430A6200F952BC /* CNBackstageController Example */ = {
+			isa = PBXGroup;
+			children = (
+				AAB960FC16430A6200F952BC /* ApplicationDelegate.h */,
+				AAB960FD16430A6200F952BC /* ApplicationDelegate.m */,
+				AA34572C164332E700E4CCE6 /* MainMenu.xib */,
+				AA34572916432DA200E4CCE6 /* Application View Controller */,
+				AAB960F116430A6200F952BC /* Supporting Files */,
+				AAB9610716430A7B00F952BC /* Libraries */,
+			);
+			path = "CNBackstageController Example";
+			sourceTree = "<group>";
+		};
+		AAB960F116430A6200F952BC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AA3457041643222F00E4CCE6 /* Images */,
+				AAB960F216430A6200F952BC /* CNBackstageController Example-Info.plist */,
+				AAB960F316430A6200F952BC /* InfoPlist.strings */,
+				AAB960F616430A6200F952BC /* main.m */,
+				AAB960F816430A6200F952BC /* CNBackstageController Example-Prefix.pch */,
+				AAB960F916430A6200F952BC /* Credits.rtf */,
+				AA34571A1643273100E4CCE6 /* CNLog.h */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AAB9610716430A7B00F952BC /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				AAB9610816430A9100F952BC /* CNBackstageController */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		AAB9610816430A9100F952BC /* CNBackstageController */ = {
+			isa = PBXGroup;
+			children = (
+				AAB9610916430A9100F952BC /* CNBackstageController.h */,
+				AAB9610A16430A9100F952BC /* CNBackstageController.m */,
+				AAB9610B16430A9100F952BC /* NSScreen+CNBackstageController.h */,
+				AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */,
+			);
+			name = CNBackstageController;
+			path = ../../CNBackstageController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AAB960E516430A6200F952BC /* CNBackstageController Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAB9610416430A6200F952BC /* Build configuration list for PBXNativeTarget "CNBackstageController Example" */;
+			buildPhases = (
+				AAB960E216430A6200F952BC /* Sources */,
+				AAB960E316430A6200F952BC /* Frameworks */,
+				AAB960E416430A6200F952BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CNBackstageController Example";
+			productName = "CNBackstageController Example";
+			productReference = AAB960E616430A6200F952BC /* CNBackstageController Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AAB960DD16430A6200F952BC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CN;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "cocoa:naut";
+			};
+			buildConfigurationList = AAB960E016430A6200F952BC /* Build configuration list for PBXProject "CNBackstageController Example" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AAB960DB16430A6200F952BC;
+			productRefGroup = AAB960E716430A6200F952BC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AAB960E516430A6200F952BC /* CNBackstageController Example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AAB960E416430A6200F952BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAB960F516430A6200F952BC /* InfoPlist.strings in Resources */,
+				AAB960FB16430A6200F952BC /* Credits.rtf in Resources */,
+				AA34570D1643222F00E4CCE6 /* CNPreferencesAppBehavior.png in Resources */,
+				AA34570E1643222F00E4CCE6 /* CNPreferencesGeneral.png in Resources */,
+				AA34570F1643222F00E4CCE6 /* CNStatusbarIcon-Highlight.png in Resources */,
+				AA3457101643222F00E4CCE6 /* CNStatusbarIcon-Normal.png in Resources */,
+				AA3457111643222F00E4CCE6 /* TexturedBackground-Linen-Dark.png in Resources */,
+				AA3457121643222F00E4CCE6 /* TexturedBackground-Linen-Light.png in Resources */,
+				AA3457131643222F00E4CCE6 /* TexturedBackground-Linen-Middle.png in Resources */,
+				AA3457141643222F00E4CCE6 /* TexturedBackground-Paper.jpg in Resources */,
+				AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */,
+				AA34572D164332E700E4CCE6 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AAB960E216430A6200F952BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAB960F716430A6200F952BC /* main.m in Sources */,
+				AAB960FE16430A6200F952BC /* ApplicationDelegate.m in Sources */,
+				AAB9610D16430A9100F952BC /* CNBackstageController.m in Sources */,
+				AAB9610E16430A9100F952BC /* NSScreen+CNBackstageController.m in Sources */,
+				AA34572716432D9C00E4CCE6 /* CNApplicationViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AAB960F316430A6200F952BC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAB960F416430A6200F952BC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AAB960F916430A6200F952BC /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAB960FA16430A6200F952BC /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AAB9610216430A6200F952BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AAB9610316430A6200F952BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AAB9610516430A6200F952BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CNBackstageController Example/CNBackstageController Example-Prefix.pch";
+				INFOPLIST_FILE = "CNBackstageController Example/CNBackstageController Example-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		AAB9610616430A6200F952BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CNBackstageController Example/CNBackstageController Example-Prefix.pch";
+				INFOPLIST_FILE = "CNBackstageController Example/CNBackstageController Example-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AAB960E016430A6200F952BC /* Build configuration list for PBXProject "CNBackstageController Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAB9610216430A6200F952BC /* Debug */,
+				AAB9610316430A6200F952BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAB9610416430A6200F952BC /* Build configuration list for PBXNativeTarget "CNBackstageController Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAB9610516430A6200F952BC /* Debug */,
+				AAB9610616430A6200F952BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AAB960DD16430A6200F952BC /* Project object */;
+}
