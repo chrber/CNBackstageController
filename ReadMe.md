@@ -9,7 +9,7 @@ Here is a shot of the included example application:
 
 
 ###Status Quo
-`CNBackstageController` is a project in progress and far byond being feature complete. There may be some errors or misfunctions. So please give me feedback about that. `CNBackstageController` was written using ARC and should run on 10.7 and above.
+`CNBackstageController` is a project in progress and far off being feature complete. There may be some errors or misfunctions. So please give me feedback about that. `CNBackstageController` was written using ARC and should run on 10.7 and above.
 
 
 ###Documentation
