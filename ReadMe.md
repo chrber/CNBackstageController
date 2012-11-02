@@ -9,6 +9,7 @@ Here is a shot of the included example application:
 
 
 ###Status Quo
+`CNBackstageController` is a project in progress. There may be some errors or misfunctions. So please give me feedback about that.
 
 
 ###Documentation
