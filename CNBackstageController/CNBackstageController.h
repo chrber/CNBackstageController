@@ -207,7 +207,7 @@ typedef enum {
 @property (assign, nonatomic) CNToggleEdge toggleEdge;
 
 /**
- Defines the inset the applicationViewController's view should toddle.
+ Defines the inset the applicationViewController's view should toggle.
  
  This property knows two pre defined constants:
  
@@ -241,12 +241,12 @@ typedef enum {
  __Example__
  
     // this will move in the applicationView by half of the height of toggleDisplay from top to down
-    CNBackstageController *myController = [CNBackstageController sharedBackstagedController];
+    CNBackstageController *myController = [CNBackstageController sharedInstance];
     myController.toggleEdge = CNToggleEdgeTop;
     myController.toggleSize = CNToggleSizeHalfScreen;
 
     // this will move in the applicationView by 369 pixels from left to right
-    CNBackstageController *myController = [CNBackstageController sharedBackstagedController];
+    CNBackstageController *myController = [CNBackstageController sharedInstance];
     myController.toggleEdge = CNToggleEdgeLeft;
     myController.toggleSize = 369;
  */
@@ -267,6 +267,8 @@ typedef enum {
 
  `CNToggleDisplayMain`<br>
  The default value. Main display means that display where the system statusbar is placed.
+ 
+ @note These are just constants for four displays. You may of course own more than four devices, and `CNBackstageController` will provide them all!
  */
 @property (assign) CNToggleDisplay toggleDisplay;
 
@@ -289,7 +291,7 @@ typedef enum {
  property overlayAlpha.
 
  `CNToggleAnimationEffectOverlayGaussianBlur`<br>
- Manipulates the Finder snapshot area using a Gaussian blur filter.
+ Manipulates the Finder snapshot area using a Gaussian blur filter. **Not yet implemented**
 
  `CNToggleAnimationEffectApplicationContentFade`<br>
  While the controller is toggling, the content of the application view will be fade in.

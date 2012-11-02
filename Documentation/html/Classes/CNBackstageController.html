@@ -237,7 +237,7 @@ see the results. You may also take a look an the Example project.</p>
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/toggleSize">&nbsp;&nbsp;toggleSize</a></code>
-		<span class="tooltip"><p>Defines the inset the applicationViewController&rsquo;s view should toddle.</p></span>
+		<span class="tooltip"><p>Defines the inset the applicationViewController&rsquo;s view should toggle.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -449,7 +449,7 @@ A black transparent overlay is shown over the Finder snapshot area. Its alpha va
 property <a href="#//api/name/overlayAlpha">overlayAlpha</a>.</p>
 
 <p><code>CNToggleAnimationEffectOverlayGaussianBlur</code><br>
-Manipulates the Finder snapshot area using a Gaussian blur filter.</p>
+Manipulates the Finder snapshot area using a Gaussian blur filter. <strong>Not yet implemented</strong></p>
 
 <p><code>CNToggleAnimationEffectApplicationContentFade</code><br>
 While the controller is toggling, the content of the application view will be fade in.</p>
@@ -510,7 +510,7 @@ typedef NSUInteger CNToggleDisplay;
 </code></pre>
 
 <p><code>CNToggleDisplayMain</code><br>
-The default value. Main display means that display where the system statusbar is placed.</p>
+The default value. Main display means that display where the system statusbar is placed.</p><div class="note"><p><strong>Note:</strong> These are just constants for four displays. You may of course own more than four devices, and <code>CNBackstageController</code> will provide them all!</p></div>
 	</div>
 	
 	
@@ -605,7 +605,7 @@ Not yet implemented.</p>
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Defines the inset the applicationViewController&rsquo;s view should toddle.</p>
+		<p>Defines the inset the applicationViewController&rsquo;s view should toggle.</p>
 	</div>		
 	
     
@@ -655,12 +655,12 @@ The applicationView will move in by two thirds of a screen (height or width, dep
 <p><strong>Example</strong></p>
 
 <pre><code>// this will move in the applicationView by half of the height of toggleDisplay from top to down
-CNBackstageController *myController = [CNBackstageController sharedBackstagedController];
+CNBackstageController *myController = [CNBackstageController sharedInstance];
 myController.toggleEdge = CNToggleEdgeTop;
 myController.toggleSize = CNToggleSizeHalfScreen;
 
 // this will move in the applicationView by 369 pixels from left to right
-CNBackstageController *myController = [CNBackstageController sharedBackstagedController];
+CNBackstageController *myController = [CNBackstageController sharedInstance];
 myController.toggleEdge = CNToggleEdgeLeft;
 myController.toggleSize = 369;
 </code></pre>
