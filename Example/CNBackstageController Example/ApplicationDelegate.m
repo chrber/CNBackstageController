@@ -29,7 +29,8 @@
                                              selector:@selector(defaultsChanged:)
                                                  name:kDefaultsChangedNotificationKey
                                                object:nil];
-
+    
+    
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     self.statusItem.image = [NSImage imageNamed:@"CNStatusbarIcon-Normal"];
     self.statusItem.alternateImage = [NSImage imageNamed:@"CNStatusbarIcon-Highlight"];

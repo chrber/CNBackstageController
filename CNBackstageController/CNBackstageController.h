@@ -154,9 +154,9 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
         }
 
  After these five steps you will have a fully functional backstage controller. Play around with all the other properties and
- see the results. You may also take a look an the Example project.
+ see the results. You may also take a look at the Example project.
  
- **Related Sample Code**
+ ##Related Sample Code
  
  [CNBackstageController Example](https://github.com/phranck/CNBackstageController)
  */
@@ -336,7 +336,7 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 /**
  ...
  */
-@property (strong) NSColor *backstageViewBackgroundColor;
+@property (strong, nonatomic) NSColor *backstageViewBackgroundColor;
 
 /**
  ...

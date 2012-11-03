@@ -41,6 +41,10 @@ typedef struct {
 } CNToggleFrameDeltas;
 
 
+BOOL CNViewContainsPoint(NSView *theView, NSPoint thePoint) {
+    BOOL containsPoint = (thePoint.x >= NSMinX(theView.frame) && thePoint.x <= NSMaxX(theView.frame) && thePoint.y >= NSMinY(theView.frame) && thePoint.y <= NSMaxY(theView.frame));
+    return containsPoint;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +53,7 @@ typedef struct {
 
 @interface CNBackstageController()
 @property (strong) NSView *applicationView;
+@property (strong) NSTrackingArea *applicationViewTrackingArea;
 
 @property (strong) CNBackstageShadowView *shadowView;
 @property (strong) NSView *finderSnapshotView;
@@ -123,6 +128,7 @@ typedef struct {
         _delegate                       = nil;
         _applicationViewController      = nil;
         _applicationView                = nil;
+        _applicationViewTrackingArea    = nil;
         _backstageViewBackgroundColor   = [NSColor darkGrayColor];
         _overlayAlpha                   = 0.75;
     }
@@ -138,6 +144,11 @@ typedef struct {
 {
     _applicationViewController = applicationViewController;
     self.applicationView = _applicationViewController.view;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willResignActive:)
+                                                 name:NSApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 - (void)setToggleSize:(CNToggleSize)aToggleSize
@@ -193,12 +204,16 @@ typedef struct {
     [self hideDock];
     
 
-    if (self.toggleAnimationEffect & CNToggleAnimationEffectFade) {
-        self.applicationView.alphaValue = 0.0;
-    }
-
     __block NSRect applicationFrame = self.applicationView.frame;
     __block NSRect finderSnapshotFrame = self.finderSnapshotView.bounds;
+
+    switch (self.toggleAnimationEffect) {
+        case CNToggleAnimationEffectFade:
+            self.applicationView.alphaValue = 0.0;
+            break;
+        default:
+            break;
+    }
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         context.duration = kAnimationDuration;
@@ -413,17 +428,18 @@ typedef struct {
 {
     self.applicationView.frame = [self frameForApplicationView];
     self.finderSnapshotView.frame = self.window.frame;
-
-    // a shadow on an edge of application view
-    self.shadowView = [[CNBackstageShadowView alloc] initWithFrame:self.applicationView.bounds];
-    self.shadowView.toggleEdge = self.toggleEdge;
-    [self.applicationView addSubview:self.shadowView];
+    self.finderSnapshotView.layer.opaque = NO;
 
     // Application
     [[self.window contentView] addSubview:self.applicationView];
 
     // Finder Snapshot
     [[self.window contentView] addSubview:self.finderSnapshotView];
+
+    // a shadow on an edge of application view
+    self.shadowView = [[CNBackstageShadowView alloc] initWithFrame:self.applicationView.bounds];
+    self.shadowView.toggleEdge = self.toggleEdge;
+    [self.applicationView addSubview:self.shadowView];
 
     // Finder Snapshot Overlay
     self.finderSnapshotViewOverlay.alphaValue = 0.0;
@@ -598,6 +614,44 @@ typedef struct {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSResponder
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    if (!CNViewContainsPoint(self.applicationView, [theEvent locationInWindow])) {
+        [self toggleViewStateClose];
+    }
+}
+
+- (void)rightMouseDown:(NSEvent *)theEvent
+{
+    if (!CNViewContainsPoint(self.applicationView, [theEvent locationInWindow])) {
+        [self toggleViewStateClose];
+    }
+}
+
+- (void)otherMouseDown:(NSEvent *)theEvent
+{
+    if (!CNViewContainsPoint(self.applicationView, [theEvent locationInWindow])) {
+        [self toggleViewStateClose];
+    }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Notifications
+
+- (void)willResignActive:(NSNotification *)notification
+{
+    if (self.currentToggleState == CNToggleStateOpened) {
+        [self toggleViewStateClose];
+    }
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate Callbacks
 
 - (void)screen:(NSScreen *)toggleScreen willToggleOnEdge:(CNToggleEdge)toggleEdge
@@ -624,8 +678,7 @@ typedef struct {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstageShadowView
 
-static NSColor *startColor;
-static NSColor *endColor;
+static NSColor *startColor, *middleColor, *endColor;
 static CGFloat shadowWidth = 10.0;
 
 @interface CNBackstageShadowView ()
@@ -635,7 +688,8 @@ static CGFloat shadowWidth = 10.0;
 + (void)initialize
 {
     startColor = [[NSColor blackColor] colorWithAlphaComponent:0.55];
-    endColor = [NSColor clearColor];
+    middleColor = [[NSColor blackColor] colorWithAlphaComponent:0.32];
+    endColor = [[NSColor blackColor] colorWithAlphaComponent:0.001];
 }
 
 - (void)setToggleEdge:(CNToggleEdge)toggleEdge
@@ -649,13 +703,50 @@ static CGFloat shadowWidth = 10.0;
     CGRect gradientRect = NSZeroRect;
     CGFloat angle = 0;
     switch (self.toggleEdge) {
-        case CNToggleEdgeTop:       gradientRect = NSMakeRect(0, NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth); angle = -90; break;
-        case CNToggleEdgeRight:     gradientRect = NSMakeRect(0, 0, shadowWidth, NSHeight(dirtyRect)); angle = 0; break;
-        case CNToggleEdgeBottom:    gradientRect = NSMakeRect(0, NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth); angle = -90; break;
-        case CNToggleEdgeLeft:      gradientRect = NSMakeRect(NSWidth(dirtyRect)-shadowWidth, 0, shadowWidth, NSHeight(dirtyRect));  angle = 180; break;
+        case CNToggleEdgeTop: {
+            NSRect lineRect = NSMakeRect(0, floor(NSMinY(dirtyRect)), NSWidth(dirtyRect), 1);
+            NSBezierPath *linePath = [NSBezierPath bezierPathWithRect:lineRect];
+            [[NSColor colorWithDeviceWhite:0.622 alpha:1.000] setFill];
+            [linePath fill];
+
+            gradientRect = NSMakeRect(0, NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth);
+            angle = -90;
+            break;
+        }
+        case CNToggleEdgeRight: {
+            NSRect lineRect = NSMakeRect(0, 0, 1, NSHeight(dirtyRect));
+            NSBezierPath *linePath = [NSBezierPath bezierPathWithRect:lineRect];
+            [[NSColor darkGrayColor] setFill];
+            [linePath fill];
+
+            gradientRect = NSMakeRect(0, 0, shadowWidth, NSHeight(dirtyRect));
+            angle = 0;
+            break;
+        }
+        case CNToggleEdgeBottom: {
+            NSRect lineRect = NSMakeRect(0, NSHeight(dirtyRect)-1, NSWidth(dirtyRect), 1);
+            NSBezierPath *linePath = [NSBezierPath bezierPathWithRect:lineRect];
+            [[NSColor colorWithCalibratedWhite:0.265 alpha:1.000] setFill];
+            [linePath fill];
+
+            gradientRect = NSMakeRect(0, NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth);
+            angle = -90;
+            break;
+        }
+        case CNToggleEdgeLeft: {
+            NSRect lineRect = NSMakeRect(floor(NSWidth(dirtyRect)-1), 0, 1, NSHeight(dirtyRect));
+            NSBezierPath *linePath = [NSBezierPath bezierPathWithRect:lineRect];
+            [[NSColor darkGrayColor] setFill];
+            [linePath fill];
+            
+            gradientRect = NSMakeRect(NSWidth(dirtyRect)-shadowWidth, 0, shadowWidth, NSHeight(dirtyRect));
+            angle = 180;
+            break;
+        }
+
         default: break;
     }
-    NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations: startColor, 0.0, endColor, 1.0, nil];
+    NSGradient *gradient = [[NSGradient alloc] initWithColorsAndLocations: startColor, 0.0, middleColor, 0.20, endColor, 1.0, nil];
     NSBezierPath *gradienPath = [NSBezierPath bezierPathWithRect:gradientRect];
     [gradient drawInBezierPath:gradienPath angle:angle];
 }
