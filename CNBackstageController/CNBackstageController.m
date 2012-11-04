@@ -257,13 +257,13 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
             case CNToggleEdgeRight:     screenSnapshotFirstFrame.origin.x -= floor(NSWidth(applicationFrame)); break;
 
             case CNToggleEdgeSplitHorizontal:
-                screenSnapshotFirstFrame.origin.y += floor(NSHeight(applicationFrame)/2);
-                screenSnapshotSecondFrame.origin.y -= ceil(NSHeight(applicationFrame)/2)-1;
+                screenSnapshotFirstFrame.origin.x -= ceil(NSWidth(applicationFrame)/2)-1;
+                screenSnapshotSecondFrame.origin.x += ceil(NSWidth(applicationFrame)/2)-1;
                 break;
 
             case CNToggleEdgeSplitVertical:
-                screenSnapshotFirstFrame.origin.x -= ceil(NSWidth(applicationFrame)/2)-1;
-                screenSnapshotSecondFrame.origin.x += ceil(NSWidth(applicationFrame)/2)-1;
+                screenSnapshotFirstFrame.origin.y += floor(NSHeight(applicationFrame)/2);
+                screenSnapshotSecondFrame.origin.y -= ceil(NSHeight(applicationFrame)/2)-1;
                 break;
         }
 
@@ -322,13 +322,13 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
             case CNToggleEdgeRight:     screenSnapshotFirstFrame.origin.x += NSWidth(applicationFrame)+1; break;
 
             case CNToggleEdgeSplitHorizontal:
-                screenSnapshotFirstFrame.origin.y -= floor(NSHeight(applicationFrame)/2);
-                screenSnapshotSecondFrame.origin.y += ceil(NSHeight(applicationFrame)/2)-1;
+                screenSnapshotFirstFrame.origin.x += floor(NSWidth(applicationFrame)/2);
+                screenSnapshotSecondFrame.origin.x -= ceil(NSWidth(applicationFrame)/2)-1;
                 break;
 
             case CNToggleEdgeSplitVertical:
-                screenSnapshotFirstFrame.origin.x += floor(NSWidth(applicationFrame)/2);
-                screenSnapshotSecondFrame.origin.x -= ceil(NSWidth(applicationFrame)/2)-1;
+                screenSnapshotFirstFrame.origin.y -= floor(NSHeight(applicationFrame)/2);
+                screenSnapshotSecondFrame.origin.y += ceil(NSHeight(applicationFrame)/2)-1;
                 break;
         }
 
@@ -386,7 +386,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
     switch (self.toggleEdge) {
         case CNToggleEdgeTop:
         case CNToggleEdgeBottom:
-        case CNToggleEdgeSplitHorizontal: {
+        case CNToggleEdgeSplitVertical: {
             switch (self.toggleSize) {
                 case CNToggleSizeHalfScreen:
                 case CNToggleSizeQuarterScreen:
@@ -403,7 +403,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         }
         case CNToggleEdgeLeft:
         case CNToggleEdgeRight:
-        case CNToggleEdgeSplitVertical:  {
+        case CNToggleEdgeSplitHorizontal:  {
             switch (self.toggleSize) {
                 case CNToggleSizeHalfScreen:
                 case CNToggleSizeQuarterScreen:
@@ -541,13 +541,13 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         }
 
         case CNToggleEdgeSplitHorizontal:
-            resultRect.size = NSMakeSize(NSWidth(windowFrame), ceil([self toggleDeltasForFrame:windowFrame].deltaY));
-            resultRect.origin.y = floor((NSHeight(windowFrame) - NSHeight(resultRect)) / 2);
+            resultRect.size = NSMakeSize(ceil([self toggleDeltasForFrame:windowFrame].deltaX), NSHeight(windowFrame));
+            resultRect.origin.x = floor((NSWidth(windowFrame) - NSWidth(resultRect)) / 2);
             break;
 
         case CNToggleEdgeSplitVertical:
-            resultRect.size = NSMakeSize(ceil([self toggleDeltasForFrame:windowFrame].deltaX), NSHeight(windowFrame));
-            resultRect.origin.x = floor((NSWidth(windowFrame) - NSWidth(resultRect)) / 2);
+            resultRect.size = NSMakeSize(NSWidth(windowFrame), ceil([self toggleDeltasForFrame:windowFrame].deltaY));
+            resultRect.origin.y = floor((NSHeight(windowFrame) - NSHeight(resultRect)) / 2);
             break;
     }
     CNLogForRect(resultRect);
@@ -573,12 +573,12 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         }
 
         case CNToggleEdgeSplitHorizontal: {
-            self.viewOfFirstPartialDisplaySnapshot.frame = NSMakeRect(NSMinX(contentViewBounds), NSMaxY(contentViewBounds) - floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds),floor( NSHeight(contentViewBounds)/2));
-            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, 0, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
+            self.viewOfFirstPartialDisplaySnapshot.frame = NSMakeRect(0, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
+            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             self.overlayOfFirstPartialDisplaySnapshot.frame = self.viewOfFirstPartialDisplaySnapshot.bounds;
 
-            self.viewOfSecondPartialDisplaySnapshot.frame = NSMakeRect(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, floor(NSHeight(contentViewBounds)/2)+1, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
+            self.viewOfSecondPartialDisplaySnapshot.frame = NSMakeRect(NSWidth(contentViewBounds)/2 + 1, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSWidth(contentViewBounds)/2 + 1, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             self.overlayOfSecondPartialDisplaySnapshot.frame = self.viewOfSecondPartialDisplaySnapshot.bounds;
 
             self.viewOfFirstPartialDisplaySnapshot.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -589,12 +589,12 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         }
 
         case CNToggleEdgeSplitVertical:
-            self.viewOfFirstPartialDisplaySnapshot.frame = NSMakeRect(0, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
-            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
+            self.viewOfFirstPartialDisplaySnapshot.frame = NSMakeRect(NSMinX(contentViewBounds), NSMaxY(contentViewBounds) - floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds),floor( NSHeight(contentViewBounds)/2));
+            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, 0, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             self.overlayOfFirstPartialDisplaySnapshot.frame = self.viewOfFirstPartialDisplaySnapshot.bounds;
 
-            self.viewOfSecondPartialDisplaySnapshot.frame = NSMakeRect(NSWidth(contentViewBounds)/2 + 1, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSWidth(contentViewBounds)/2 + 1, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
+            self.viewOfSecondPartialDisplaySnapshot.frame = NSMakeRect(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, floor(NSHeight(contentViewBounds)/2)+1, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             self.overlayOfSecondPartialDisplaySnapshot.frame = self.viewOfSecondPartialDisplaySnapshot.bounds;
 
             self.viewOfFirstPartialDisplaySnapshot.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -826,22 +826,6 @@ static CGFloat shadowWidth = 8.0;
         }
 
         case CNToggleEdgeSplitHorizontal: {
-            NSRect lineTopRect = NSMakeRect(NSMinX(dirtyRect), floor(NSMaxY(dirtyRect))-1, NSWidth(dirtyRect), 1);
-            NSBezierPath *lineTopPath = [NSBezierPath bezierPathWithRect:lineTopRect];
-            [darkLineColor setFill];
-            [lineTopPath fill];
-
-            NSRect lineBottomRect = NSMakeRect(NSMinX(dirtyRect), ceil(NSMinY(dirtyRect))+1, NSWidth(dirtyRect), 1);
-            NSBezierPath *lineBottomPath = [NSBezierPath bezierPathWithRect:lineBottomRect];
-            [lightLineColor setFill];
-            [lineBottomPath fill];
-
-            gradientRect = NSMakeRect(NSMinX(dirtyRect), NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth);
-            angle = -90;
-            break;
-        }
-
-        case CNToggleEdgeSplitVertical: {
             NSRect lineLeftRect = NSMakeRect(ceil(NSMinX(dirtyRect))+1, NSMinY(dirtyRect), 1, NSHeight(dirtyRect));
             NSBezierPath *lineTopPath = [NSBezierPath bezierPathWithRect:lineLeftRect];
             [darkLineColor setFill];
@@ -854,6 +838,22 @@ static CGFloat shadowWidth = 8.0;
 
             gradientRect = NSMakeRect(ceil(NSMinX(dirtyRect))+1, NSMinY(dirtyRect), shadowWidth, NSHeight(dirtyRect));
             angle = 0;
+            break;
+        }
+
+        case CNToggleEdgeSplitVertical: {
+            NSRect lineTopRect = NSMakeRect(NSMinX(dirtyRect), floor(NSMaxY(dirtyRect))-1, NSWidth(dirtyRect), 1);
+            NSBezierPath *lineTopPath = [NSBezierPath bezierPathWithRect:lineTopRect];
+            [darkLineColor setFill];
+            [lineTopPath fill];
+
+            NSRect lineBottomRect = NSMakeRect(NSMinX(dirtyRect), ceil(NSMinY(dirtyRect))+1, NSWidth(dirtyRect), 1);
+            NSBezierPath *lineBottomPath = [NSBezierPath bezierPathWithRect:lineBottomRect];
+            [lightLineColor setFill];
+            [lineBottomPath fill];
+
+            gradientRect = NSMakeRect(NSMinX(dirtyRect), NSHeight(dirtyRect)-shadowWidth, NSWidth(dirtyRect), shadowWidth);
+            angle = -90;
             break;
         }
     }

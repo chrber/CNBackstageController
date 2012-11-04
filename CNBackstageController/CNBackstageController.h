@@ -209,10 +209,10 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
  The applicationView will appear from the right side of the screen that was selected by the property `toggleDisplay`.
  
  `CNToggleEdgeSplitHorizontal`<br>
- **Not yet implemented.**
+ The aplicationView will appear in the horizontal middle of the screen. The overlaid screen content will be splitted into a left and a right half that slides apart.
 
  `CNToggleEdgeSplitVertical`<br>
- **Not yet implemented.**
+ The aplicationView will appear in the vertical middle of the screen. The overlaid screen content will be splitted into a top and a bottom half that slides apart.
  */
 @property (assign, nonatomic) CNToggleEdge toggleEdge;
 
