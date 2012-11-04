@@ -52,7 +52,7 @@
     self.backstageController.toggleDisplay = [self.defaults integerForKey:CNToggleDisplayPreferencesKey];
     self.backstageController.toggleVisualEffect = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
     self.backstageController.toggleAnimationEffect = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
-    self.backstageController.toggleSize = CNToggleSizeOneThirdScreen;
+    self.backstageController.toggleSize = 600;
     self.backstageController.overlayAlpha = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
 }
 

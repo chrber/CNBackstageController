@@ -5,7 +5,12 @@ It mimics the behavior you’ve just seen in Notification Center of Mountain Lio
 
 Here is a shot of the included example application:
 
-![CNGridView Example Application](https://dl.dropbox.com/u/34133216/WebImages/Github/CNBackstageController.png)
+![CNBackstageController Example Application](https://dl.dropbox.com/u/34133216/WebImages/Github/CNBackstageController.png)
+
+
+This screenshot is the result of the **horizontal screen split** animation effect:
+
+![CNBackstageController - Horizontal Screen Split](https://dl.dropbox.com/u/34133216/WebImages/Github/CNBackstageController-Splitview.png)
 
 
 ###Status Quo
