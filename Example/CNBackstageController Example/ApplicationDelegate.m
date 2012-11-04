@@ -48,10 +48,11 @@
 - (void)configureBackstageController
 {
     self.backstageController.toggleEdge = [self.defaults integerForKey:CNToggleEdgePreferencesKey];
+//    self.backstageController.toggleEdge = CNToggleEdgeSplitHorizontal;
     self.backstageController.toggleDisplay = [self.defaults integerForKey:CNToggleDisplayPreferencesKey];
     self.backstageController.toggleVisualEffect = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
     self.backstageController.toggleAnimationEffect = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
-    self.backstageController.toggleSize = 300;
+    self.backstageController.toggleSize = CNToggleSizeOneThirdScreen;
     self.backstageController.overlayAlpha = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
 }
 

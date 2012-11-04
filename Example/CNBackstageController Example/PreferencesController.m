@@ -54,6 +54,8 @@ typedef enum {
                                                         NSLocalizedString(@"Bottom Edge", @""),
                                                         NSLocalizedString(@"Left Edge", @""),
                                                         NSLocalizedString(@"Right Edge", @""),
+                                                        NSLocalizedString(@"Horizontal Screen Splitting", @""),
+                                                        NSLocalizedString(@"Vertical Screen Splitting", @""),
                                                         nil]];
 
 
