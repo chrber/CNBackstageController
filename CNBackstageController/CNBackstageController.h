@@ -67,8 +67,9 @@ typedef enum {
 static NSString *CNToggleDisplayPreferencesKey = @"CNToggleDisplay";
 
 typedef enum {
-    CNToggleVisualEffectNone = 0,
-    CNToggleVisualEffectOverlayBlack
+    CNToggleVisualEffectNone            = 0,
+    CNToggleVisualEffectOverlayBlack    = 1 << 0,
+    CNToggleVisualEffectGaussianBlur    = 1 << 1
 } CNToggleVisualEffect;
 static NSString *CNToggleVisualEffectPreferencesKey = @"CNToggleVisualEffect";
 
@@ -286,11 +287,12 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
  Specifies the visual effects, while the display is toggling.
  
  On toggling the application view in and out you can use visual effects to focus the users attention more or less on its application view.
- The supported effects are specified in `CNToggleVisualEffect`.
+ The supported effects are specified in `CNToggleVisualEffect`. You can use multiple of these effects, combined using the C bitwise OR operator.
  
     typedef enum {
-        CNToggleVisualEffectNone = 0,
-        CNToggleVisualEffectOverlayBlack
+        CNToggleVisualEffectNone            = 0,
+        CNToggleVisualEffectOverlayBlack    = 1 << 0,
+        CNToggleVisualEffectGaussianBlur    = 1 << 1
     } CNToggleVisualEffect;
 
  `CNToggleVisualEffectNone`<br>
@@ -299,6 +301,9 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
  `CNToggleAnimationEffectOverlayBlack`<br>
  A black transparent overlay is shown over the Finder snapshot area. Its alpha value can be manipulated using the
  property overlayAlpha.
+
+ `CNToggleVisualEffectGaussianBlur`<br>
+ Spreads pixels of the screen snapshot by a Gaussian distribution.
 
  The default value is `CNToggleVisualEffectOverlayBlack`.
  

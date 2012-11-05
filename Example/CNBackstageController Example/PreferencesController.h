@@ -22,6 +22,9 @@
 @property (nonatomic, strong) IBOutlet NSPopUpButton *toggleDisplayPopupButton;
 @property (nonatomic, strong) IBOutlet NSTextField *toggleDisplayLabel;
 
+@property (nonatomic, strong) IBOutlet NSPopUpButton *toggleSizePopupButton;
+@property (nonatomic, strong) IBOutlet NSTextField *toggleSizeLabel;
+
 @property (nonatomic, strong) IBOutlet NSPopUpButton *visualEffectPopupButton;
 @property (nonatomic, strong) IBOutlet NSTextField *visualEffectLabel;
 

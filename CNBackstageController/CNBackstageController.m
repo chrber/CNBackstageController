@@ -65,6 +65,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 @property (assign) BOOL dockIsHidden;
 @property (assign) BOOL toggleAnimationIsRunning;
 @property (readonly) CGRect frameOfCurrentToggleDisplay;
+@property (strong) CIFilter *gaussianBlurFilter;
 
 #pragma mark - Helper
 - (void)changeViewStateToOpen;
@@ -338,6 +339,8 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 
 
     } completionHandler:^{
+        [self.overlayOfFirstPartialDisplaySnapshot.layer setFilters:nil];
+        [self.overlayOfSecondPartialDisplaySnapshot.layer setFilters:nil];
         [self showDock];
         [self resignApplicationWindow];
 
@@ -351,27 +354,38 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 
 - (void)activateVisualEffects
 {
-    switch (self.toggleVisualEffect) {
-        case CNToggleVisualEffectOverlayBlack:
-            self.overlayOfFirstPartialDisplaySnapshot.layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
-            [[self.overlayOfFirstPartialDisplaySnapshot animator] setAlphaValue:self.overlayAlpha];
-            self.overlayOfSecondPartialDisplaySnapshot.layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
-            [[self.overlayOfSecondPartialDisplaySnapshot animator] setAlphaValue:self.overlayAlpha];
-            break;
-        default:
-            break;
+    if (self.toggleVisualEffect == 0)
+        return;
+
+    if (self.toggleVisualEffect & CNToggleVisualEffectOverlayBlack) {
+        self.overlayOfFirstPartialDisplaySnapshot.layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
+        [[self.overlayOfFirstPartialDisplaySnapshot animator] setAlphaValue:self.overlayAlpha];
+        self.overlayOfSecondPartialDisplaySnapshot.layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
+        [[self.overlayOfSecondPartialDisplaySnapshot animator] setAlphaValue:self.overlayAlpha];
+    }
+
+    if (self.toggleVisualEffect & CNToggleVisualEffectGaussianBlur) {
+        self.gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+        [self.gaussianBlurFilter setDefaults];
+        [self.gaussianBlurFilter setValue:[NSNumber numberWithFloat:1.3] forKey:@"inputRadius"];
+        [self.gaussianBlurFilter setName:@"gaussianBlur"];
+        [self.overlayOfFirstPartialDisplaySnapshot.layer setBackgroundFilters:@[self.gaussianBlurFilter]];
+        [self.overlayOfSecondPartialDisplaySnapshot.layer setBackgroundFilters:@[self.gaussianBlurFilter]];
     }
 }
 
 - (void)deactivateVisualEffects
 {
-    switch (self.toggleVisualEffect) {
-        case CNToggleVisualEffectOverlayBlack:
-            [[self.overlayOfFirstPartialDisplaySnapshot animator] setAlphaValue:0.0];
-            [[self.overlayOfSecondPartialDisplaySnapshot animator] setAlphaValue:0.0];
-            break;
-        default:
-            break;
+    if (self.toggleVisualEffect == 0)
+        return;
+
+    if (self.toggleVisualEffect & CNToggleVisualEffectOverlayBlack) {
+        [[self.overlayOfFirstPartialDisplaySnapshot animator] setAlphaValue:0.0];
+        [[self.overlayOfSecondPartialDisplaySnapshot animator] setAlphaValue:0.0];
+    }
+
+    if (self.toggleVisualEffect & CNToggleVisualEffectGaussianBlur) {
+        [self.gaussianBlurFilter setValue:[NSNumber numberWithFloat:0] forKey:@"inputRadius"];
     }
 }
 

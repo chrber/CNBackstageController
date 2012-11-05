@@ -67,13 +67,27 @@ typedef enum {
         }];
         [self.toggleDisplayPopupButton addItemsWithTitles:screens];
 
-        self.visualEffectLabel.stringValue = NSLocalizedString(@"Finder Snapshot should", @"");
+
+        self.toggleSizeLabel.stringValue = NSLocalizedString(@"Toggle size should be", @"");
+        [self.toggleSizePopupButton removeAllItems];
+        [self.toggleSizePopupButton addItemsWithTitles:[NSArray arrayWithObjects:
+                                                        NSLocalizedString(@"Half of Screen Width/Height", @""),
+                                                        NSLocalizedString(@"A Quarter of Screen Width/Height", @""),
+                                                        NSLocalizedString(@"Three Quarter of Screen Width/Height", @""),
+                                                        NSLocalizedString(@"One Third of Screen Width/Height", @""),
+                                                        NSLocalizedString(@"Two Third of Screen Width/Height", @""),
+                                                        nil]];
+
+
+        self.visualEffectLabel.stringValue = NSLocalizedString(@"Screen Snapshot should", @"");
         [self.visualEffectPopupButton removeAllItems];
         [self.visualEffectPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
                                                           NSLocalizedString(@"kept untouched", @""),
-                                                          NSLocalizedString(@"have a black overlay", @""),
+                                                          NSLocalizedString(@"have a Black Overlay", @""),
+                                                          NSLocalizedString(@"have a Gaussian Blur", @""),
                                                           nil]];
 
+        
         self.animationEffectLabel.stringValue = NSLocalizedString(@"Content of Application view", @"");
         [self.animationEffectPopupButton removeAllItems];
         [self.animationEffectPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
@@ -99,6 +113,7 @@ typedef enum {
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.toggleEdgePopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleEdgePreferencesKey]];
     [self.toggleDisplayPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleDisplayPreferencesKey]];
+    [self.toggleSizePopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleSizePreferencesKey]];
     [self.visualEffectPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleVisualEffectPreferencesKey]];
     [self.animationEffectPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleAnimationEffectPreferencesKey]];
     self.alphaValueSlider.integerValue = [self.userDefaults integerForKey:CNToggleAlphaValuePreferencesKey];
@@ -121,6 +136,9 @@ typedef enum {
     }
     if (sender == self.toggleDisplayPopupButton) {
         [self.userDefaults setInteger:[self.toggleDisplayPopupButton indexOfSelectedItem] forKey:CNToggleDisplayPreferencesKey];
+    }
+    if (sender == self.toggleSizePopupButton) {
+        [self.userDefaults setInteger:[self.toggleSizePopupButton indexOfSelectedItem] forKey:CNToggleSizePreferencesKey];
     }
     if (sender == self.visualEffectPopupButton) {
         [self.userDefaults setInteger:[self.visualEffectPopupButton indexOfSelectedItem] forKey:CNToggleVisualEffectPreferencesKey];
