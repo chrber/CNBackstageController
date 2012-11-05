@@ -263,7 +263,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
                 break;
 
             case CNToggleEdgeSplitVertical:
-                screenSnapshotFirstFrame.origin.y += floor(NSHeight(applicationFrame)/2);
+                screenSnapshotFirstFrame.origin.y += ceil(NSHeight(applicationFrame)/2)-1;
                 screenSnapshotSecondFrame.origin.y -= ceil(NSHeight(applicationFrame)/2)-1;
                 break;
         }
@@ -323,12 +323,12 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
             case CNToggleEdgeRight:     screenSnapshotFirstFrame.origin.x += NSWidth(applicationFrame)+1; break;
 
             case CNToggleEdgeSplitHorizontal:
-                screenSnapshotFirstFrame.origin.x += floor(NSWidth(applicationFrame)/2);
+                screenSnapshotFirstFrame.origin.x += ceil(NSWidth(applicationFrame)/2)-1;
                 screenSnapshotSecondFrame.origin.x -= ceil(NSWidth(applicationFrame)/2)-1;
                 break;
 
             case CNToggleEdgeSplitVertical:
-                screenSnapshotFirstFrame.origin.y -= floor(NSHeight(applicationFrame)/2);
+                screenSnapshotFirstFrame.origin.y -= ceil(NSHeight(applicationFrame)/2)-1;
                 screenSnapshotSecondFrame.origin.y += ceil(NSHeight(applicationFrame)/2)-1;
                 break;
         }
