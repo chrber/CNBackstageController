@@ -79,24 +79,20 @@ typedef enum {
                                                         nil]];
 
 
-        self.visualEffectLabel.stringValue = NSLocalizedString(@"Screen Snapshot should", @"");
-        [self.visualEffectPopupButton removeAllItems];
-        [self.visualEffectPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
-                                                          NSLocalizedString(@"kept untouched", @""),
-                                                          NSLocalizedString(@"have a Black Overlay", @""),
-                                                          NSLocalizedString(@"have a Gaussian Blur", @""),
-                                                          nil]];
+        self.visualEffectLabel.stringValue = NSLocalizedString(@"Sliding areas should have a", @"");
+        self.visualEffectBlackOverlayCheckbox.title = NSLocalizedString(@"Black Overlay", @"");
+        self.visualEffectGaussianBlurCheckbox.title = NSLocalizedString(@"Gaussian Blur", @"");
 
         
-        self.animationEffectLabel.stringValue = NSLocalizedString(@"Content of Application view", @"");
+        self.animationEffectLabel.stringValue = NSLocalizedString(@"Content of Application view should", @"");
         [self.animationEffectPopupButton removeAllItems];
         [self.animationEffectPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
-                                                             NSLocalizedString(@"should be static", @""),
-                                                             NSLocalizedString(@"should fade in", @""),
-                                                             NSLocalizedString(@"should slide in", @""),
+                                                             NSLocalizedString(@"be static", @""),
+                                                             NSLocalizedString(@"fade in", @""),
+                                                             NSLocalizedString(@"slide in", @""),
                                                              nil]];
 
-        self.alphaValueLabel.stringValue = NSLocalizedString(@"Opacity of Finder Snapshot Overlay", @"");
+        self.alphaValueLabel.stringValue = NSLocalizedString(@"Opacity of Sliding areas Overlay", @"");
 
     }
 
@@ -114,7 +110,11 @@ typedef enum {
     [self.toggleEdgePopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleEdgePreferencesKey]];
     [self.toggleDisplayPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleDisplayPreferencesKey]];
     [self.toggleSizePopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleSizePreferencesKey]];
-    [self.visualEffectPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleVisualEffectPreferencesKey]];
+
+    self.visualEffectBlackOverlayCheckbox.state = ([self.userDefaults integerForKey:CNToggleVisualEffectPreferencesKey] & CNToggleVisualEffectOverlayBlack);
+    [self.alphaValueSlider setEnabled:(self.visualEffectBlackOverlayCheckbox.state == NSOnState)];
+    self.visualEffectGaussianBlurCheckbox.state = ([self.userDefaults integerForKey:CNToggleVisualEffectPreferencesKey] & CNToggleVisualEffectGaussianBlur);
+
     [self.animationEffectPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleAnimationEffectPreferencesKey]];
     self.alphaValueSlider.integerValue = [self.userDefaults integerForKey:CNToggleAlphaValuePreferencesKey];
 }
@@ -131,22 +131,36 @@ typedef enum {
 
 - (IBAction)preferencesChangedAction:(id)sender
 {
+
+    NSUInteger visualEffects = [self.userDefaults integerForKey:CNToggleVisualEffectPreferencesKey];
+    if (sender == self.visualEffectBlackOverlayCheckbox) {
+        switch (self.visualEffectBlackOverlayCheckbox.state) {
+            case NSOnState: visualEffects |= CNToggleVisualEffectOverlayBlack; break;
+            case NSOffState: visualEffects &= ~CNToggleVisualEffectOverlayBlack; break;
+        }
+        [self.alphaValueSlider setEnabled:(self.visualEffectBlackOverlayCheckbox.state == NSOnState)];
+    }
+    else if (sender == self.visualEffectGaussianBlurCheckbox) {
+        switch (self.visualEffectGaussianBlurCheckbox.state) {
+            case NSOnState: visualEffects |= CNToggleVisualEffectGaussianBlur; break;
+            case NSOffState: visualEffects &= ~CNToggleVisualEffectGaussianBlur; break;
+        }
+    }
+    [self.userDefaults setInteger:visualEffects forKey:CNToggleVisualEffectPreferencesKey];
+
     if (sender == self.toggleEdgePopupButton) {
         [self.userDefaults setInteger:[self.toggleEdgePopupButton indexOfSelectedItem] forKey:CNToggleEdgePreferencesKey];
     }
-    if (sender == self.toggleDisplayPopupButton) {
+    else if (sender == self.toggleDisplayPopupButton) {
         [self.userDefaults setInteger:[self.toggleDisplayPopupButton indexOfSelectedItem] forKey:CNToggleDisplayPreferencesKey];
     }
-    if (sender == self.toggleSizePopupButton) {
+    else if (sender == self.toggleSizePopupButton) {
         [self.userDefaults setInteger:[self.toggleSizePopupButton indexOfSelectedItem] forKey:CNToggleSizePreferencesKey];
     }
-    if (sender == self.visualEffectPopupButton) {
-        [self.userDefaults setInteger:[self.visualEffectPopupButton indexOfSelectedItem] forKey:CNToggleVisualEffectPreferencesKey];
-    }
-    if (sender == self.animationEffectPopupButton) {
+    else if (sender == self.animationEffectPopupButton) {
         [self.userDefaults setInteger:[self.animationEffectPopupButton indexOfSelectedItem] forKey:CNToggleAnimationEffectPreferencesKey];
     }
-    if (sender == self.alphaValueSlider) {
+    else if (sender == self.alphaValueSlider) {
         [self.userDefaults setInteger:self.alphaValueSlider.integerValue forKey:CNToggleAlphaValuePreferencesKey];
     }
     [self.userDefaults synchronize];

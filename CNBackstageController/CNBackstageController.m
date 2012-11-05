@@ -452,7 +452,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
                                                                 screen:[self screenForDisplayWithID:displayID]];
     [controllerWindow setHasShadow:NO];
     [controllerWindow setDisplaysWhenScreenProfileChanges:YES];
-    [controllerWindow setReleasedWhenClosed:NO];
+    [controllerWindow setReleasedWhenClosed:YES];
     [controllerWindow setBackgroundColor:self.backstageViewBackgroundColor];
     [controllerWindow setCollectionBehavior:(NSWindowCollectionBehaviorDefault |
                                              NSWindowCollectionBehaviorManaged |

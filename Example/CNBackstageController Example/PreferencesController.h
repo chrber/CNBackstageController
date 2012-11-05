@@ -25,7 +25,8 @@
 @property (nonatomic, strong) IBOutlet NSPopUpButton *toggleSizePopupButton;
 @property (nonatomic, strong) IBOutlet NSTextField *toggleSizeLabel;
 
-@property (nonatomic, strong) IBOutlet NSPopUpButton *visualEffectPopupButton;
+@property (nonatomic, strong) IBOutlet NSButton *visualEffectBlackOverlayCheckbox;
+@property (nonatomic, strong) IBOutlet NSButton *visualEffectGaussianBlurCheckbox;
 @property (nonatomic, strong) IBOutlet NSTextField *visualEffectLabel;
 
 @property (nonatomic, strong) IBOutlet NSSlider *alphaValueSlider;
