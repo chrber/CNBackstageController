@@ -71,8 +71,8 @@
 
 - (void)defaultsChanged:(NSNotification *)notif
 {
-    if (self.backstageController.currentToggleState == CNToggleStateOpened) {
-        [self.backstageController toggleViewState];
+    if ([self.backstageController currentViewState] == CNToggleStateOpened) {
+        [self.backstageController changeViewStateToClose];
     }
     [self configureBackstageController];
 }

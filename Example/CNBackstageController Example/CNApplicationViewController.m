@@ -37,14 +37,24 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate
 
-- (void)screen:(NSScreen *)toggleScreen willToggleOnEdge:(CNToggleEdge)toggleEdge
+- (void)screen:(NSScreen *)toggleScreen willOpenOnEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen:willToggleOnEdge:");
+    CNLog(@"screen:willOpenOnEdge:");
 }
 
-- (void)screen:(NSScreen *)toggleScreen didToggleOnEdge:(CNToggleEdge)toggleEdge
+- (void)screen:(NSScreen *)toggleScreen didOpenOnEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen:didToggleOnEdge:");
+    CNLog(@"screen:didOpenOnEdge:");
+}
+
+- (void)screen:(NSScreen *)toggleScreen willCloseOnEdge:(CNToggleEdge)toggleEdge
+{
+    CNLog(@"screen:willCloseOnEdgee:");
+}
+
+- (void)screen:(NSScreen *)toggleScreen didCloseOnEdge:(CNToggleEdge)toggleEdge
+{
+    CNLog(@"screen:didCloseOnEdge:");
 }
 
 @end

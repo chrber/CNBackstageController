@@ -68,8 +68,8 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 @property (strong) CIFilter *gaussianBlurFilter;
 
 #pragma mark - Helper
-- (void)changeViewStateToOpen;
-- (void)changeViewStateToClose;
+- (void)changeViewStateToOpenUsingCompletionHandler:(void(^)(void))completionHandler;
+- (void)changeViewStateToCloseUsingCompletionHandler:(void(^)(void))completionHandler;
 - (void)activateVisualEffects;
 - (void)deactivateVisualEffects;
 - (NSScreen*)screenOfCurrentToggleDisplay;
@@ -143,22 +143,47 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 
 - (void)toggleViewState
 {
+    switch (self.toggleState) {
+        case CNToggleStateClosed: [self changeViewStateToOpen]; break;
+        case CNToggleStateOpened: [self changeViewStateToClose]; break;
+    }
+}
+
+- (void)changeViewStateToOpen
+{
     if (self.toggleAnimationIsRunning == NO) {
         self.toggleAnimationIsRunning = YES;
 
         [NSApp activateIgnoringOtherApps:YES];
 
         /// inform the delegate
-        [self screen:[self screenOfCurrentToggleDisplay] willToggleOnEdge:self.toggleEdge];
+        [self screen:[self screenOfCurrentToggleDisplay] willOpenOnEdge:self.toggleEdge];
 
-        switch (self.toggleState) {
-            case CNToggleStateClosed: [self changeViewStateToOpen]; break;
-            case CNToggleStateOpened: [self changeViewStateToClose]; break;
-        }
+        [self changeViewStateToOpenUsingCompletionHandler:^{
+            /// inform the delegate
+            [self screen:[self screenOfCurrentToggleDisplay] didOpenOnEdge:self.toggleEdge];
+            self.toggleAnimationIsRunning = NO;
+        }];
     }
 }
 
-- (CNToggleState)currentToggleState
+- (void)changeViewStateToClose
+{
+    if (self.toggleAnimationIsRunning == NO) {
+        self.toggleAnimationIsRunning = YES;
+
+        /// inform the delegate
+        [self screen:[self screenOfCurrentToggleDisplay] willCloseOnEdge:self.toggleEdge];
+
+        [self changeViewStateToCloseUsingCompletionHandler:^{
+            /// inform the delegate
+            [self screen:[self screenOfCurrentToggleDisplay] didCloseOnEdge:self.toggleEdge];
+            self.toggleAnimationIsRunning = NO;
+        }];
+    }
+}
+
+- (CNToggleState)currentViewState
 {
     return self.toggleState;
 }
@@ -172,6 +197,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 {
     _applicationViewController = applicationViewController;
     self.applicationView = [_applicationViewController view];
+    self.delegate = _applicationViewController;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(willResignActive:)
@@ -203,7 +229,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Helper
 
-- (void)changeViewStateToOpen
+- (void)changeViewStateToOpenUsingCompletionHandler:(void(^)(void))completionHandler
 {
     [self initializeApplicationWindow];
     [self buildLayerHierarchy];
@@ -277,12 +303,11 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         self.toggleState = CNToggleStateOpened;
         self.toggleAnimationIsRunning = NO;
 
-        /// inform the delegate
-        [self screen:[self screenOfCurrentToggleDisplay] didToggleOnEdge:self.toggleEdge];
+        completionHandler();
     }];
 }
 
-- (void)changeViewStateToClose
+- (void)changeViewStateToCloseUsingCompletionHandler:(void(^)(void))completionHandler
 {
     __block NSRect applicationFrame = [self.applicationView frame];
     __block NSRect screenSnapshotFirstFrame = [self.viewOfFirstPartialDisplaySnapshot frame];
@@ -347,8 +372,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         self.toggleAnimationIsRunning = NO;
         self.toggleState = CNToggleStateClosed;
 
-        /// inform the delegate
-        [self screen:[self screenOfCurrentToggleDisplay] didToggleOnEdge:self.toggleEdge];
+        completionHandler();
     }];
 }
 
@@ -564,7 +588,6 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
             resultRect.origin.y = floor((NSHeight(windowFrame) - NSHeight(resultRect)) / 2);
             break;
     }
-    CNLogForRect(resultRect);
     return resultRect;
 }
 
@@ -705,7 +728,6 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 
 
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSResponder
 
@@ -731,33 +753,47 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 }
 
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Notifications
 
 - (void)willResignActive:(NSNotification *)notification
 {
-    if (self.currentToggleState == CNToggleStateOpened) {
+    if ([self currentViewState] == CNToggleStateOpened) {
         [self changeViewStateToClose];
     }
 }
 
 
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate Callbacks
 
-- (void)screen:(NSScreen *)toggleScreen willToggleOnEdge:(CNToggleEdge)toggleEdge
+- (void)screen:(NSScreen *)toggleScreen willOpenOnEdge:(CNToggleEdge)toggleEdge;
 {
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate screen:[self screenOfCurrentToggleDisplay] willToggleOnEdge:self.toggleEdge];
+        [self.delegate screen:[self screenOfCurrentToggleDisplay] willOpenOnEdge:self.toggleEdge];
     }
 }
 
-- (void)screen:(NSScreen *)toggleScreen didToggleOnEdge:(CNToggleEdge)toggleEdge
+- (void)screen:(NSScreen *)toggleScreen didOpenOnEdge:(CNToggleEdge)toggleEdge;
 {
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate screen:[self screenOfCurrentToggleDisplay] didToggleOnEdge:self.toggleEdge];
+        [self.delegate screen:[self screenOfCurrentToggleDisplay] didOpenOnEdge:self.toggleEdge];
+    }
+}
+
+- (void)screen:(NSScreen *)toggleScreen willCloseOnEdge:(CNToggleEdge)toggleEdge;
+{
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate screen:[self screenOfCurrentToggleDisplay] willCloseOnEdge:self.toggleEdge];
+    }
+}
+
+- (void)screen:(NSScreen *)toggleScreen didCloseOnEdge:(CNToggleEdge)toggleEdge;
+{
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate screen:[self screenOfCurrentToggleDisplay] didCloseOnEdge:self.toggleEdge];
     }
 }
 

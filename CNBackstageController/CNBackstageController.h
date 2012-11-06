@@ -102,7 +102,8 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
  @param toggleScreen    The screen that will toggle the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view will appear.
  */
-- (void)screen:(NSScreen *)toggleScreen willToggleOnEdge:(CNToggleEdge)toggleEdge;
+- (void)screen:(NSScreen *)toggleScreen willOpenOnEdge:(CNToggleEdge)toggleEdge;
+- (void)screen:(NSScreen *)toggleScreen didOpenOnEdge:(CNToggleEdge)toggleEdge;
 
 /**
  Informs the delegate that the screen `toggleScreen` did toggle on edge `toggleEdge`.
@@ -110,7 +111,8 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
  @param toggleScreen    The screen that did toggle the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view did appear.
  */
-- (void)screen:(NSScreen *)toggleScreen didToggleOnEdge:(CNToggleEdge)toggleEdge;
+- (void)screen:(NSScreen *)toggleScreen willCloseOnEdge:(CNToggleEdge)toggleEdge;
+- (void)screen:(NSScreen *)toggleScreen didCloseOnEdge:(CNToggleEdge)toggleEdge;
 @end
 
 
@@ -124,8 +126,11 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 
 
 /**
- The use of `CNBackstageController` is quite simple and straight forward. If you would like to create a new aplication project
- that uses `CNBackstageController` just follow these steps:
+ The use of `CNBackstageController` is quite simple and straight forward. Normally with `CNBackstageController` you create a
+ so called agent app. They do not appear in the Dock or the Force Quit window. To create an agent app a special property in your
+ Info.plist must be set. Its name is `LSUIElement` and its value must be `YES`.
+ 
+ And now just follow these steps:
 
  1. Open Xcode and create a new *Cocoa Application* project.<br />
  2. Click on the *MainMenu.xib* file in your Project Browser, locate the Object Browser and delete all included items,
@@ -140,8 +145,8 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
  4. In your AppDelegate define two properties. One will be our backstage controller, the other one will be our `NSViewController`
     from step 3.
 
-        @property (strong) CNBackstageController *backstageController;      // our backstage controller
-        @property (strong) CNApplicationViewController *appController;      // our application view controller
+        @property (strong) CNBackstageController *backstageController;      // your backstage controller
+        @property (strong) CNApplicationViewController *appController;      // your application view controller
 
  5. Now you create instances for these two properties:
 
@@ -166,7 +171,20 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 
 /** @name Backstage Controller Creation */
 
+/**
+ Returns the singleton instance of `CNBackstageController`.
+ 
+ The singleton instance of `CNBackstageController`.
+ */
 + (id)sharedInstance;
+
+/**
+ An instance of `NSViewController` that contains your application view.
+ 
+ The applicationViewController can be any derivate of `NSWindowController`. `CNBackstageController` will handle its view as your application view.
+ When you set this property `CNBackstageController` will automatically set its delegate to the applicationViewController. Later you can overwrite the delegate dependent on your needs.
+ */
+@property (strong, nonatomic) NSViewController <CNBackstageDelegate> *applicationViewController;
 
 /**
  Property for getting and setting the receivers delegate.
@@ -175,11 +193,10 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
  */
 @property (strong) id<CNBackstageDelegate>delegate;
 
-@property (strong, nonatomic) NSViewController <CNBackstageDelegate> *applicationViewController;
 
 
-
-/** @name Properties */
+#pragma mark Animation & Effects
+/** @name Animation & Effects */
 
 /**
  The edge where the view of `applicationWindow` should appear.
@@ -196,23 +213,23 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
     };
     typedef NSUInteger CNToggleEdge;
 
- `CNToggleEdgeTop`<br>
- The applicationView will appear from the top side of the screen that was selected by the property `toggleDisplay`.<br>
+ `CNToggleEdgeTop`<br />
+ The applicationView will appear from the top side of the screen that was selected by the property `toggleDisplay`.<br />
  This is the default value.
  
- `CNToggleEdgeBottom`<br>
+ `CNToggleEdgeBottom`<br />
  The applicationView will appear from the bottom side of the screen that was selected by the property `toggleDisplay`.
  
- `CNToggleEdgeLeft`<br>
+ `CNToggleEdgeLeft`<br />
  The applicationView will appear from the left side of the screen that was selected by the property `toggleDisplay`.
  
- `CNToggleEdgeRight`<br>
+ `CNToggleEdgeRight`<br />
  The applicationView will appear from the right side of the screen that was selected by the property `toggleDisplay`.
  
- `CNToggleEdgeSplitHorizontal`<br>
+ `CNToggleEdgeSplitHorizontal`<br />
  The aplicationView will appear in the horizontal middle of the screen. The overlaid screen content will be splitted into a left and a right half that slides apart.
 
- `CNToggleEdgeSplitVertical`<br>
+ `CNToggleEdgeSplitVertical`<br />
  The aplicationView will appear in the vertical middle of the screen. The overlaid screen content will be splitted into a top and a bottom half that slides apart.
  */
 @property (assign, nonatomic) CNToggleEdge toggleEdge;
@@ -220,7 +237,7 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 /**
  Defines the inset the applicationViewController's view should toggle.
  
- This property knows two pre defined constants:
+ There are five pre defined constants. The meaning its values are related the selected toggleEdge.
  
     enum {
         CNToggleSizeHalfScreen = 0,
@@ -231,25 +248,30 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
     };
     typedef NSInteger CNToggleSize;
 
- `CNToggleSizeHalfScreen`<br>
- The applicationView will move in by the half screen width or height (depending on the value given in `toggleEdge`).<br>
+ `CNToggleSizeHalfScreen`<br />
+ The applicationView will move in by the half screen width or height (depending on the value given in `toggleEdge`).<br />
  This is the default value.
  
- `CNToggleSizeQuarterScreen`<br>
+ `CNToggleSizeQuarterScreen`<br />
  The applicationView will move in by the quarter screen width or height (depending on the value given in `toggleEdge`).
  
- `CNToggleSizeThreeQuarterScreen`<br>
+ `CNToggleSizeThreeQuarterScreen`<br />
  The applicationView will move in by three quarter of a screen (height or width, depending on the value given in `toggleEdge`).
  
- `CNToggleSizeOneThirdScreen`<br>
+ `CNToggleSizeOneThirdScreen`<br />
  The applicationView will move in by one third of a screen (height or width, depending on the value given in `toggleEdge`).
  
- `CNToggleSizeTwoThirdsScreen`<br>
+ `CNToggleSizeTwoThirdsScreen`<br />
  The applicationView will move in by two thirds of a screen (height or width, depending on the value given in `toggleEdge`).
  
- Additionally you can specify a 'free form' size in pixels.
+ Additionally you can specify a 'free form' size in pixels. If `toggleSize` has a negative value `CNBackstageController` will multiply it with -1 to make it positive.
+ Dependent on the selected toggleEdge `CNBackstageController` validates the given toggleSize as follows:
  
- __Example__
+ * If you would like to toggle on the top or bottom screen edge `CNBackstageController` validates the given toggleSize against the screen height.
+ If the given toggleSize is greater than the screen height `CNBackstageController` will automatically fallback to `CNToggleSizeQuarterScreen`.
+ * If you would like to toggle on the left or right screen edge `CNBackstageController` validates the given toggleSize against the screen width.
+ 
+ ####Example
  
     // this will move in the applicationView by half of the height of toggleDisplay from top to down
     CNBackstageController *myController = [CNBackstageController sharedInstance];
@@ -264,22 +286,22 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 @property (nonatomic, assign) CNToggleSize toggleSize;
 
 /**
- Specifies the display where `applicationView` will be shown.
+ Specifies the display to show the `applicationView` on.
  
  There are just four displays supported. You can specify it with one of these constants:
  
     enum {
-        CNToggleDisplayMain     = 0,
-        CNToggleDisplaySecond   = 1,
-        CNToggleDisplayThird    = 2,
-        CNToggleDisplayFourth   = 3
+        CNToggleDisplayMain = 0,            // Main Display means where the system statusbar is placed
+        CNToggleDisplaySecond,
+        CNToggleDisplayThird,
+        CNToggleDisplayFourth
     };
     typedef NSUInteger CNToggleDisplay;
 
- `CNToggleDisplayMain`<br>
+ `CNToggleDisplayMain`<br />
  The default value. Main display means that display where the system statusbar is placed.
  
- @note These are just constants for four displays. You may of course own more than four devices, and `CNBackstageController` will provide them all!
+ @note These are just constants for four displays. You may of course own more than four displays, and `CNBackstageController` will provide them all!
  */
 @property (assign) CNToggleDisplay toggleDisplay;
 
@@ -295,18 +317,20 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
         CNToggleVisualEffectGaussianBlur    = 1 << 1
     } CNToggleVisualEffect;
 
- `CNToggleVisualEffectNone`<br>
+ `CNToggleVisualEffectNone`<br />
  There is no visual effect over Finder snapshot area.
 
- `CNToggleAnimationEffectOverlayBlack`<br>
+ `CNToggleAnimationEffectOverlayBlack`<br />
  A black transparent overlay is shown over the Finder snapshot area. Its alpha value can be manipulated using the
  property overlayAlpha.
 
- `CNToggleVisualEffectGaussianBlur`<br>
+ `CNToggleVisualEffectGaussianBlur`<br />
  Spreads pixels of the screen snapshot by a Gaussian distribution.
 
- The default value is `CNToggleVisualEffectOverlayBlack`.
- 
+ **Default Value**<br />
+ `CNToggleVisualEffectOverlayBlack`<br />
+
+ @warning Using the `CNToggleAnimationEffectGaussianBlur` will decrease the animation performance!
  @see overlayAlpha.
 */
 @property (assign) CNToggleAnimationEffect toggleVisualEffect;
@@ -323,18 +347,16 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
         CNToggleAnimationEffectSlide
     } CNToggleAnimationEffect;
 
- `CNToggleAnimationEffectStatic`<br>
+ `CNToggleAnimationEffectStatic`<br />
  While the controller is toggling, the content of the application view keep staying on its place.
 
- `CNToggleAnimationEffectApplicationContentFade`<br>
+ `CNToggleAnimationEffectApplicationContentFade`<br />
  While the controller is toggling, the content of the application view will be fade in.
 
- `CNToggleAnimationEffectApplicationContentSlide`<br>
+ `CNToggleAnimationEffectApplicationContentSlide`<br />
  While the controller is toggling, the content of the application view will be slide in.
 
  The default value is `CNToggleAnimationEffectStatic`.
- 
- @warning Using the `CNToggleAnimationEffectGaussianBlur` will decrease the animation performance!
  */
 @property (assign) CNToggleAnimationEffect toggleAnimationEffect;
 
@@ -344,23 +366,42 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 @property (strong, nonatomic) NSColor *backstageViewBackgroundColor;
 
 /**
- ...
+ Property that gets and/or sets the opacity value of the screen snapshot overlays.
  */
 @property (assign) CGFloat overlayAlpha;
 
 
-#pragma mark - Public API
-/** @name Public API */
+#pragma mark - API
+/** @name API */
 
 /**
- toggleViewState
+ Changes the current view state of applicationView, dependent on the currentViewState.
+ 
+ If the currentViewState has the value `CNToggleStateClosed`, then `CNBackstageController` will open the applicationView.
+ Otherwise it will be closed.
  */
 - (void)toggleViewState;
 
 /**
- ...
+ Shows `CNBackstageController`s applicationView.
+ 
+ Changes the currentViewState to `CNToggleStateOpened`.
  */
-- (CNToggleState)currentToggleState;
+- (void)changeViewStateToOpen;
+
+/**
+ Hides `CNBackstageController`s applicationView.
+
+ Changes the currentViewState to `CNToggleStateClosed`.
+ */
+- (void)changeViewStateToClose;
+
+/**
+ Returns the current view state of applicationView.
+ 
+ @return If the applicationView is visible the return value will be `CNToggleStateOpened`, otherwise `CNToggleStateClosed`.
+ */
+- (CNToggleState)currentViewState;
 
 @end
 
