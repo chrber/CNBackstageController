@@ -44,6 +44,22 @@
 		AAB960FE16430A6200F952BC /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB960FD16430A6200F952BC /* ApplicationDelegate.m */; };
 		AAB9610D16430A9100F952BC /* CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9610A16430A9100F952BC /* CNBackstageController.m */; };
 		AAB9610E16430A9100F952BC /* NSScreen+CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */; };
+		FD7A7BC1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg */; };
+		FD7A7BC2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg */; };
+		FD7A7BC3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg */; };
+		FD7A7BC4164A71A9006FDA62 /* TexturedBackground-Noise-04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB4164A71A9006FDA62 /* TexturedBackground-Noise-04.jpg */; };
+		FD7A7BC5164A71A9006FDA62 /* TexturedBackground-Noise-05.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB5164A71A9006FDA62 /* TexturedBackground-Noise-05.jpg */; };
+		FD7A7BC6164A71A9006FDA62 /* TexturedBackground-Noise-06.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB6164A71A9006FDA62 /* TexturedBackground-Noise-06.jpg */; };
+		FD7A7BC7164A71A9006FDA62 /* TexturedBackground-Noise-07.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB7164A71A9006FDA62 /* TexturedBackground-Noise-07.jpg */; };
+		FD7A7BC8164A71A9006FDA62 /* TexturedBackground-Noise-08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB8164A71A9006FDA62 /* TexturedBackground-Noise-08.jpg */; };
+		FD7A7BC9164A71A9006FDA62 /* TexturedBackground-Noise-09.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB9164A71A9006FDA62 /* TexturedBackground-Noise-09.jpg */; };
+		FD7A7BCA164A71A9006FDA62 /* TexturedBackground-Noise-10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BBA164A71A9006FDA62 /* TexturedBackground-Noise-10.jpg */; };
+		FD7A7BCB164A71A9006FDA62 /* TexturedBackground-Noise-11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BBB164A71A9006FDA62 /* TexturedBackground-Noise-11.jpg */; };
+		FD7A7BCC164A71A9006FDA62 /* TexturedBackground-Noise-12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BBC164A71A9006FDA62 /* TexturedBackground-Noise-12.jpg */; };
+		FD7A7BCD164A71A9006FDA62 /* TexturedBackground-Noise-13.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BBD164A71A9006FDA62 /* TexturedBackground-Noise-13.jpg */; };
+		FD7A7BCE164A71A9006FDA62 /* TexturedBackground-Noise-14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BBE164A71A9006FDA62 /* TexturedBackground-Noise-14.jpg */; };
+		FD7A7BCF164A71A9006FDA62 /* TexturedBackground-Noise-15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BBF164A71A9006FDA62 /* TexturedBackground-Noise-15.jpg */; };
+		FD7A7BD0164A71A9006FDA62 /* TexturedBackground-Noise-16.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BC0164A71A9006FDA62 /* TexturedBackground-Noise-16.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +98,22 @@
 		AAB9610A16430A9100F952BC /* CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBackstageController.m; sourceTree = "<group>"; };
 		AAB9610B16430A9100F952BC /* NSScreen+CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScreen+CNBackstageController.h"; sourceTree = "<group>"; };
 		AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScreen+CNBackstageController.m"; sourceTree = "<group>"; };
+		FD7A7BB1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-01.jpg"; sourceTree = "<group>"; };
+		FD7A7BB2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-02.jpg"; sourceTree = "<group>"; };
+		FD7A7BB3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-03.jpg"; sourceTree = "<group>"; };
+		FD7A7BB4164A71A9006FDA62 /* TexturedBackground-Noise-04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-04.jpg"; sourceTree = "<group>"; };
+		FD7A7BB5164A71A9006FDA62 /* TexturedBackground-Noise-05.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-05.jpg"; sourceTree = "<group>"; };
+		FD7A7BB6164A71A9006FDA62 /* TexturedBackground-Noise-06.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-06.jpg"; sourceTree = "<group>"; };
+		FD7A7BB7164A71A9006FDA62 /* TexturedBackground-Noise-07.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-07.jpg"; sourceTree = "<group>"; };
+		FD7A7BB8164A71A9006FDA62 /* TexturedBackground-Noise-08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-08.jpg"; sourceTree = "<group>"; };
+		FD7A7BB9164A71A9006FDA62 /* TexturedBackground-Noise-09.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-09.jpg"; sourceTree = "<group>"; };
+		FD7A7BBA164A71A9006FDA62 /* TexturedBackground-Noise-10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-10.jpg"; sourceTree = "<group>"; };
+		FD7A7BBB164A71A9006FDA62 /* TexturedBackground-Noise-11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-11.jpg"; sourceTree = "<group>"; };
+		FD7A7BBC164A71A9006FDA62 /* TexturedBackground-Noise-12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-12.jpg"; sourceTree = "<group>"; };
+		FD7A7BBD164A71A9006FDA62 /* TexturedBackground-Noise-13.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-13.jpg"; sourceTree = "<group>"; };
+		FD7A7BBE164A71A9006FDA62 /* TexturedBackground-Noise-14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-14.jpg"; sourceTree = "<group>"; };
+		FD7A7BBF164A71A9006FDA62 /* TexturedBackground-Noise-15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-15.jpg"; sourceTree = "<group>"; };
+		FD7A7BC0164A71A9006FDA62 /* TexturedBackground-Noise-16.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-16.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +139,22 @@
 				AA3457091643222F00E4CCE6 /* TexturedBackground-Linen-Dark.png */,
 				AA34570A1643222F00E4CCE6 /* TexturedBackground-Linen-Light.png */,
 				AA34570B1643222F00E4CCE6 /* TexturedBackground-Linen-Middle.png */,
+				FD7A7BB1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg */,
+				FD7A7BB2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg */,
+				FD7A7BB3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg */,
+				FD7A7BB4164A71A9006FDA62 /* TexturedBackground-Noise-04.jpg */,
+				FD7A7BB5164A71A9006FDA62 /* TexturedBackground-Noise-05.jpg */,
+				FD7A7BB6164A71A9006FDA62 /* TexturedBackground-Noise-06.jpg */,
+				FD7A7BB7164A71A9006FDA62 /* TexturedBackground-Noise-07.jpg */,
+				FD7A7BB8164A71A9006FDA62 /* TexturedBackground-Noise-08.jpg */,
+				FD7A7BB9164A71A9006FDA62 /* TexturedBackground-Noise-09.jpg */,
+				FD7A7BBA164A71A9006FDA62 /* TexturedBackground-Noise-10.jpg */,
+				FD7A7BBB164A71A9006FDA62 /* TexturedBackground-Noise-11.jpg */,
+				FD7A7BBC164A71A9006FDA62 /* TexturedBackground-Noise-12.jpg */,
+				FD7A7BBD164A71A9006FDA62 /* TexturedBackground-Noise-13.jpg */,
+				FD7A7BBE164A71A9006FDA62 /* TexturedBackground-Noise-14.jpg */,
+				FD7A7BBF164A71A9006FDA62 /* TexturedBackground-Noise-15.jpg */,
+				FD7A7BC0164A71A9006FDA62 /* TexturedBackground-Noise-16.jpg */,
 				AA34570C1643222F00E4CCE6 /* TexturedBackground-Paper.jpg */,
 			);
 			path = Images;
@@ -287,6 +335,22 @@
 				AA6FA3C71643ED2B00A90505 /* MainMenu.xib in Resources */,
 				AAAF85E51644034600D9744F /* Preferences.xib in Resources */,
 				AAAF85EC16440ECA00D9744F /* Defaults.plist in Resources */,
+				FD7A7BC1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg in Resources */,
+				FD7A7BC2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg in Resources */,
+				FD7A7BC3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg in Resources */,
+				FD7A7BC4164A71A9006FDA62 /* TexturedBackground-Noise-04.jpg in Resources */,
+				FD7A7BC5164A71A9006FDA62 /* TexturedBackground-Noise-05.jpg in Resources */,
+				FD7A7BC6164A71A9006FDA62 /* TexturedBackground-Noise-06.jpg in Resources */,
+				FD7A7BC7164A71A9006FDA62 /* TexturedBackground-Noise-07.jpg in Resources */,
+				FD7A7BC8164A71A9006FDA62 /* TexturedBackground-Noise-08.jpg in Resources */,
+				FD7A7BC9164A71A9006FDA62 /* TexturedBackground-Noise-09.jpg in Resources */,
+				FD7A7BCA164A71A9006FDA62 /* TexturedBackground-Noise-10.jpg in Resources */,
+				FD7A7BCB164A71A9006FDA62 /* TexturedBackground-Noise-11.jpg in Resources */,
+				FD7A7BCC164A71A9006FDA62 /* TexturedBackground-Noise-12.jpg in Resources */,
+				FD7A7BCD164A71A9006FDA62 /* TexturedBackground-Noise-13.jpg in Resources */,
+				FD7A7BCE164A71A9006FDA62 /* TexturedBackground-Noise-14.jpg in Resources */,
+				FD7A7BCF164A71A9006FDA62 /* TexturedBackground-Noise-15.jpg in Resources */,
+				FD7A7BD0164A71A9006FDA62 /* TexturedBackground-Noise-16.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
