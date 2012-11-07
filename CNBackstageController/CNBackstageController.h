@@ -86,6 +86,18 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark Notifications
+
+static NSString *CNBackstageControllerWillOpenNotification = @"CNBackstageControllerWillOpen";
+static NSString *CNBackstageControllerDidOpenNotification = @"CNBackstageControllerDidOpen";
+static NSString *CNBackstageControllerWillCloseNotification = @"CNBackstageControllerWillClose";
+static NSString *CNBackstageControllerDidCloseNotification = @"CNBackstageControllerDidClose";
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate
 
 /**
@@ -97,21 +109,35 @@ static NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 @optional
 
 /**
- Informs the delegate that the screen `toggleScreen` will toggle on edge `toggleEdge`.
+ Informs the delegate that the screen `toggleScreen` will open on edge `toggleEdge`.
+ 
+ This delegate also post a `CNBackstageControllerWillOpenNotification` notification to the `NSNotificationCenter`. It sends the toggleScreen parameter
+ as an item of the userInfo dictionary with the key `toggleScreen`.
 
  @param toggleScreen    The screen that will toggle the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view will appear.
  */
 - (void)screen:(NSScreen *)toggleScreen willOpenOnEdge:(CNToggleEdge)toggleEdge;
+
+/**
+ ...
+ */
 - (void)screen:(NSScreen *)toggleScreen didOpenOnEdge:(CNToggleEdge)toggleEdge;
 
 /**
- Informs the delegate that the screen `toggleScreen` did toggle on edge `toggleEdge`.
+ Informs the delegate that the screen `toggleScreen` will close on edge `toggleEdge`.
 
- @param toggleScreen    The screen that did toggle the CNBackstageController's view.
+ This delegate also post a `CNBackstageControllerWillCloseNotification` notification to the `NSNotificationCenter`. It sends the toggleScreen parameter
+ as an item of the userInfo dictionary with the key `toggleScreen`.
+
+ @param toggleScreen    The screen that will close the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view did appear.
  */
 - (void)screen:(NSScreen *)toggleScreen willCloseOnEdge:(CNToggleEdge)toggleEdge;
+
+/**
+ ...
+ */
 - (void)screen:(NSScreen *)toggleScreen didCloseOnEdge:(CNToggleEdge)toggleEdge;
 @end
 

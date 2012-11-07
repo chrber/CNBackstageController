@@ -44,6 +44,10 @@
 	
 	<option value="instance_methods">Instance Methods</option>
 	
+	<option value="//api/name/screen:didCloseOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:didCloseOnEdge:</option>
+	
+	<option value="//api/name/screen:didOpenOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:didOpenOnEdge:</option>
+	
 	<option value="//api/name/screen:willCloseOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:willCloseOnEdge:</option>
 	
 	<option value="//api/name/screen:willOpenOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:willOpenOnEdge:</option>
@@ -75,6 +79,10 @@
 
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/screen:didCloseOnEdge:">screen:didCloseOnEdge:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/screen:didOpenOnEdge:">screen:didOpenOnEdge:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/screen:willCloseOnEdge:">screen:willCloseOnEdge:</a></span></li>
 	
@@ -137,14 +145,28 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/screen:willOpenOnEdge:">&ndash;&nbsp;screen:willOpenOnEdge:</a></code>
-		<span class="tooltip"><p>Informs the delegate that the screen <code>toggleScreen</code> will toggle on edge <code>toggleEdge</code>.</p></span>
+		<span class="tooltip"><p>Informs the delegate that the screen <code>toggleScreen</code> will open on edge <code>toggleEdge</code>.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/screen:didOpenOnEdge:">&ndash;&nbsp;screen:didOpenOnEdge:</a></code>
+		
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/screen:willCloseOnEdge:">&ndash;&nbsp;screen:willCloseOnEdge:</a></code>
-		<span class="tooltip"><p>Informs the delegate that the screen <code>toggleScreen</code> did toggle on edge <code>toggleEdge</code>.</p></span>
+		<span class="tooltip"><p>Informs the delegate that the screen <code>toggleScreen</code> will close on edge <code>toggleEdge</code>.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/screen:didCloseOnEdge:">&ndash;&nbsp;screen:didCloseOnEdge:</a></code>
+		
 	</span>
 	
 	
@@ -166,35 +188,16 @@
 						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
 						
 						<div class="section-method">
-	<a name="//api/name/screen:willCloseOnEdge:" title="screen:willCloseOnEdge:"></a>
-	<h3 class="subsubtitle method-title">screen:willCloseOnEdge:</h3>
+	<a name="//api/name/screen:didCloseOnEdge:" title="screen:didCloseOnEdge:"></a>
+	<h3 class="subsubtitle method-title">screen:didCloseOnEdge:</h3>
 	
 	
-	
-	<div class="method-subsection brief-description">
-		<p>Informs the delegate that the screen <code>toggleScreen</code> did toggle on edge <code>toggleEdge</code>.</p>
-	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> willCloseOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> didCloseOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
 
     
-	
-	<div class="method-subsection arguments-section parameters">
-		<h4 class="method-subtitle parameter-title">Parameters</h4>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>toggleScreen</em></dt>
-			<dd><p>The screen that did toggle the CNBackstageController&rsquo;s view.</p></dd>
-		</dl>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>toggleEdge</em></dt>
-			<dd><p>The edge the CNBackstageController&rsquo;s view did appear.</p></dd>
-		</dl>
-		
-	</div>
 	
 	
 	
@@ -217,13 +220,102 @@
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/screen:didOpenOnEdge:" title="screen:didOpenOnEdge:"></a>
+	<h3 class="subsubtitle method-title">screen:didOpenOnEdge:</h3>
+	
+	
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> didOpenOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/screen:willCloseOnEdge:" title="screen:willCloseOnEdge:"></a>
+	<h3 class="subsubtitle method-title">screen:willCloseOnEdge:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Informs the delegate that the screen <code>toggleScreen</code> will close on edge <code>toggleEdge</code>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> willCloseOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>toggleScreen</em></dt>
+			<dd><p>The screen that will close the CNBackstageController&rsquo;s view.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>toggleEdge</em></dt>
+			<dd><p>The edge the CNBackstageController&rsquo;s view did appear.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This delegate also post a <code>CNBackstageControllerWillCloseNotification</code> notification to the <code>NSNotificationCenter</code>. It sends the toggleScreen parameter
+as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/screen:willOpenOnEdge:" title="screen:willOpenOnEdge:"></a>
 	<h3 class="subsubtitle method-title">screen:willOpenOnEdge:</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Informs the delegate that the screen <code>toggleScreen</code> will toggle on edge <code>toggleEdge</code>.</p>
+		<p>Informs the delegate that the screen <code>toggleScreen</code> will open on edge <code>toggleEdge</code>.</p>
 	</div>		
 	
     
@@ -252,6 +344,12 @@
 	
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This delegate also post a <code>CNBackstageControllerWillOpenNotification</code> notification to the <code>NSNotificationCenter</code>. It sends the toggleScreen parameter
+as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p>
+	</div>
 	
 	
 	
