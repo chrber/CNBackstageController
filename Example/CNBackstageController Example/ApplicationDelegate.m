@@ -25,12 +25,33 @@
     self.defaults = [NSUserDefaults standardUserDefaults];
     [self.defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"]]];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(defaultsChanged:)
-                                                 name:kDefaultsChangedNotificationKey
-                                               object:nil];
-    
-    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self
+           selector:@selector(defaultsChanged:)
+               name:kDefaultsChangedNotificationKey
+             object:nil];
+
+    [nc addObserver:self
+           selector:@selector(backstageControllerNotification:)
+               name:CNBackstageControllerWillOpenScreenNotification
+             object:nil];
+
+    [nc addObserver:self
+           selector:@selector(backstageControllerNotification:)
+               name:CNBackstageControllerDidOpenScreenNotification
+             object:nil];
+
+    [nc addObserver:self
+           selector:@selector(backstageControllerNotification:)
+               name:CNBackstageControllerWillCloseScreenNotification
+             object:nil];
+
+    [nc addObserver:self
+           selector:@selector(backstageControllerNotification:)
+               name:CNBackstageControllerDidCloseScreenNotification
+             object:nil];
+
+
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     self.statusItem.image = [NSImage imageNamed:@"CNStatusbarIcon-Normal"];
     self.statusItem.alternateImage = [NSImage imageNamed:@"CNStatusbarIcon-Highlight"];
@@ -69,12 +90,17 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSNotifications
 
-- (void)defaultsChanged:(NSNotification *)notif
+- (void)defaultsChanged:(NSNotification *)notification
 {
     if ([self.backstageController currentViewState] == CNToggleStateOpened) {
         [self.backstageController changeViewStateToClose];
     }
     [self configureBackstageController];
+}
+
+- (void)backstageControllerNotification:(NSNotification *)notification
+{
+    CNLog(@"backstageControllerNotification: %@", notification);
 }
 
 @end

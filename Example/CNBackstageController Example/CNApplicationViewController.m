@@ -37,24 +37,24 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate
 
-- (void)screen:(NSScreen *)toggleScreen willOpenOnEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController willOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen:willOpenOnEdge:");
+    CNLog(@"backstageController: %@ willOpenScreen: %@ onToggleEdge: %i", backstageController, toggleScreen, toggleEdge);
 }
 
-- (void)screen:(NSScreen *)toggleScreen didOpenOnEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController didOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen:didOpenOnEdge:");
+    CNLog(@"backstageController: %@ didOpenScreen: %@ onToggleEdge: %i", backstageController, toggleScreen, toggleEdge);
 }
 
-- (void)screen:(NSScreen *)toggleScreen willCloseOnEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController willCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen:willCloseOnEdgee:");
+    CNLog(@"backstageController: %@ willCloseScreen: %@ onToggleEdge: %i", backstageController, toggleScreen, toggleEdge);
 }
 
-- (void)screen:(NSScreen *)toggleScreen didCloseOnEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController didCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    CNLog(@"screen:didCloseOnEdge:");
+    CNLog(@"backstageController: %@ didCloseScreen: %@ onToggleEdge: %i", backstageController, toggleScreen, toggleEdge);
 }
 
 @end

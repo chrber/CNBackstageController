@@ -47,12 +47,33 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
     return frameDeltas;
 }
 
+/// NSUserDefaults keys to save the enum values
+NSString *CNToggleEdgePreferencesKey = @"CNToggleEdge";
+NSString *CNToggleSizePreferencesKey = @"CNToggleSize";
+NSString *CNToggleDisplayPreferencesKey = @"CNToggleDisplay";
+NSString *CNToggleVisualEffectPreferencesKey = @"CNToggleVisualEffect";
+NSString *CNToggleAnimationEffectPreferencesKey = @"CNToggleAnimationEffect";
+NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
+
+/// Notifications
+NSString *CNBackstageControllerWillOpenScreenNotification = @"CNBackstageControllerWillOpenScreen";
+NSString *CNBackstageControllerDidOpenScreenNotification = @"CNBackstageControllerDidOpenScreen";
+NSString *CNBackstageControllerWillCloseScreenNotification = @"CNBackstageControllerWillCloseScreen";
+NSString *CNBackstageControllerDidCloseScreenNotification = @"CNBackstageControllerDidCloseScreen";
+
+/// Keys that are used for the userInfo dictionary in the notifications from above
+NSString *CNToggleScreenUserInfoKey = @"toggleScreen";
+NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark CNBackstageController Extension
 
-@interface CNBackstageController()
+@interface CNBackstageController() {
+    NSApplicationPresentationOptions presentationOptionsBackup;
+}
 @property (strong) NSView *applicationView;
 
 @property (strong) CNBackstageShadowView *shadowView;
@@ -82,8 +103,8 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 - (void)resignApplicationWindow;
 - (int)thicknessOfSystemStatusBarForCurrentToggleDisplay;
 - (float)valueForToggleSize:(NSInteger)aToggleSize frameSize:(CGFloat)aSize;
-- (void)showDock;
-- (void)hideDock;
+- (void)restorePresentationOptions;
+- (void)setupPresentationOptions;
 - (CGImageRef)snapshotOfDisplayWithID:(CGDirectDisplayID)displayID;
 - (CGDirectDisplayID)displayIDForCurrentToggleDisplay:(CNToggleDisplay)aToggleDisplay;
 - (NSScreen*)screenForDisplayWithID:(CGDirectDisplayID)displayID;
@@ -160,11 +181,11 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         [NSApp activateIgnoringOtherApps:YES];
 
         /// inform the delegate
-        [self screen:[self screenOfCurrentToggleDisplay] willOpenOnEdge:self.toggleEdge];
+        [self backstageController:self willOpenScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
 
         [self changeViewStateToOpenUsingCompletionHandler:^{
             /// inform the delegate
-            [self screen:[self screenOfCurrentToggleDisplay] didOpenOnEdge:self.toggleEdge];
+            [self backstageController:self didOpenScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
             self.toggleAnimationIsRunning = NO;
         }];
     }
@@ -176,11 +197,11 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         self.toggleAnimationIsRunning = YES;
 
         /// inform the delegate
-        [self screen:[self screenOfCurrentToggleDisplay] willCloseOnEdge:self.toggleEdge];
+        [self backstageController:self willCloseScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
 
         [self changeViewStateToCloseUsingCompletionHandler:^{
             /// inform the delegate
-            [self screen:[self screenOfCurrentToggleDisplay] didCloseOnEdge:self.toggleEdge];
+            [self backstageController:self didCloseScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
             self.toggleAnimationIsRunning = NO;
         }];
     }
@@ -237,7 +258,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
     [self initializeApplicationWindow];
     [self buildLayerHierarchy];
     [self createSnapshotOfCurrentToggleDisplay];
-    [self hideDock];
+    [self setupPresentationOptions];
 
 
     __block NSRect applicationFrame = [self.applicationView frame];
@@ -254,9 +275,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         context.duration = kAnimationDuration;
-        CAMediaTimingFunction *bounce = [CAMediaTimingFunction functionWithControlPoints:0.7 :0.8 :0.75 :0.95];
-        context.timingFunction = bounce;
-        //       context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
         switch (self.toggleAnimationEffect) {
             case CNToggleAnimationEffectStatic:
@@ -371,7 +390,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
     } completionHandler:^{
         [self.overlayOfFirstPartialDisplaySnapshot.layer setFilters:nil];
         [self.overlayOfSecondPartialDisplaySnapshot.layer setFilters:nil];
-        [self showDock];
+        [self restorePresentationOptions];
         [self resignApplicationWindow];
 
         self.toggleAnimationIsRunning = NO;
@@ -615,12 +634,12 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
         }
 
         case CNToggleEdgeSplitHorizontal: {
-            self.viewOfFirstPartialDisplaySnapshot.frame = NSMakeRect(0, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
-            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
+            self.viewOfFirstPartialDisplaySnapshot.frame = NSMakeRect(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
+            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             self.overlayOfFirstPartialDisplaySnapshot.frame = self.viewOfFirstPartialDisplaySnapshot.bounds;
 
-            self.viewOfSecondPartialDisplaySnapshot.frame = NSMakeRect(NSWidth(contentViewBounds)/2 + 1, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSWidth(contentViewBounds)/2 + 1, 0, NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
+            self.viewOfSecondPartialDisplaySnapshot.frame = NSMakeRect(NSWidth(contentViewBounds)/2 + 1, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSWidth(contentViewBounds)/2 + 1, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             self.overlayOfSecondPartialDisplaySnapshot.frame = self.viewOfSecondPartialDisplaySnapshot.bounds;
 
             self.viewOfFirstPartialDisplaySnapshot.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -632,11 +651,11 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 
         case CNToggleEdgeSplitVertical:
             self.viewOfFirstPartialDisplaySnapshot.frame = NSMakeRect(NSMinX(contentViewBounds), NSMaxY(contentViewBounds) - floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds),floor( NSHeight(contentViewBounds)/2));
-            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, 0, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
+            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             self.overlayOfFirstPartialDisplaySnapshot.frame = self.viewOfFirstPartialDisplaySnapshot.bounds;
 
             self.viewOfSecondPartialDisplaySnapshot.frame = NSMakeRect(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(0, floor(NSHeight(contentViewBounds)/2)+1, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), floor(NSHeight(contentViewBounds)/2)+1, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             self.overlayOfSecondPartialDisplaySnapshot.frame = self.viewOfSecondPartialDisplaySnapshot.bounds;
 
             self.viewOfFirstPartialDisplaySnapshot.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -646,8 +665,6 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
             break;
     }
     CGImageRelease(snapshotRef);
-
-    [self showWindow:nil];
 }
 
 - (void)resignApplicationWindow
@@ -686,18 +703,20 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
     return value;
 }
 
-- (void)showDock
+- (void)restorePresentationOptions
 {
     if (self.dockIsHidden) {
-        [[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationDefault];
+        [NSApp setPresentationOptions:presentationOptionsBackup];
         self.dockIsHidden = NO;
     }
 }
 
-- (void)hideDock
+- (void)setupPresentationOptions
 {
+    [self showWindow:nil];
+    presentationOptionsBackup = [NSApp currentSystemPresentationOptions];
     if ([[self screenOfCurrentToggleDisplay] containsDock]) {
-        [[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationHideDock];
+        [NSApp setPresentationOptions:NSApplicationPresentationHideDock | NSApplicationPresentationDisableProcessSwitching | NSApplicationPresentationDisableAppleMenu | NSApplicationPresentationDisableHideApplication];
         self.dockIsHidden = YES;
     }
 }
@@ -711,7 +730,7 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 
 - (CGDirectDisplayID)displayIDForCurrentToggleDisplay:(CNToggleDisplay)aToggleDisplay
 {
-    uint32_t MAX_TOGGLE_DISPLAYS = 4;   // number of supported displays
+    uint32_t MAX_TOGGLE_DISPLAYS = 16;   // number of supported displays
     uint32_t displayCount;
     CGDirectDisplayID toggleDisplays[MAX_TOGGLE_DISPLAYS];
     CGGetOnlineDisplayList(MAX_TOGGLE_DISPLAYS, toggleDisplays, &displayCount);
@@ -774,43 +793,55 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate Callbacks
 
-- (void)screen:(NSScreen *)toggleScreen willOpenOnEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController willOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [self.notifCenter postNotificationName:CNBackstageControllerWillOpenNotification
-                                    object:self
-                                  userInfo:[NSDictionary dictionaryWithObject:toggleScreen forKey:@"toggleScreen"]];
+    [self.notifCenter postNotificationName:CNBackstageControllerWillOpenScreenNotification
+                                    object:backstageController
+                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            toggleScreen, CNToggleScreenUserInfoKey,
+                                            [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                                            nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate screen:[self screenOfCurrentToggleDisplay] willOpenOnEdge:self.toggleEdge];
+        [self.delegate backstageController:backstageController willOpenScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 
-- (void)screen:(NSScreen *)toggleScreen didOpenOnEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController didOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [self.notifCenter postNotificationName:CNBackstageControllerDidOpenNotification
-                                    object:self
-                                  userInfo:[NSDictionary dictionaryWithObject:toggleScreen forKey:@"toggleScreen"]];
+    [self.notifCenter postNotificationName:CNBackstageControllerDidOpenScreenNotification
+                                    object:backstageController
+                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            toggleScreen, CNToggleScreenUserInfoKey,
+                                            [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                                            nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate screen:[self screenOfCurrentToggleDisplay] didOpenOnEdge:self.toggleEdge];
+        [self.delegate backstageController:backstageController didOpenScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 
-- (void)screen:(NSScreen *)toggleScreen willCloseOnEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController willCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [self.notifCenter postNotificationName:CNBackstageControllerWillCloseNotification
-                                    object:self
-                                  userInfo:[NSDictionary dictionaryWithObject:toggleScreen forKey:@"toggleScreen"]];
+    [self.notifCenter postNotificationName:CNBackstageControllerWillCloseScreenNotification
+                                    object:backstageController
+                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            toggleScreen, CNToggleScreenUserInfoKey,
+                                            [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                                            nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate screen:[self screenOfCurrentToggleDisplay] willCloseOnEdge:self.toggleEdge];
+        [self.delegate backstageController:backstageController willCloseScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 
-- (void)screen:(NSScreen *)toggleScreen didCloseOnEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController didCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [self.notifCenter postNotificationName:CNBackstageControllerDidCloseNotification
-                                    object:self
-                                  userInfo:[NSDictionary dictionaryWithObject:toggleScreen forKey:@"toggleScreen"]];
+    [self.notifCenter postNotificationName:CNBackstageControllerDidCloseScreenNotification
+                                    object:backstageController
+                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            toggleScreen, CNToggleScreenUserInfoKey,
+                                            [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                                            nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate screen:[self screenOfCurrentToggleDisplay] didCloseOnEdge:self.toggleEdge];
+        [self.delegate backstageController:backstageController didCloseScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 
@@ -950,7 +981,7 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
             CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadow.CGColor);
             [darkLineColor setFill];
             [leftPath fill];
-
+            
             NSRect lineBottomRect = NSMakeRect(NSMinX(dirtyRect), ceil(NSMinY(dirtyRect))+1, NSWidth(dirtyRect), 1);
             NSBezierPath *lineBottomPath = [NSBezierPath bezierPathWithRect:lineBottomRect];
             [lightLineColor setFill];
@@ -963,11 +994,15 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
 - (NSView *)hitTest:(NSPoint)aPoint
 {
     // pass-through all events
-    for (NSView *subView in [self subviews]) {
-        if (![subView isHidden] && [subView hitTest:aPoint])
-            return subView;
-    }
-    return nil;
+    __block NSView *targetView = nil;
+    [[self subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSView *subView = (NSView *)obj;
+        if (![subView isHidden] && [subView hitTest:aPoint]) {
+            targetView = subView;
+            *stop = YES;
+        }
+    }];
+    return targetView;
 }
 
 @end
