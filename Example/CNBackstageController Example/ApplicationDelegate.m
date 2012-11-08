@@ -62,7 +62,7 @@
     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
     self.backstageController = [CNBackstageController sharedInstance];
     self.backstageController.applicationViewController = self.appController;
-    self.backstageController.backstageViewBackgroundColor = [NSColor colorWithPatternImage:[NSImage imageNamed:@"TexturedBackground-Linen-Dark"]];
+    self.backstageController.backstageViewBackgroundColor = [NSColor colorWithPatternImage:[NSImage imageNamed:@"TexturedBackground-Linen-Middle"]];
     [self configureBackstageController];
 }
 
