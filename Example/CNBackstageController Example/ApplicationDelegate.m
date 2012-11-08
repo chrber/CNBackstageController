@@ -59,8 +59,9 @@
     self.statusItem.target = self;
     self.statusItem.action = @selector(toggleApplicationView:);
 
-    self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
     self.backstageController = [CNBackstageController sharedInstance];
+
+    self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
     self.backstageController.applicationViewController = self.appController;
     self.backstageController.backstageViewBackgroundColor = [NSColor colorWithPatternImage:[NSImage imageNamed:@"TexturedBackground-Linen-Middle"]];
     [self configureBackstageController];
@@ -68,12 +69,12 @@
 
 - (void)configureBackstageController
 {
-    self.backstageController.toggleEdge = [self.defaults integerForKey:CNToggleEdgePreferencesKey];
-    self.backstageController.toggleDisplay = [self.defaults integerForKey:CNToggleDisplayPreferencesKey];
-    self.backstageController.toggleVisualEffect = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
-    self.backstageController.toggleAnimationEffect = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
-    self.backstageController.toggleSize = [self.defaults integerForKey:CNToggleSizePreferencesKey];
-    self.backstageController.overlayAlpha = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
+    self.backstageController.toggleEdge             = [self.defaults integerForKey:CNToggleEdgePreferencesKey];
+    self.backstageController.toggleDisplay          = [self.defaults integerForKey:CNToggleDisplayPreferencesKey];
+    self.backstageController.toggleVisualEffect     = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
+    self.backstageController.toggleAnimationEffect  = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
+    self.backstageController.toggleSize             = [self.defaults integerForKey:CNToggleSizePreferencesKey];
+    self.backstageController.overlayAlpha           = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
 }
 
 
