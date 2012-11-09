@@ -52,4 +52,14 @@
  ...
  */
 - (void)backstageController:(CNBackstageController *)backstageController didCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+
+/**
+ ...
+ */
+- (void)backstageController:(CNBackstageController *)backstageController willDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+
+/**
+ ...
+ */
+- (void)backstageController:(CNBackstageController *)backstageController didDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
 @end

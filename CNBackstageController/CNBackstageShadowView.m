@@ -99,6 +99,12 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
             CGContextSetShadowWithColor(context, CGSizeMake(0, -3), shadowBlurRadius, shadowColor.CGColor);
             [darkLineColor setFill];
             [topPath fill];
+
+            NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
+            NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
+            CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadowColor.CGColor);
+            [darkLineColor setFill];
+            [leftPath fill];
             break;
         }
         case CNToggleEdgeLeft: {

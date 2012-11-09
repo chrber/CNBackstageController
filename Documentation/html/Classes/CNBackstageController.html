@@ -42,6 +42,10 @@
 	
 	<option value="//api/name/applicationViewController">&nbsp;&nbsp;&nbsp;&nbsp;applicationViewController</option>
 	
+	<option value="//api/name/applicationViewMinSize">&nbsp;&nbsp;&nbsp;&nbsp;applicationViewMinSize</option>
+	
+	<option value="//api/name/applictionViewResizeable">&nbsp;&nbsp;&nbsp;&nbsp;applictionViewResizeable</option>
+	
 	<option value="//api/name/backstageViewBackgroundColor">&nbsp;&nbsp;&nbsp;&nbsp;backstageViewBackgroundColor</option>
 	
 	<option value="//api/name/delegate">&nbsp;&nbsp;&nbsp;&nbsp;delegate</option>
@@ -57,6 +61,8 @@
 	<option value="//api/name/toggleSize">&nbsp;&nbsp;&nbsp;&nbsp;toggleSize</option>
 	
 	<option value="//api/name/toggleVisualEffect">&nbsp;&nbsp;&nbsp;&nbsp;toggleVisualEffect</option>
+	
+	<option value="//api/name/useShadowsOnApplicationView">&nbsp;&nbsp;&nbsp;&nbsp;useShadowsOnApplicationView</option>
 	
 	
 	
@@ -96,7 +102,7 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Backstage Controller Creation">Backstage Controller Creation</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Animation &amp; Effects">Animation &amp; Effects</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Animation, Effects &amp; Sizing">Animation, Effects &amp; Sizing</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Managing the Layout">Managing the Layout</a></span></li>
 	
@@ -111,6 +117,10 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applicationViewController">applicationViewController</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applicationViewMinSize">applicationViewMinSize</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applictionViewResizeable">applictionViewResizeable</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageViewBackgroundColor">backstageViewBackgroundColor</a></span></li>
 	
@@ -127,6 +137,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleSize">toggleSize</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleVisualEffect">toggleVisualEffect</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/useShadowsOnApplicationView">useShadowsOnApplicationView</a></span></li>
 	
 </ul></li>
 
@@ -269,8 +281,8 @@ see the results. You may also take a look at the Example project.</p>
 						</ul>
 						
 						
-						<a title="Animation &amp; Effects" name="task_Animation &amp; Effects"></a>
-						<h3 class="subsubtitle task-title">Animation &amp; Effects</h3>
+						<a title="Animation, Effects &amp; Sizing" name="task_Animation, Effects &amp; Sizing"></a>
+						<h3 class="subsubtitle task-title">Animation, Effects &amp; Sizing</h3>
 
 						<ul class="task-list">
 							<li>
@@ -283,7 +295,7 @@ see the results. You may also take a look at the Example project.</p>
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/toggleSize">&nbsp;&nbsp;toggleSize</a></code>
-		<span class="tooltip"><p>Defines the inset the applicationViewController&rsquo;s view should toggle.</p></span>
+		<span class="tooltip"><p>Property that defines the toggle width and height the view of <a href="#//api/name/applicationViewController">applicationViewController</a> should appear on activation.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -308,6 +320,20 @@ see the results. You may also take a look at the Example project.</p>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/applictionViewResizeable">&nbsp;&nbsp;applictionViewResizeable</a></code>
+		<span class="tooltip"><p>Boolean property that indicates whether the user can resize the coverage of applicationView or not.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/applicationViewMinSize">&nbsp;&nbsp;applicationViewMinSize</a></code>
+		
+	</span>
+	<span class="task-item-suffix">property</span>
+	
 </li>
 						</ul>
 						
@@ -327,6 +353,13 @@ see the results. You may also take a look at the Example project.</p>
 	<span class="tooltip">
 		<code><a href="#//api/name/overlayAlpha">&nbsp;&nbsp;overlayAlpha</a></code>
 		<span class="tooltip"><p>Property that gets and/or sets the opacity value of the screen snapshot overlays.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/useShadowsOnApplicationView">&nbsp;&nbsp;useShadowsOnApplicationView</a></code>
+		<span class="tooltip"><p>Boolean property to control the drawing of shadows on applicationView.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -406,6 +439,74 @@ see the results. You may also take a look at the Example project.</p>
 		<p>The applicationViewController can be any derivate of <code>NSWindowController</code>. <code>CNBackstageController</code> will handle its view as your application view.
 When you set this property <code>CNBackstageController</code> will automatically set its <a href="#//api/name/delegate">delegate</a> to the applicationViewController. Later you can overwrite the <a href="#//api/name/delegate">delegate</a> dependent on your needs.</p>
 	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/applicationViewMinSize" title="applicationViewMinSize"></a>
+	<h3 class="subsubtitle method-title">applicationViewMinSize</h3>
+	
+	
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) NSSize applicationViewMinSize</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/applictionViewResizeable" title="applictionViewResizeable"></a>
+	<h3 class="subsubtitle method-title">applictionViewResizeable</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Boolean property that indicates whether the user can resize the coverage of applicationView or not.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) BOOL applictionViewResizeable</code></div>
+
+    
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -721,12 +822,12 @@ The aplicationView will appear in the vertical middle of the screen. The overlai
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Defines the inset the applicationViewController&rsquo;s view should toggle.</p>
+		<p>Property that defines the toggle width and height the view of <a href="#//api/name/applicationViewController">applicationViewController</a> should appear on activation.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CNToggleSize toggleSize</code></div>
+	<div class="method-subsection method-declaration"><code>@property (assign, nonatomic) CNToggleSize toggleSize</code></div>
 
     
 	
@@ -738,7 +839,20 @@ The aplicationView will appear in the vertical middle of the screen. The overlai
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>There are five pre defined constants. The meaning its values are related the selected <a href="#//api/name/toggleEdge">toggleEdge</a>.</p>
+		<p>To set its value you should make use of the convenience function <code>CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight)</code>.</p>
+
+<p><strong>The CNToggleSize data type</strong></p>
+
+<pre><code>typedef struct {
+    NSUInteger width;
+    NSUInteger height;
+} CNToggleSize;
+</code></pre>
+
+<p>To set the width and height attributes of toggleSize you can use any value that is in the range of your displays resolution. These are <em>absolute values</em>.<br />
+Furthermore you can choose between five constants to set <em>relative values</em> for <code>toggleSize.width</code> and <code>toggleSize.height</code>. Dependent on your display size the <em>absolute values</em> related to these constants are calculated in real time.</p>
+
+<p><strong>The predfined CNToggleSize constants to set relative values</strong></p>
 
 <pre><code>enum {
     CNToggleSizeHalfScreen = 0,
@@ -747,47 +861,61 @@ The aplicationView will appear in the vertical middle of the screen. The overlai
     CNToggleSizeOneThirdScreen,
     CNToggleSizeTwoThirdsScreen
 };
-typedef NSInteger CNToggleSize;
 </code></pre>
+
+<p>So, the usage of that convenience function may look different, because it&rsquo;s allowed to mix absolute and relative values.</p>
+
+<p><strong>Examples for the use of CNMakeToggleSize()</strong></p>
+
+<pre><code>CNBackstageController *myController = [CNBackstageController sharedInstance];
+
+// by setting toggleEdge to CNToggleEdgeTop just toggleSize.height with the 
+// value of 300 pixel is relevant
+myController.toggleEdge = CNToggleEdgeTop;
+myController.toggleSize = CNMakeToggleSize(650, 300);
+
+//
+myController.toggleEdge = CNToggleEdgeRight;
+myController.toggleSize = CNMakeToggleSize(450, CNToggleSizeQuarterScreen);
+
+//
+myController.toggleSize = CNMakeToggleSize(CNToggleSizeHalfScreen, CNToggleSizeOneThirdScreen);
+</code></pre>
+
+<p>What will happen on these three examples? So, let me explain a bit more.<br /></p>
+
+<p><strong>First example</strong></p>
+
+<p>It will set the <code>toggleSize.width</code> to 650 pixel and the <code>toggleSize.height</code> to 300 pixel. Width and height are used related to the value  of the <a href="#//api/name/toggleEdge">toggleEdge</a> property. The <code>toggleSize.width</code> attribute finds use if <a href="#//api/name/toggleEdge">toggleEdge</a> has the value <code>CNToggleEdgeLeft</code>, <code>CNToggleEdgeRight</code> or <code>CNToggleEdgeSplitHorizontal</code>. The <code>toggleSize.height</code> attribute will be used if <a href="#//api/name/toggleEdge">toggleEdge</a> has the value <code>CNToggleEdgeTop</code>, <code>CNToggleEdgeBottom</code> or <code>CNToggleEdgeSplitVertical</code>.</p>
+
+<p><strong>Second example</strong></p>
+
+<p>It uses an absolute value of 450 pixel for <code>toggleSize.width</code> and a relative value of <code>CNToggleSizeQuarterScreen</code> for <code>toggleSize.height</code>. That relative value will  be automatically converted to an absolute pixel value in the moment the applicationView will appear.</p>
+
+<p><strong>Third example</strong></p>
+
+<p>It use relative values for both, <code>toggleSize.width</code> and <code>toggleSize.height</code>. Both relative values will be automatically converted to an absolute pixel value in the moment the applicationView will appear.</p>
+
+<p><strong>Constant description</strong></p>
 
 <p><code>CNToggleSizeHalfScreen</code><br />
-The applicationView will move in by the half screen width or height (depending on the value given in <a href="#//api/name/toggleEdge"><code>toggleEdge</code></a>).<br />
-This is the default value.</p>
+The applicationView will appear using the half screen width or height (depending on the value given in <code>toggleEdge</code>).<br /></p>
 
 <p><code>CNToggleSizeQuarterScreen</code><br />
-The applicationView will move in by the quarter screen width or height (depending on the value given in <a href="#//api/name/toggleEdge"><code>toggleEdge</code></a>).</p>
+The applicationView will appear using the quarter screen width or height (depending on the value given in <code>toggleEdge</code>).</p>
 
 <p><code>CNToggleSizeThreeQuarterScreen</code><br />
-The applicationView will move in by three quarter of a screen (height or width, depending on the value given in <a href="#//api/name/toggleEdge"><code>toggleEdge</code></a>).</p>
+The applicationView will appear using three quarter of a screen (height or width, depending on the value given in <code>toggleEdge</code>).</p>
 
 <p><code>CNToggleSizeOneThirdScreen</code><br />
-The applicationView will move in by one third of a screen (height or width, depending on the value given in <a href="#//api/name/toggleEdge"><code>toggleEdge</code></a>).</p>
+The applicationView will appear using one third of a screen (height or width, depending on the value given in <code>toggleEdge</code>).</p>
 
 <p><code>CNToggleSizeTwoThirdsScreen</code><br />
-The applicationView will move in by two thirds of a screen (height or width, depending on the value given in <a href="#//api/name/toggleEdge"><code>toggleEdge</code></a>).</p>
+The applicationView will appear using two thirds of a screen (height or width, depending on the value given in <code>toggleEdge</code>).</p>
 
-<p>Additionally you can specify a &lsquo;free form&rsquo; size in pixels. If <code>toggleSize</code> has a negative value <code>CNBackstageController</code> will multiply it with -1 to make it positive.
-Dependent on the selected <a href="#//api/name/toggleEdge">toggleEdge</a> <code>CNBackstageController</code> validates the given toggleSize as follows:</p>
+<p><strong>Default value</strong></p>
 
-<ul>
-<li>If you would like to toggle on the top or bottom screen edge <code>CNBackstageController</code> validates the given toggleSize against the screen height.
-If the given toggleSize is greater than the screen height <code>CNBackstageController</code> will automatically fallback to <code>CNToggleSizeQuarterScreen</code>.</li>
-<li>If you would like to toggle on the left or right screen edge <code>CNBackstageController</code> validates the given toggleSize against the screen width.</li>
-</ul>
-
-
-<h4>Example</h4>
-
-<pre><code>// this will move in the applicationView by half of the height of toggleDisplay from top to down
-CNBackstageController *myController = [CNBackstageController sharedInstance];
-myController.toggleEdge = CNToggleEdgeTop;
-myController.toggleSize = CNToggleSizeHalfScreen;
-
-// this will move in the applicationView by 369 pixels from left to right
-CNBackstageController *myController = [CNBackstageController sharedInstance];
-myController.toggleEdge = CNToggleEdgeLeft;
-myController.toggleSize = 369;
-</code></pre>
+<p>The default value of toggleSize is <code>CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen)</code>.</p>
 	</div>
 	
 	
@@ -864,6 +992,42 @@ Spreads pixels of the screen snapshot by a Gaussian distribution.</p>
 			
 		</ul>
 	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/useShadowsOnApplicationView" title="useShadowsOnApplicationView"></a>
+	<h3 class="subsubtitle method-title">useShadowsOnApplicationView</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Boolean property to control the drawing of shadows on applicationView.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) BOOL useShadowsOnApplicationView</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -1110,7 +1274,7 @@ Otherwise it will be closed.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-11-09)</span><br />
+						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-11-10)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 840)</a>.</span></p>
 						

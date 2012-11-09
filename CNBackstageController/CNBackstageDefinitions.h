@@ -54,7 +54,10 @@ enum {
     CNToggleSizeOneThirdScreen,                         // one third of a screen (height or width)
     CNToggleSizeTwoThirdsScreen                         // two thirds of a screen (height or width)
 };
-typedef NSInteger CNToggleSize;
+typedef struct {
+    NSUInteger width;
+    NSUInteger height;
+} CNToggleSize;
 
 typedef enum {
     CNToggleDisplayMain = 0,                            // Main Display means where the system statusbar is placed
@@ -75,6 +78,12 @@ typedef enum {
     CNToggleAnimationEffectSlide
 } CNToggleAnimationEffect;
 
+typedef struct {
+    CGFloat deltaX;
+    CGFloat deltaY;
+} CNToggleFrameDeltas;
+
+
 
 /// NSUserDefaults keys
 /// These keys are used to save the enum values from above. CNBackstageController will handle the serialization of it automatically.
@@ -85,6 +94,7 @@ extern NSString *CNToggleVisualEffectPreferencesKey;
 extern NSString *CNToggleAnimationEffectPreferencesKey;
 extern NSString *CNToggleAlphaValuePreferencesKey;
 
+
 /// Notifications
 /// All these notifications contains the sending CNBackstageController as the `object` value. The userInfo dictionary contains two objects.
 /// The first is the NSScreen object of the current toggle screen defined by the `toggleScreen` property using the dictionary key `CNToggleScreenUserInfoKey`.
@@ -93,12 +103,18 @@ extern NSString *CNBackstageControllerWillOpenScreenNotification;
 extern NSString *CNBackstageControllerDidOpenScreenNotification;
 extern NSString *CNBackstageControllerWillCloseScreenNotification;
 extern NSString *CNBackstageControllerDidCloseScreenNotification;
+extern NSString *CNBackstageControllerWillDragOnScreenNotification;
+extern NSString *CNBackstageControllerDidDragOnScreenNotification;
+
 
 /// Keys that are used for the userInfo dictionary in the notifications from above
 extern NSString *CNToggleScreenUserInfoKey;
 extern NSString *CNToggleEdgeUserInfoKey;
 
 
+/// Convenience Functions
+extern CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight);
+extern CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY);
 
 
 #endif

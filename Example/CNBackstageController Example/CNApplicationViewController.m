@@ -19,6 +19,18 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Actions
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+    }
+    return self;
+}
+
+- (void)awakeFromNib
+{
+}
+
 - (IBAction)preferencesButtonAction:(id)sender
 {
     if (!self.preferences)

@@ -36,10 +36,32 @@
 
 static CGFloat kAnimationDuration = 0.25;
 
-typedef struct {
-    CGFloat deltaX;
-    CGFloat deltaY;
-} CNToggleFrameDeltas;
+/// NSUserDefaults keys
+NSString *CNToggleEdgePreferencesKey = @"CNToggleEdge";
+NSString *CNToggleSizePreferencesKey = @"CNToggleSize";
+NSString *CNToggleDisplayPreferencesKey = @"CNToggleDisplay";
+NSString *CNToggleVisualEffectPreferencesKey = @"CNToggleVisualEffect";
+NSString *CNToggleAnimationEffectPreferencesKey = @"CNToggleAnimationEffect";
+NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
+
+
+/// Notifications
+NSString *CNBackstageControllerWillOpenScreenNotification = @"CNBackstageControllerWillOpenScreen";
+NSString *CNBackstageControllerDidOpenScreenNotification = @"CNBackstageControllerDidOpenScreen";
+NSString *CNBackstageControllerWillCloseScreenNotification = @"CNBackstageControllerWillCloseScreen";
+NSString *CNBackstageControllerDidCloseScreenNotification = @"CNBackstageControllerDidCloseScreen";
+NSString *CNBackstageControllerWillDragOnScreenNotification = @"CNBackstageControllerWillDragOnScreen";
+NSString *CNBackstageControllerDidDragOnScreenNotification = @"CNBackstageControllerDidDragOnScreen";
+
+
+/// Keys that are used for the userInfo dictionary in the notifications from above
+NSString *CNToggleScreenUserInfoKey = @"toggleScreen";
+NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark Convenience Functions
 
 CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
     CNToggleFrameDeltas frameDeltas;
@@ -48,23 +70,12 @@ CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY) {
     return frameDeltas;
 }
 
-/// NSUserDefaults keys to save the enum values
-NSString *CNToggleEdgePreferencesKey = @"CNToggleEdge";
-NSString *CNToggleSizePreferencesKey = @"CNToggleSize";
-NSString *CNToggleDisplayPreferencesKey = @"CNToggleDisplay";
-NSString *CNToggleVisualEffectPreferencesKey = @"CNToggleVisualEffect";
-NSString *CNToggleAnimationEffectPreferencesKey = @"CNToggleAnimationEffect";
-NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
-
-/// Notifications
-NSString *CNBackstageControllerWillOpenScreenNotification = @"CNBackstageControllerWillOpenScreen";
-NSString *CNBackstageControllerDidOpenScreenNotification = @"CNBackstageControllerDidOpenScreen";
-NSString *CNBackstageControllerWillCloseScreenNotification = @"CNBackstageControllerWillCloseScreen";
-NSString *CNBackstageControllerDidCloseScreenNotification = @"CNBackstageControllerDidCloseScreen";
-
-/// Keys that are used for the userInfo dictionary in the notifications from above
-NSString *CNToggleScreenUserInfoKey = @"toggleScreen";
-NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
+CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
+    CNToggleSize toggleSize;
+    toggleSize.width = aWidth;
+    toggleSize.height = aHeight;
+    return toggleSize;
+}
 
 
 
@@ -75,6 +86,7 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
 @interface CNBackstageController() {
     NSApplicationPresentationOptions presentationOptionsBackup;
     NSNotificationCenter *notifCenter;
+    NSUserDefaults *defaults;
     NSView *applicationView;
     NSView *applicationFirstCoverView;
     NSView *applicationFirstCoverOverlayView;
@@ -82,15 +94,15 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
     NSView *applicationSecondCoverOverlayView;
     CNBackstageShadowView *shadowView;
     NSPoint initialDraggingPoint;
-    NSPoint initialFirstCoverSlidingPoint;
-    NSPoint initialSecondCoverSlidingPoint;
+    NSPoint initialFirstCoverOrigin;
+    NSPoint initialSecondCoverOrigin;
     NSRect initialApplicationViewFrame;
-    NSRect initialShadowViewFrame;
     CNToggleState toggleState;
     BOOL dockIsHidden;
     BOOL toggleAnimationIsRunning;
     BOOL applicationCoverIsDragging;
     CIFilter *gaussianBlurFilter;
+    CNToggleSize _toggleSize;
 }
 @property (readonly) NSRect currentToggleDisplayFrame;
 
@@ -112,7 +124,7 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
 - (CGImageRef)snapshotOfDisplayWithID:(CGDirectDisplayID)displayID;
 - (CGDirectDisplayID)displayIDForCurrentToggleDisplay:(CNToggleDisplay)aToggleDisplay;
 - (NSScreen*)screenForDisplayWithID:(CGDirectDisplayID)displayID;
-- (void)slideApplicationCoverUsingCursorLocation:(NSPoint)location;
+- (void)resizeApplicationCoverageUsingCursorLocation:(NSPoint)location;
 @end
 
 
@@ -142,18 +154,22 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
     self = [super init];
     if (self) {
         /// properties of public API
+        _delegate                               = nil;
         _toggleEdge                             = CNToggleEdgeTop;
-        _toggleSize                             = CNToggleSizeHalfScreen;
+        _toggleSize                             = CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen);
         _toggleDisplay                          = CNToggleDisplayMain;
         _toggleVisualEffect                     = CNToggleVisualEffectOverlayBlack;
         _toggleAnimationEffect                  = CNToggleAnimationEffectStatic;
-        _userInteractionEnabled                 = YES;
         _applicationViewController              = nil;
         _backstageViewBackgroundColor           = [NSColor darkGrayColor];
         _overlayAlpha                           = 0.75;
+        _applictionViewResizeable               = YES;
+        _applicationViewMinSize                 = NSMakeSize(200.0f, 120.0f);
+        _useShadowsOnApplicationView            = YES;
 
         /// private properties
         notifCenter                             = [NSNotificationCenter defaultCenter];
+        defaults                                = [NSUserDefaults standardUserDefaults];
         applicationCoverIsDragging              = NO;
         toggleAnimationIsRunning                = NO;
         dockIsHidden                            = NO;
@@ -164,12 +180,10 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
         applicationSecondCoverOverlayView       = [[NSView alloc] init];
         shadowView                              = [[CNBackstageShadowView alloc] init];
         initialDraggingPoint                    = NSZeroPoint;
-        initialFirstCoverSlidingPoint              = NSZeroPoint;
-        initialSecondCoverSlidingPoint             = NSZeroPoint;
-        initialApplicationViewFrame              = NSZeroRect;
-        initialShadowViewFrame                   = NSZeroRect;
+        initialFirstCoverOrigin                 = NSZeroPoint;
+        initialSecondCoverOrigin                = NSZeroPoint;
+        initialApplicationViewFrame             = NSZeroRect;
         toggleState                             = CNToggleStateClosed;
-        _delegate                               = nil;
     }
     return self;
 }
@@ -181,6 +195,8 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
 
 - (void)toggleViewState
 {
+    NSAssert(self.applicationViewController != nil, @"\n\nThe applicationViewController property must be NOT nil!\nAfter you created your CNBackstageController instance you have to set applicationViewController property.\n\n");
+    
     switch (toggleState) {
         case CNToggleStateClosed: [self changeViewStateToOpen]; break;
         case CNToggleStateOpened: [self changeViewStateToClose]; break;
@@ -243,17 +259,85 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
                                                object:nil];
 }
 
+- (CNToggleSize)toggleSize
+{
+    return _toggleSize;
+}
+
 - (void)setToggleSize:(CNToggleSize)aToggleSize
 {
-    if(aToggleSize < 0) {
-        _toggleSize *= -1;
-    }
-    if(aToggleSize > NSHeight([self currentToggleDisplayFrame])) {
-        _toggleSize = CNToggleSizeHalfScreen;
+    NSUInteger width, height;
 
-    } else {
-        _toggleSize = aToggleSize;
+    switch (aToggleSize.width) {
+        case CNToggleSizeQuarterScreen:
+        case CNToggleSizeHalfScreen:
+        case CNToggleSizeOneThirdScreen:
+        case CNToggleSizeTwoThirdsScreen:
+        case CNToggleSizeThreeQuarterScreen:
+            width = aToggleSize.width;
+            break;
+
+        default: {
+            switch (self.toggleEdge) {
+                case CNToggleEdgeLeft:
+                case CNToggleEdgeRight:
+                case CNToggleEdgeSplitHorizontal: {
+                    CGFloat windowWidth = NSWidth([[self window] frame]);
+                    if (aToggleSize.width <= windowWidth) {
+                        width = aToggleSize.width;
+                    }
+
+                    else if (aToggleSize.width <= self.applicationViewMinSize.width) {
+                        /// fallback
+                        width = self.applicationViewMinSize.width;
+
+                    } else {
+                        /// fallback
+                        width = CNToggleSizeQuarterScreen;
+                    }
+                    break;
+                }
+                default: break;
+            }
+            break;
+        }
     }
+
+    switch (aToggleSize.height) {
+        case CNToggleSizeQuarterScreen:
+        case CNToggleSizeHalfScreen:
+        case CNToggleSizeOneThirdScreen:
+        case CNToggleSizeTwoThirdsScreen:
+        case CNToggleSizeThreeQuarterScreen:
+            height = aToggleSize.height;
+            break;
+
+        default: {
+            switch (self.toggleEdge) {
+                case CNToggleEdgeTop:
+                case CNToggleEdgeBottom:
+                case CNToggleEdgeSplitVertical: {
+                    CGFloat windowHeight = NSHeight([[self window] frame]);
+                    if (aToggleSize.height <= windowHeight && aToggleSize.height >= self.applicationViewMinSize.height) {
+                        height = aToggleSize.height;
+                    }
+
+                    else if (aToggleSize.height <= self.applicationViewMinSize.height) {
+                        height = self.applicationViewMinSize.height;
+
+                    } else {
+                        /// fallback
+                        height = CNToggleSizeQuarterScreen;
+                    }
+                    break;
+                }
+                default: break;
+            }
+            break;
+        }
+    }
+
+    _toggleSize = CNMakeToggleSize(width, height);
 }
 
 - (CGRect)currentToggleDisplayFrame
@@ -464,16 +548,16 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
         case CNToggleEdgeTop:
         case CNToggleEdgeBottom:
         case CNToggleEdgeSplitVertical: {
-            switch (self.toggleSize) {
+            switch (self.toggleSize.height) {
                 case CNToggleSizeHalfScreen:
                 case CNToggleSizeQuarterScreen:
                 case CNToggleSizeThreeQuarterScreen:
                 case CNToggleSizeOneThirdScreen:
                 case CNToggleSizeTwoThirdsScreen:
-                    frameDeltas.deltaY = [self valueForToggleSize:self.toggleSize frameSize:NSHeight(aFrame)];
+                    frameDeltas.deltaY = [self valueForToggleSize:self.toggleSize.height frameSize:NSHeight(aFrame)];
                     break;
                 default:
-                    frameDeltas.deltaY = self.toggleSize;
+                    frameDeltas.deltaY = self.toggleSize.height;
                     break;
             }
             break;
@@ -481,16 +565,16 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
         case CNToggleEdgeLeft:
         case CNToggleEdgeRight:
         case CNToggleEdgeSplitHorizontal:  {
-            switch (self.toggleSize) {
+            switch (self.toggleSize.width) {
                 case CNToggleSizeHalfScreen:
                 case CNToggleSizeQuarterScreen:
                 case CNToggleSizeThreeQuarterScreen:
                 case CNToggleSizeOneThirdScreen:
                 case CNToggleSizeTwoThirdsScreen:
-                    frameDeltas.deltaX = [self valueForToggleSize:self.toggleSize frameSize:NSWidth(aFrame)];
+                    frameDeltas.deltaX = [self valueForToggleSize:self.toggleSize.width frameSize:NSWidth(aFrame)];
                     break;
                 default:
-                    frameDeltas.deltaX = self.toggleSize;
+                    frameDeltas.deltaX = self.toggleSize.width;
                     break;
             }
             break;
@@ -533,9 +617,13 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
     [controllerWindowContentView addSubview:applicationView];
 
     // application shadow view
-    shadowView = [[CNBackstageShadowView alloc] initWithFrame:[applicationView bounds]];
-    shadowView.toggleEdge = self.toggleEdge;
-    [applicationView addSubview:shadowView];
+    if (self.useShadowsOnApplicationView) {
+        shadowView = [[CNBackstageShadowView alloc] initWithFrame:[applicationView bounds]];
+        shadowView.toggleEdge = self.toggleEdge;
+        [shadowView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [applicationView addSubview:shadowView];
+        [applicationView setAutoresizesSubviews:YES];
+    }
 
     // Screen Snapshot, First
     [controllerWindowContentView addSubview:applicationFirstCoverView];
@@ -550,7 +638,7 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
         applicationSecondCoverOverlayView.alphaValue = 0.0;
     }
 
-    if (self.userInteractionEnabled) {
+    if (self.applictionViewResizeable) {
         NSTrackingArea *firstTrackingArea = [[NSTrackingArea alloc] initWithRect:applicationFirstCoverView.frame
                                                                          options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow
                                                                            owner:self
@@ -668,7 +756,7 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
             applicationFirstCoverOverlayView.frame = applicationFirstCoverView.bounds;
 
             applicationSecondCoverView.frame = NSMakeRect(NSWidth(contentViewBounds)/2 + 1, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSWidth(contentViewBounds)/2 + 1, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSWidth(contentViewBounds)/2, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             applicationSecondCoverOverlayView.frame = applicationSecondCoverView.bounds;
 
             applicationFirstCoverView.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -684,7 +772,7 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
             applicationFirstCoverOverlayView.frame = applicationFirstCoverView.bounds;
 
             applicationSecondCoverView.frame = NSMakeRect(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), floor(NSHeight(contentViewBounds)/2)+1, NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             applicationSecondCoverOverlayView.frame = applicationSecondCoverView.bounds;
 
             applicationFirstCoverView.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -779,14 +867,14 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
     return result;
 }
 
-- (void)slideApplicationCoverUsingCursorLocation:(NSPoint)location
+- (void)resizeApplicationCoverageUsingCursorLocation:(NSPoint)location
 {
-    if (!self.userInteractionEnabled)
+    if (!self.applictionViewResizeable)
         return;
 
-    NSRect firstSlidingCoverFrame = [applicationFirstCoverView frame];
-    NSRect secondSlidingCoverFrame = [applicationSecondCoverView frame];
-    if (!NSPointInRect(location, firstSlidingCoverFrame) && !NSPointInRect(location, secondSlidingCoverFrame))
+    NSRect firstCoverFrame = [applicationFirstCoverView frame];
+    NSRect secondCoverFrame = [applicationSecondCoverView frame];
+    if (!NSPointInRect(location, firstCoverFrame) && !NSPointInRect(location, secondCoverFrame))
         return;
 
     location = NSMakePoint(ceil(location.x), ceil(location.y));
@@ -794,50 +882,86 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
         applicationCoverIsDragging = YES;
         initialDraggingPoint = location;
         initialApplicationViewFrame = applicationView.frame;
-        initialShadowViewFrame = shadowView.frame;
-        initialFirstCoverSlidingPoint = [applicationFirstCoverView frame].origin;
-        initialSecondCoverSlidingPoint = [applicationSecondCoverView frame].origin;
+        initialFirstCoverOrigin = [applicationFirstCoverView frame].origin;
+        initialSecondCoverOrigin = [applicationSecondCoverView frame].origin;
     }
 
     NSRect appRect = NSZeroRect;
-    NSRect shadowRect = NSZeroRect;
     CGFloat offset;
     
     switch (self.toggleEdge) {
         case CNToggleEdgeTop: {
+            offset = location.y - initialDraggingPoint.y;
+            firstCoverFrame = NSMakeRect(NSMinX(firstCoverFrame), initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            appRect = NSMakeRect(NSMinX(applicationView.frame), NSMaxY(firstCoverFrame), NSWidth(applicationView.frame), NSHeight(initialApplicationViewFrame) - offset);
+            if (NSMinY(firstCoverFrame) <= 0 && NSHeight(appRect) >= self.applicationViewMinSize.height) {
+                applicationView.frame = appRect;
+                applicationFirstCoverView.layer.frame = firstCoverFrame;
+            }
             break;
         }
         case CNToggleEdgeBottom: {
+            offset = location.y - initialDraggingPoint.y;
+            firstCoverFrame = NSMakeRect(NSMinX(firstCoverFrame), initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            appRect = NSMakeRect(NSMinX(applicationView.frame), NSMinY(applicationView.frame), NSWidth(applicationView.frame), NSHeight(initialApplicationViewFrame) + offset);
+            if (NSMaxY(firstCoverFrame) >= 0 && NSHeight(appRect) >= self.applicationViewMinSize.height) {
+                applicationView.frame = appRect;
+                applicationFirstCoverView.layer.frame = firstCoverFrame;
+            }
             break;
         }
         case CNToggleEdgeLeft: {
             offset = location.x - initialDraggingPoint.x;
-            firstSlidingCoverFrame = NSMakeRect(initialFirstCoverSlidingPoint.x + offset, NSMinY(firstSlidingCoverFrame), NSWidth(firstSlidingCoverFrame), NSHeight(firstSlidingCoverFrame));
+            firstCoverFrame = NSMakeRect(initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = NSMakeRect(NSMinX(applicationView.frame), NSMinY(applicationView.frame), NSWidth(initialApplicationViewFrame) + offset, NSHeight(applicationView.frame));
-            shadowRect = NSMakeRect(NSMinX(shadowView.frame), NSMinY(shadowView.frame), NSWidth(initialShadowViewFrame) + offset, NSHeight(shadowView.frame));
-            if (NSMinX(firstSlidingCoverFrame) >= 0) {
+            if (NSMinX(firstCoverFrame) >= 0 && NSWidth(appRect) >= self.applicationViewMinSize.width) {
                 applicationView.frame = appRect;
-                shadowView.frame = shadowRect;
-                applicationFirstCoverView.layer.frame = firstSlidingCoverFrame;
+                applicationFirstCoverView.layer.frame = firstCoverFrame;
             }
             break;
         }
         case CNToggleEdgeRight: {
             offset = location.x - initialDraggingPoint.x;
-            firstSlidingCoverFrame = NSMakeRect(initialFirstCoverSlidingPoint.x + offset, NSMinY(firstSlidingCoverFrame), NSWidth(firstSlidingCoverFrame), NSHeight(firstSlidingCoverFrame));
-            appRect = NSMakeRect(NSMaxX(firstSlidingCoverFrame) + 1, NSMinY(applicationView.frame), NSWidth(initialApplicationViewFrame) - offset, NSHeight(applicationView.frame));
-            shadowRect = NSMakeRect(NSMinX(shadowView.frame), NSMinY(shadowView.frame), NSWidth(initialShadowViewFrame) - offset, NSHeight(shadowView.frame));
-            if (NSMaxX(firstSlidingCoverFrame) <= NSWidth(firstSlidingCoverFrame)) {
+            firstCoverFrame = NSMakeRect(initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            appRect = NSMakeRect(NSMaxX(firstCoverFrame) + 1, NSMinY(applicationView.frame), NSWidth(initialApplicationViewFrame) - offset, NSHeight(applicationView.frame));
+            if (NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.applicationViewMinSize.width) {
                 applicationView.frame = appRect;
-                shadowView.frame = shadowRect;
-                applicationFirstCoverView.layer.frame = firstSlidingCoverFrame;
+                applicationFirstCoverView.layer.frame = firstCoverFrame;
             }
             break;
         }
         case CNToggleEdgeSplitHorizontal: {
+            offset = location.x - initialDraggingPoint.x;
+            if (NSPointInRect(location, firstCoverFrame)) {
+                firstCoverFrame = NSMakeRect(initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+                secondCoverFrame = NSMakeRect(initialSecondCoverOrigin.x - offset, NSMinY(secondCoverFrame), NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+            } else {
+                secondCoverFrame = NSMakeRect(initialSecondCoverOrigin.x + offset, NSMinY(secondCoverFrame), NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+                firstCoverFrame = NSMakeRect(initialFirstCoverOrigin.x - offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            }
+            appRect = NSMakeRect(NSMaxX(firstCoverFrame) - 1, NSMinY(applicationView.frame), NSMinX(secondCoverFrame) - NSMaxX(firstCoverFrame) + 1, NSHeight(applicationView.frame));
+            if (NSMaxX(firstCoverFrame) >= 0 && NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.applicationViewMinSize.width) {
+                applicationView.frame = appRect;
+                applicationFirstCoverView.layer.frame = firstCoverFrame;
+                applicationSecondCoverView.layer.frame = secondCoverFrame;
+            }
             break;
         }
         case CNToggleEdgeSplitVertical: {
+            offset = location.y - initialDraggingPoint.y;
+            if (NSPointInRect(location, firstCoverFrame)) {
+                firstCoverFrame = NSMakeRect(NSMinX(firstCoverFrame), initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+                secondCoverFrame = NSMakeRect(NSMinX(secondCoverFrame), initialSecondCoverOrigin.y - offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+            } else {
+                firstCoverFrame = NSMakeRect(NSMinX(firstCoverFrame), initialFirstCoverOrigin.y - offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+                secondCoverFrame = NSMakeRect(NSMinX(secondCoverFrame), initialSecondCoverOrigin.y + offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+            }
+            appRect = NSMakeRect(NSMinX(applicationView.frame), NSMaxY(secondCoverFrame) - 1, NSWidth(applicationView.frame), NSMinY(firstCoverFrame) - NSMaxY(secondCoverFrame) + 1);
+            if (NSMinY(secondCoverFrame) <= 0 && NSHeight(appRect) >= self.applicationViewMinSize.height) {
+                applicationView.frame = appRect;
+                applicationFirstCoverView.layer.frame = firstCoverFrame;
+                applicationSecondCoverView.layer.frame = secondCoverFrame;
+            }
             break;
         }
     }
@@ -850,7 +974,7 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    [self slideApplicationCoverUsingCursorLocation:[theEvent locationInWindow]];
+    [self resizeApplicationCoverageUsingCursorLocation:[theEvent locationInWindow]];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
@@ -865,6 +989,7 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
         } else {
             applicationCoverIsDragging = NO;
             applicationFirstCoverView.frame = applicationFirstCoverView.layer.frame;
+            applicationSecondCoverView.frame = applicationSecondCoverView.layer.frame;
         }
     }
 }
@@ -951,5 +1076,32 @@ NSString *CNToggleEdgeUserInfoKey = @"toggleEdge";
         [self.delegate backstageController:backstageController didCloseScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
+
+- (void)backstageController:(CNBackstageController *)backstageController willDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+{
+    [notifCenter postNotificationName:CNBackstageControllerWillDragOnScreenNotification
+                               object:backstageController
+                             userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                       toggleScreen, CNToggleScreenUserInfoKey,
+                                       [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                                       nil]];
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate backstageController:backstageController willDragOnScreen:toggleScreen onToggleEdge:toggleEdge];
+    }
+}
+
+- (void)backstageController:(CNBackstageController *)backstageController didDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+{
+    [notifCenter postNotificationName:CNBackstageControllerDidDragOnScreenNotification
+                               object:backstageController
+                             userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                       toggleScreen, CNToggleScreenUserInfoKey,
+                                       [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                                       nil]];
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate backstageController:backstageController didDragOnScreen:toggleScreen onToggleEdge:toggleEdge];
+    }
+}
+
 
 @end

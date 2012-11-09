@@ -73,7 +73,7 @@
     self.backstageController.toggleDisplay          = [self.defaults integerForKey:CNToggleDisplayPreferencesKey];
     self.backstageController.toggleVisualEffect     = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
     self.backstageController.toggleAnimationEffect  = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
-    self.backstageController.toggleSize             = [self.defaults integerForKey:CNToggleSizePreferencesKey];
+    self.backstageController.toggleSize             = CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen);
     self.backstageController.overlayAlpha           = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
 }
 
@@ -101,7 +101,7 @@
 
 - (void)backstageControllerNotification:(NSNotification *)notification
 {
-    CNLog(@"backstageControllerNotification: %@", notification);
+//    CNLog(@"backstageControllerNotification: %@", notification);
 }
 
 @end

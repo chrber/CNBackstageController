@@ -106,8 +106,8 @@
 
 
 
-#pragma mark - Animation & Effects
-/** @name Animation & Effects */
+#pragma mark - Animation, Effects & Sizing
+/** @name Animation, Effects & Sizing */
 
 /**
  The edge where the view of `applicationWindow` should appear.
@@ -146,10 +146,22 @@
 @property (assign, nonatomic) CNToggleEdge toggleEdge;
 
 /**
- Defines the inset the applicationViewController's view should toggle.
+ Property that defines the toggle width and height the view of applicationViewController should appear on activation.
  
- There are five pre defined constants. The meaning its values are related the selected toggleEdge.
- 
+ To set its value you should make use of the convenience function `CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight)`. 
+
+ **The CNToggleSize data type**
+
+    typedef struct {
+        NSUInteger width;
+        NSUInteger height;
+    } CNToggleSize;
+
+ To set the width and height attributes of toggleSize you can use any value that is in the range of your displays resolution. These are *absolute values*.<br />
+ Furthermore you can choose between five constants to set *relative values* for `toggleSize.width` and `toggleSize.height`. Dependent on your display size the *absolute values* related to these constants are calculated in real time.
+
+ **The predfined CNToggleSize constants to set relative values**
+
     enum {
         CNToggleSizeHalfScreen = 0,
         CNToggleSizeQuarterScreen,
@@ -157,44 +169,62 @@
         CNToggleSizeOneThirdScreen,
         CNToggleSizeTwoThirdsScreen
     };
-    typedef NSInteger CNToggleSize;
+
+ So, the usage of that convenience function may look different, because it's allowed to mix absolute and relative values.
+ 
+ **Examples for the use of CNMakeToggleSize()**
+
+    CNBackstageController *myController = [CNBackstageController sharedInstance];
+
+    // by setting toggleEdge to CNToggleEdgeTop just toggleSize.height with the 
+    // value of 300 pixel is relevant
+    myController.toggleEdge = CNToggleEdgeTop;
+    myController.toggleSize = CNMakeToggleSize(650, 300);
+
+    //
+    myController.toggleEdge = CNToggleEdgeRight;
+    myController.toggleSize = CNMakeToggleSize(450, CNToggleSizeQuarterScreen);
+
+    //
+    myController.toggleSize = CNMakeToggleSize(CNToggleSizeHalfScreen, CNToggleSizeOneThirdScreen);
+
+ What will happen on these three examples? So, let me explain a bit more.<br />
+ 
+ **First example**
+ 
+ It will set the `toggleSize.width` to 650 pixel and the `toggleSize.height` to 300 pixel. Width and height are used related to the value  of the toggleEdge property. The `toggleSize.width` attribute finds use if toggleEdge has the value `CNToggleEdgeLeft`, `CNToggleEdgeRight` or `CNToggleEdgeSplitHorizontal`. The `toggleSize.height` attribute will be used if toggleEdge has the value `CNToggleEdgeTop`, `CNToggleEdgeBottom` or `CNToggleEdgeSplitVertical`.
+ 
+ **Second example**
+ 
+ It uses an absolute value of 450 pixel for `toggleSize.width` and a relative value of `CNToggleSizeQuarterScreen` for `toggleSize.height`. That relative value will  be automatically converted to an absolute pixel value in the moment the applicationView will appear.
+
+ **Third example**
+
+ It use relative values for both, `toggleSize.width` and `toggleSize.height`. Both relative values will be automatically converted to an absolute pixel value in the moment the applicationView will appear.
+
+ **Constant description**
 
  `CNToggleSizeHalfScreen`<br />
- The applicationView will move in by the half screen width or height (depending on the value given in `toggleEdge`).<br />
- This is the default value.
+ The applicationView will appear using the half screen width or height (depending on the value given in `toggleEdge`).<br />
  
  `CNToggleSizeQuarterScreen`<br />
- The applicationView will move in by the quarter screen width or height (depending on the value given in `toggleEdge`).
+ The applicationView will appear using the quarter screen width or height (depending on the value given in `toggleEdge`).
  
  `CNToggleSizeThreeQuarterScreen`<br />
- The applicationView will move in by three quarter of a screen (height or width, depending on the value given in `toggleEdge`).
+ The applicationView will appear using three quarter of a screen (height or width, depending on the value given in `toggleEdge`).
  
  `CNToggleSizeOneThirdScreen`<br />
- The applicationView will move in by one third of a screen (height or width, depending on the value given in `toggleEdge`).
+ The applicationView will appear using one third of a screen (height or width, depending on the value given in `toggleEdge`).
  
  `CNToggleSizeTwoThirdsScreen`<br />
- The applicationView will move in by two thirds of a screen (height or width, depending on the value given in `toggleEdge`).
+ The applicationView will appear using two thirds of a screen (height or width, depending on the value given in `toggleEdge`).
  
- Additionally you can specify a 'free form' size in pixels. If `toggleSize` has a negative value `CNBackstageController` will multiply it with -1 to make it positive.
- Dependent on the selected toggleEdge `CNBackstageController` validates the given toggleSize as follows:
+ **Default value**
  
- * If you would like to toggle on the top or bottom screen edge `CNBackstageController` validates the given toggleSize against the screen height.
- If the given toggleSize is greater than the screen height `CNBackstageController` will automatically fallback to `CNToggleSizeQuarterScreen`.
- * If you would like to toggle on the left or right screen edge `CNBackstageController` validates the given toggleSize against the screen width.
- 
- ####Example
- 
-    // this will move in the applicationView by half of the height of toggleDisplay from top to down
-    CNBackstageController *myController = [CNBackstageController sharedInstance];
-    myController.toggleEdge = CNToggleEdgeTop;
-    myController.toggleSize = CNToggleSizeHalfScreen;
+ The default value of toggleSize is `CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen)`.
 
-    // this will move in the applicationView by 369 pixels from left to right
-    CNBackstageController *myController = [CNBackstageController sharedInstance];
-    myController.toggleEdge = CNToggleEdgeLeft;
-    myController.toggleSize = 369;
  */
-@property (nonatomic, assign) CNToggleSize toggleSize;
+@property (assign, nonatomic) CNToggleSize toggleSize;
 
 /**
  Specifies the display to show the `applicationView` on.
@@ -271,7 +301,16 @@
  */
 @property (assign) CNToggleAnimationEffect toggleAnimationEffect;
 
-@property (assign) BOOL userInteractionEnabled;
+/**
+ Boolean property that indicates whether the user can resize the coverage of applicationView or not.
+ 
+ */
+@property (assign) BOOL applictionViewResizeable;
+
+/**
+ ...
+ */
+@property (assign) NSSize applicationViewMinSize;
 
 
 #pragma mark - Managing the Layout
@@ -286,6 +325,13 @@
  Property that gets and/or sets the opacity value of the screen snapshot overlays.
  */
 @property (assign) CGFloat overlayAlpha;
+
+/**
+ Boolean property to control the drawing of shadows on applicationView.
+
+ 
+ */
+@property (assign) BOOL useShadowsOnApplicationView;
 
 
 #pragma mark - API

@@ -46,9 +46,13 @@
 	
 	<option value="//api/name/backstageController:didCloseScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:didCloseScreen:onToggleEdge:</option>
 	
+	<option value="//api/name/backstageController:didDragOnScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:didDragOnScreen:onToggleEdge:</option>
+	
 	<option value="//api/name/backstageController:didOpenScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:didOpenScreen:onToggleEdge:</option>
 	
 	<option value="//api/name/backstageController:willCloseScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:willCloseScreen:onToggleEdge:</option>
+	
+	<option value="//api/name/backstageController:willDragOnScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:willDragOnScreen:onToggleEdge:</option>
 	
 	<option value="//api/name/backstageController:willOpenScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:willOpenScreen:onToggleEdge:</option>
 	
@@ -82,9 +86,13 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:didCloseScreen:onToggleEdge:">backstageController:didCloseScreen:onToggleEdge:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:didDragOnScreen:onToggleEdge:">backstageController:didDragOnScreen:onToggleEdge:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:didOpenScreen:onToggleEdge:">backstageController:didOpenScreen:onToggleEdge:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:willCloseScreen:onToggleEdge:">backstageController:willCloseScreen:onToggleEdge:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:willDragOnScreen:onToggleEdge:">backstageController:willDragOnScreen:onToggleEdge:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:willOpenScreen:onToggleEdge:">backstageController:willOpenScreen:onToggleEdge:</a></span></li>
 	
@@ -170,6 +178,20 @@ instance.</p>
 	</span>
 	
 	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/backstageController:willDragOnScreen:onToggleEdge:">&ndash;&nbsp;backstageController:willDragOnScreen:onToggleEdge:</a></code>
+		
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/backstageController:didDragOnScreen:onToggleEdge:">&ndash;&nbsp;backstageController:didDragOnScreen:onToggleEdge:</a></code>
+		
+	</span>
+	
+	
 </li>
 						</ul>
 						
@@ -196,6 +218,38 @@ instance.</p>
     
 
 	<div class="method-subsection method-declaration"><code>- (void)backstageController:(CNBackstageController *)<em>backstageController</em> didCloseScreen:(NSScreen *)<em>toggleScreen</em> onToggleEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/backstageController:didDragOnScreen:onToggleEdge:" title="backstageController:didDragOnScreen:onToggleEdge:"></a>
+	<h3 class="subsubtitle method-title">backstageController:didDragOnScreen:onToggleEdge:</h3>
+	
+	
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)backstageController:(CNBackstageController *)<em>backstageController</em> didDragOnScreen:(NSScreen *)<em>toggleScreen</em> onToggleEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
 
     
 	
@@ -309,6 +363,38 @@ as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/backstageController:willDragOnScreen:onToggleEdge:" title="backstageController:willDragOnScreen:onToggleEdge:"></a>
+	<h3 class="subsubtitle method-title">backstageController:willDragOnScreen:onToggleEdge:</h3>
+	
+	
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)backstageController:(CNBackstageController *)<em>backstageController</em> willDragOnScreen:(NSScreen *)<em>toggleScreen</em> onToggleEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/backstageController:willOpenScreen:onToggleEdge:" title="backstageController:willOpenScreen:onToggleEdge:"></a>
 	<h3 class="subsubtitle method-title">backstageController:willOpenScreen:onToggleEdge:</h3>
 	
@@ -378,7 +464,7 @@ as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-11-09)</span><br />
+						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-11-10)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 840)</a>.</span></p>
 						
