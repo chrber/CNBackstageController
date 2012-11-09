@@ -44,13 +44,13 @@
 	
 	<option value="instance_methods">Instance Methods</option>
 	
-	<option value="//api/name/screen:didCloseOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:didCloseOnEdge:</option>
+	<option value="//api/name/backstageController:didCloseScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:didCloseScreen:onToggleEdge:</option>
 	
-	<option value="//api/name/screen:didOpenOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:didOpenOnEdge:</option>
+	<option value="//api/name/backstageController:didOpenScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:didOpenScreen:onToggleEdge:</option>
 	
-	<option value="//api/name/screen:willCloseOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:willCloseOnEdge:</option>
+	<option value="//api/name/backstageController:willCloseScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:willCloseScreen:onToggleEdge:</option>
 	
-	<option value="//api/name/screen:willOpenOnEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- screen:willOpenOnEdge:</option>
+	<option value="//api/name/backstageController:willOpenScreen:onToggleEdge:">&nbsp;&nbsp;&nbsp;&nbsp;- backstageController:willOpenScreen:onToggleEdge:</option>
 	
 	
 	
@@ -80,13 +80,13 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/screen:didCloseOnEdge:">screen:didCloseOnEdge:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:didCloseScreen:onToggleEdge:">backstageController:didCloseScreen:onToggleEdge:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/screen:didOpenOnEdge:">screen:didOpenOnEdge:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:didOpenScreen:onToggleEdge:">backstageController:didOpenScreen:onToggleEdge:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/screen:willCloseOnEdge:">screen:willCloseOnEdge:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:willCloseScreen:onToggleEdge:">backstageController:willCloseScreen:onToggleEdge:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/screen:willOpenOnEdge:">screen:willOpenOnEdge:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backstageController:willOpenScreen:onToggleEdge:">backstageController:willOpenScreen:onToggleEdge:</a></span></li>
 	
 </ul></li>
 
@@ -115,7 +115,7 @@
 	<td class="specification-value">NSObject</td>
 </tr><tr>
 	<td class="specification-title">Declared in</td>
-	<td class="specification-value">CNBackstageController.h</td>
+	<td class="specification-value">CNBackstageDelegate.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -125,8 +125,8 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>The CNBackstage Delegate provides a set of methods the user can implement to control the functionality of
-<a href="../Classes/CNBackstageController.html">CNBackstageController</a>.</p>
+						<p>The CNBackstage Delegate provides a set of methods the user can implement to control the functionality of its own backstage
+instance.</p>
 					</div>
 					
 					
@@ -144,28 +144,28 @@
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
-		<code><a href="#//api/name/screen:willOpenOnEdge:">&ndash;&nbsp;screen:willOpenOnEdge:</a></code>
+		<code><a href="#//api/name/backstageController:willOpenScreen:onToggleEdge:">&ndash;&nbsp;backstageController:willOpenScreen:onToggleEdge:</a></code>
 		<span class="tooltip"><p>Informs the delegate that the screen <code>toggleScreen</code> will open on edge <code>toggleEdge</code>.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/screen:didOpenOnEdge:">&ndash;&nbsp;screen:didOpenOnEdge:</a></code>
+		<code><a href="#//api/name/backstageController:didOpenScreen:onToggleEdge:">&ndash;&nbsp;backstageController:didOpenScreen:onToggleEdge:</a></code>
 		
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/screen:willCloseOnEdge:">&ndash;&nbsp;screen:willCloseOnEdge:</a></code>
+		<code><a href="#//api/name/backstageController:willCloseScreen:onToggleEdge:">&ndash;&nbsp;backstageController:willCloseScreen:onToggleEdge:</a></code>
 		<span class="tooltip"><p>Informs the delegate that the screen <code>toggleScreen</code> will close on edge <code>toggleEdge</code>.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/screen:didCloseOnEdge:">&ndash;&nbsp;screen:didCloseOnEdge:</a></code>
+		<code><a href="#//api/name/backstageController:didCloseScreen:onToggleEdge:">&ndash;&nbsp;backstageController:didCloseScreen:onToggleEdge:</a></code>
 		
 	</span>
 	
@@ -188,46 +188,14 @@
 						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
 						
 						<div class="section-method">
-	<a name="//api/name/screen:didCloseOnEdge:" title="screen:didCloseOnEdge:"></a>
-	<h3 class="subsubtitle method-title">screen:didCloseOnEdge:</h3>
+	<a name="//api/name/backstageController:didCloseScreen:onToggleEdge:" title="backstageController:didCloseScreen:onToggleEdge:"></a>
+	<h3 class="subsubtitle method-title">backstageController:didCloseScreen:onToggleEdge:</h3>
 	
 	
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> didCloseOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
-
-    
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/screen:didOpenOnEdge:" title="screen:didOpenOnEdge:"></a>
-	<h3 class="subsubtitle method-title">screen:didOpenOnEdge:</h3>
-	
-	
-	
-    
-
-	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> didOpenOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)backstageController:(CNBackstageController *)<em>backstageController</em> didCloseScreen:(NSScreen *)<em>toggleScreen</em> onToggleEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
 
     
 	
@@ -245,15 +213,47 @@
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
+		<code class="declared-in-ref">CNBackstageDelegate.h</code><br />
 	</div>				
 	
 	
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/screen:willCloseOnEdge:" title="screen:willCloseOnEdge:"></a>
-	<h3 class="subsubtitle method-title">screen:willCloseOnEdge:</h3>
+	<a name="//api/name/backstageController:didOpenScreen:onToggleEdge:" title="backstageController:didOpenScreen:onToggleEdge:"></a>
+	<h3 class="subsubtitle method-title">backstageController:didOpenScreen:onToggleEdge:</h3>
+	
+	
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)backstageController:(CNBackstageController *)<em>backstageController</em> didOpenScreen:(NSScreen *)<em>toggleScreen</em> onToggleEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/backstageController:willCloseScreen:onToggleEdge:" title="backstageController:willCloseScreen:onToggleEdge:"></a>
+	<h3 class="subsubtitle method-title">backstageController:willCloseScreen:onToggleEdge:</h3>
 	
 	
 	
@@ -263,7 +263,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> willCloseOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)backstageController:(CNBackstageController *)<em>backstageController</em> willCloseScreen:(NSScreen *)<em>toggleScreen</em> onToggleEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
 
     
 	
@@ -302,15 +302,15 @@ as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
+		<code class="declared-in-ref">CNBackstageDelegate.h</code><br />
 	</div>				
 	
 	
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/screen:willOpenOnEdge:" title="screen:willOpenOnEdge:"></a>
-	<h3 class="subsubtitle method-title">screen:willOpenOnEdge:</h3>
+	<a name="//api/name/backstageController:willOpenScreen:onToggleEdge:" title="backstageController:willOpenScreen:onToggleEdge:"></a>
+	<h3 class="subsubtitle method-title">backstageController:willOpenScreen:onToggleEdge:</h3>
 	
 	
 	
@@ -320,7 +320,7 @@ as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)screen:(NSScreen *)<em>toggleScreen</em> willOpenOnEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)backstageController:(CNBackstageController *)<em>backstageController</em> willOpenScreen:(NSScreen *)<em>toggleScreen</em> onToggleEdge:(CNToggleEdge)<em>toggleEdge</em></code></div>
 
     
 	
@@ -359,7 +359,7 @@ as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
+		<code class="declared-in-ref">CNBackstageDelegate.h</code><br />
 	</div>				
 	
 	
@@ -378,7 +378,7 @@ as an item of the userInfo dictionary with the key <code>toggleScreen</code>.</p
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-11-06)</span><br />
+						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-11-09)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 840)</a>.</span></p>
 						

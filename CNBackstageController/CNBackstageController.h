@@ -30,129 +30,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "NSScreen+CNBackstageController.h"
+#import "CNBackstageDefinitions.h"
+#import "CNBackstageDelegate.h"
 
-
-
-typedef enum {
-    CNToggleStateClosed = -1,
-    CNToggleStateOpened = 1
-} CNToggleState;
-
-typedef enum {
-    CNToggleEdgeTop = 0,
-    CNToggleEdgeBottom,
-    CNToggleEdgeLeft,
-    CNToggleEdgeRight,
-    CNToggleEdgeSplitHorizontal,
-    CNToggleEdgeSplitVertical
-} CNToggleEdge;
-
-enum {
-    CNToggleSizeHalfScreen = 0,                         // in relation to the toggleEdge property the toggle size will be the half of a screen (height or width), or...
-    CNToggleSizeQuarterScreen,                          // the quarter of a screen (height or width)
-    CNToggleSizeThreeQuarterScreen,                     // three quarter of a screen (height or width)
-    CNToggleSizeOneThirdScreen,                         // one third of a screen (height or width)
-    CNToggleSizeTwoThirdsScreen                         // two thirds of a screen (height or width)
-};
-typedef NSInteger CNToggleSize;
-
-typedef enum {
-    CNToggleDisplayMain = 0,                            // Main Display means where the system statusbar is placed
-    CNToggleDisplaySecond,
-    CNToggleDisplayThird,
-    CNToggleDisplayFourth
-} CNToggleDisplay;
-
-typedef enum {
-    CNToggleVisualEffectNone            = 0 << 0,
-    CNToggleVisualEffectOverlayBlack    = 1 << 0,
-    CNToggleVisualEffectGaussianBlur    = 1 << 1
-} CNToggleVisualEffect;
-
-typedef enum {
-    CNToggleAnimationEffectStatic = 0,
-    CNToggleAnimationEffectFade,
-    CNToggleAnimationEffectSlide
-} CNToggleAnimationEffect;
-
-
-/// NSUserDefaults keys to save the enum values from above
-extern NSString *CNToggleEdgePreferencesKey;
-extern NSString *CNToggleSizePreferencesKey;
-extern NSString *CNToggleDisplayPreferencesKey;
-extern NSString *CNToggleVisualEffectPreferencesKey;
-extern NSString *CNToggleAnimationEffectPreferencesKey;
-extern NSString *CNToggleAlphaValuePreferencesKey;
-
-/// Notifications
-/// All these notifications contains the sending CNBackstageController as the `object` value.
-extern NSString *CNBackstageControllerWillOpenScreenNotification;
-extern NSString *CNBackstageControllerDidOpenScreenNotification;
-extern NSString *CNBackstageControllerWillCloseScreenNotification;
-extern NSString *CNBackstageControllerDidCloseScreenNotification;
-
-/// Keys that are used for the userInfo dictionary in the notifications from above
-extern NSString *CNToggleScreenUserInfoKey;
-extern NSString *CNToggleEdgeUserInfoKey;
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - CNBackstage Delegate
-
-/**
- The CNBackstage Delegate provides a set of methods the user can implement to control the functionality of its own backstage
- instance.
- */
-
-@class CNBackstageController;
-
-
-@protocol CNBackstageDelegate <NSObject>
-@optional
-
-/**
- Informs the delegate that the screen `toggleScreen` will open on edge `toggleEdge`.
- 
- This delegate also post a `CNBackstageControllerWillOpenNotification` notification to the `NSNotificationCenter`. It sends the toggleScreen parameter
- as an item of the userInfo dictionary with the key `toggleScreen`.
-
- @param toggleScreen    The screen that will toggle the CNBackstageController's view.
- @param toggleEdge      The edge the CNBackstageController's view will appear.
- */
-- (void)backstageController:(CNBackstageController *)backstageController willOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
-
-/**
- ...
- */
-- (void)backstageController:(CNBackstageController *)backstageController didOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
-
-/**
- Informs the delegate that the screen `toggleScreen` will close on edge `toggleEdge`.
-
- This delegate also post a `CNBackstageControllerWillCloseNotification` notification to the `NSNotificationCenter`. It sends the toggleScreen parameter
- as an item of the userInfo dictionary with the key `toggleScreen`.
-
- @param toggleScreen    The screen that will close the CNBackstageController's view.
- @param toggleEdge      The edge the CNBackstageController's view did appear.
- */
-- (void)backstageController:(CNBackstageController *)backstageController willCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
-
-/**
- ...
- */
-- (void)backstageController:(CNBackstageController *)backstageController didCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
-@end
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - CNBackstageController
 
 
 
@@ -226,7 +106,7 @@ extern NSString *CNToggleEdgeUserInfoKey;
 
 
 
-#pragma mark Animation & Effects
+#pragma mark - Animation & Effects
 /** @name Animation & Effects */
 
 /**
@@ -391,6 +271,12 @@ extern NSString *CNToggleEdgeUserInfoKey;
  */
 @property (assign) CNToggleAnimationEffect toggleAnimationEffect;
 
+@property (assign) BOOL userInteractionEnabled;
+
+
+#pragma mark - Managing the Layout
+/** @name Managing the Layout */
+
 /**
  ...
  */
@@ -434,14 +320,4 @@ extern NSString *CNToggleEdgeUserInfoKey;
  */
 - (CNToggleState)currentViewState;
 
-@end
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - CNBackstageShadowView
-
-@interface CNBackstageShadowView : NSView
-@property (assign, nonatomic) CNToggleEdge toggleEdge;
 @end

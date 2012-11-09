@@ -34,6 +34,9 @@
 		AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */; };
 		AA6FA3C41643E8E100A90505 /* Grey_Curtains.icns in Resources */ = {isa = PBXBuildFile; fileRef = AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */; };
 		AA6FA3C71643ED2B00A90505 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA6FA3C61643ED2B00A90505 /* MainMenu.xib */; };
+		AAA51BFA164D104A00E5744A /* CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA51BF3164D104A00E5744A /* CNBackstageController.m */; };
+		AAA51BFB164D104A00E5744A /* CNBackstageShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA51BF7164D104A00E5744A /* CNBackstageShadowView.m */; };
+		AAA51BFC164D104A00E5744A /* NSScreen+CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA51BF9164D104A00E5744A /* NSScreen+CNBackstageController.m */; };
 		AAAF85E51644034600D9744F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAAF85E01644034600D9744F /* Preferences.xib */; };
 		AAAF85E61644034600D9744F /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAF85E21644034600D9744F /* PreferencesController.m */; };
 		AAAF85EC16440ECA00D9744F /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAAF85EB16440ECA00D9744F /* Defaults.plist */; };
@@ -42,8 +45,6 @@
 		AAB960F716430A6200F952BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB960F616430A6200F952BC /* main.m */; };
 		AAB960FB16430A6200F952BC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AAB960F916430A6200F952BC /* Credits.rtf */; };
 		AAB960FE16430A6200F952BC /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB960FD16430A6200F952BC /* ApplicationDelegate.m */; };
-		AAB9610D16430A9100F952BC /* CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9610A16430A9100F952BC /* CNBackstageController.m */; };
-		AAB9610E16430A9100F952BC /* NSScreen+CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */; };
 		FD7A7BC1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg */; };
 		FD7A7BC2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg */; };
 		FD7A7BC3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD7A7BB3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg */; };
@@ -78,6 +79,14 @@
 		AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CNApplicationView.xib; sourceTree = "<group>"; };
 		AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Grey_Curtains.icns; path = ../Grey_Curtains.icns; sourceTree = "<group>"; };
 		AA6FA3C61643ED2B00A90505 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		AAA51BF2164D104A00E5744A /* CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageController.h; sourceTree = "<group>"; };
+		AAA51BF3164D104A00E5744A /* CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBackstageController.m; sourceTree = "<group>"; };
+		AAA51BF4164D104A00E5744A /* CNBackstageDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageDefinitions.h; sourceTree = "<group>"; };
+		AAA51BF5164D104A00E5744A /* CNBackstageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageDelegate.h; sourceTree = "<group>"; };
+		AAA51BF6164D104A00E5744A /* CNBackstageShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageShadowView.h; sourceTree = "<group>"; };
+		AAA51BF7164D104A00E5744A /* CNBackstageShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBackstageShadowView.m; sourceTree = "<group>"; };
+		AAA51BF8164D104A00E5744A /* NSScreen+CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScreen+CNBackstageController.h"; sourceTree = "<group>"; };
+		AAA51BF9164D104A00E5744A /* NSScreen+CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScreen+CNBackstageController.m"; sourceTree = "<group>"; };
 		AAAF85E01644034600D9744F /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		AAAF85E11644034600D9744F /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
 		AAAF85E21644034600D9744F /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
@@ -94,10 +103,6 @@
 		AAB960FA16430A6200F952BC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		AAB960FC16430A6200F952BC /* ApplicationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationDelegate.h; sourceTree = "<group>"; };
 		AAB960FD16430A6200F952BC /* ApplicationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApplicationDelegate.m; sourceTree = "<group>"; };
-		AAB9610916430A9100F952BC /* CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageController.h; sourceTree = "<group>"; };
-		AAB9610A16430A9100F952BC /* CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBackstageController.m; sourceTree = "<group>"; };
-		AAB9610B16430A9100F952BC /* NSScreen+CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScreen+CNBackstageController.h"; sourceTree = "<group>"; };
-		AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScreen+CNBackstageController.m"; sourceTree = "<group>"; };
 		FD7A7BB1164A71A9006FDA62 /* TexturedBackground-Noise-01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-01.jpg"; sourceTree = "<group>"; };
 		FD7A7BB2164A71A9006FDA62 /* TexturedBackground-Noise-02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-02.jpg"; sourceTree = "<group>"; };
 		FD7A7BB3164A71A9006FDA62 /* TexturedBackground-Noise-03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TexturedBackground-Noise-03.jpg"; sourceTree = "<group>"; };
@@ -168,6 +173,22 @@
 				AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */,
 			);
 			name = "Application View Controller";
+			sourceTree = "<group>";
+		};
+		AAA51BF1164D104A00E5744A /* CNBackstageController */ = {
+			isa = PBXGroup;
+			children = (
+				AAA51BF2164D104A00E5744A /* CNBackstageController.h */,
+				AAA51BF3164D104A00E5744A /* CNBackstageController.m */,
+				AAA51BF4164D104A00E5744A /* CNBackstageDefinitions.h */,
+				AAA51BF5164D104A00E5744A /* CNBackstageDelegate.h */,
+				AAA51BF6164D104A00E5744A /* CNBackstageShadowView.h */,
+				AAA51BF7164D104A00E5744A /* CNBackstageShadowView.m */,
+				AAA51BF8164D104A00E5744A /* NSScreen+CNBackstageController.h */,
+				AAA51BF9164D104A00E5744A /* NSScreen+CNBackstageController.m */,
+			);
+			name = CNBackstageController;
+			path = ../../CNBackstageController;
 			sourceTree = "<group>";
 		};
 		AAAF85DC1644032700D9744F /* Preferences Panel */ = {
@@ -250,21 +271,9 @@
 		AAB9610716430A7B00F952BC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AAB9610816430A9100F952BC /* CNBackstageController */,
+				AAA51BF1164D104A00E5744A /* CNBackstageController */,
 			);
 			name = Libraries;
-			sourceTree = "<group>";
-		};
-		AAB9610816430A9100F952BC /* CNBackstageController */ = {
-			isa = PBXGroup;
-			children = (
-				AAB9610916430A9100F952BC /* CNBackstageController.h */,
-				AAB9610A16430A9100F952BC /* CNBackstageController.m */,
-				AAB9610B16430A9100F952BC /* NSScreen+CNBackstageController.h */,
-				AAB9610C16430A9100F952BC /* NSScreen+CNBackstageController.m */,
-			);
-			name = CNBackstageController;
-			path = ../../CNBackstageController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,10 +390,11 @@
 			files = (
 				AAB960F716430A6200F952BC /* main.m in Sources */,
 				AAB960FE16430A6200F952BC /* ApplicationDelegate.m in Sources */,
-				AAB9610D16430A9100F952BC /* CNBackstageController.m in Sources */,
-				AAB9610E16430A9100F952BC /* NSScreen+CNBackstageController.m in Sources */,
 				AA34572716432D9C00E4CCE6 /* CNApplicationViewController.m in Sources */,
 				AAAF85E61644034600D9744F /* PreferencesController.m in Sources */,
+				AAA51BFA164D104A00E5744A /* CNBackstageController.m in Sources */,
+				AAA51BFB164D104A00E5744A /* CNBackstageShadowView.m in Sources */,
+				AAA51BFC164D104A00E5744A /* NSScreen+CNBackstageController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
