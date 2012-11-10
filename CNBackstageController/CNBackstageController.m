@@ -163,7 +163,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         _applicationViewController              = nil;
         _backstageViewBackgroundColor           = [NSColor darkGrayColor];
         _overlayAlpha                           = 0.75;
-        _applictionViewResizeable               = YES;
+        _applicationViewResizeable              = YES;
         _applicationViewMinSize                 = NSMakeSize(200.0f, 120.0f);
         _useShadowsOnApplicationView            = YES;
 
@@ -638,7 +638,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         applicationSecondCoverOverlayView.alphaValue = 0.0;
     }
 
-    if (self.applictionViewResizeable) {
+    if (self.applicationViewResizeable) {
         NSTrackingArea *firstTrackingArea = [[NSTrackingArea alloc] initWithRect:applicationFirstCoverView.frame
                                                                          options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow
                                                                            owner:self
@@ -869,7 +869,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (void)resizeApplicationCoverageUsingCursorLocation:(NSPoint)location
 {
-    if (!self.applictionViewResizeable)
+    if (!self.applicationViewResizeable)
         return;
 
     NSRect firstCoverFrame = [applicationFirstCoverView frame];

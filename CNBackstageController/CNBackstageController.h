@@ -305,7 +305,7 @@
  Boolean property that indicates whether the user can resize the coverage of applicationView or not.
  
  */
-@property (assign) BOOL applictionViewResizeable;
+@property (assign) BOOL applicationViewResizeable;
 
 /**
  ...
