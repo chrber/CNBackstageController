@@ -74,7 +74,7 @@
  see the results. You may also take a look at the Example project.
  
  ##Related Sample Code
- 
+
  [CNBackstageController Example](https://github.com/phranck/CNBackstageController)
  */
 
@@ -319,7 +319,7 @@
 /**
  ...
  */
-@property (strong, nonatomic) NSColor *backstageViewBackgroundColor;
+@property (strong, nonatomic) NSColor *backgroundColor;
 
 /**
  Property that gets and/or sets the opacity value of the screen snapshot overlays.

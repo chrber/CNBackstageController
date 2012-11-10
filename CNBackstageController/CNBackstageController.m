@@ -161,7 +161,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         _toggleVisualEffect                     = CNToggleVisualEffectOverlayBlack;
         _toggleAnimationEffect                  = CNToggleAnimationEffectStatic;
         _applicationViewController              = nil;
-        _backstageViewBackgroundColor           = [NSColor darkGrayColor];
+        _backgroundColor                        = [NSColor darkGrayColor];
         _overlayAlpha                           = 0.75;
         _applicationViewResizeable              = YES;
         _applicationViewMinSize                 = NSMakeSize(200.0f, 120.0f);
@@ -600,7 +600,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
     [controllerWindow setHasShadow:NO];
     [controllerWindow setDisplaysWhenScreenProfileChanges:YES];
     [controllerWindow setReleasedWhenClosed:YES];
-    [controllerWindow setBackgroundColor:self.backstageViewBackgroundColor];
+    [controllerWindow setBackgroundColor:self.backgroundColor];
     [controllerWindow setCollectionBehavior:(NSWindowCollectionBehaviorDefault |
                                              NSWindowCollectionBehaviorManaged |
                                              NSWindowCollectionBehaviorFullScreenAuxiliary)];

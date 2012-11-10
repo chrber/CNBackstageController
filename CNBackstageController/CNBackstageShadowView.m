@@ -53,7 +53,7 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
 {
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     NSColor *shadowColor = [NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:0.75];
-    CGFloat shadowBlurRadius = 11.0f;
+    CGFloat shadowBlurRadius = 13.0f;
 
     switch (self.toggleEdge) {
         case CNToggleEdgeTop: {
