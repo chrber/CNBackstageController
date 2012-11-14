@@ -309,7 +309,7 @@
  @param YES The user can resize the applicationView by dragging its coverage.
  @param NO  Resizing of the applicationView is disabled.
  */
-@property (assign) BOOL applicationViewResizeable;
+@property (assign, getter = isResizingAllowed) BOOL resizingAllowed;
 
 /**
  Property that defines the minimum size the applicationView can be resized to.
@@ -345,7 +345,7 @@
  @param YES Shadows will be drawn on top of the applicationView.
  @param NO  No shadows will be drawn.
  */
-@property (assign) BOOL useShadowsOnApplicationView;
+@property (assign) BOOL useShadows;
 
 
 #pragma mark - API

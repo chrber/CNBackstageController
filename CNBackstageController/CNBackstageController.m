@@ -124,7 +124,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 - (CGImageRef)snapshotOfDisplayWithID:(CGDirectDisplayID)displayID;
 - (CGDirectDisplayID)displayIDForCurrentToggleDisplay:(CNToggleDisplay)aToggleDisplay;
 - (NSScreen*)screenForDisplayWithID:(CGDirectDisplayID)displayID;
-- (void)resizeApplicationCoverageUsingCursorLocation:(NSPoint)location;
+- (void)dragCoverageUsingAnchorPoint:(NSPoint)location;
 @end
 
 
@@ -163,9 +163,9 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         _applicationViewController              = nil;
         _backgroundColor                        = [NSColor darkGrayColor];
         _overlayAlpha                           = 0.75;
-        _applicationViewResizeable              = YES;
+        _resizingAllowed                        = YES;
         _applicationViewMinSize                 = NSMakeSize(200.0f, 120.0f);
-        _useShadowsOnApplicationView            = YES;
+        _useShadows                             = YES;
 
         /// private properties
         notifCenter                             = [NSNotificationCenter defaultCenter];
@@ -614,7 +614,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
     [controllerWindowContentView addSubview:applicationView];
 
     // application shadow view
-    if (self.useShadowsOnApplicationView) {
+    if (self.useShadows) {
         shadowView = [[CNBackstageShadowView alloc] initWithFrame:[applicationView bounds]];
         shadowView.toggleEdge = self.toggleEdge;
         [shadowView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -635,7 +635,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         applicationSecondCoverOverlayView.alphaValue = 0.0;
     }
 
-    if (self.applicationViewResizeable) {
+    if (self.isResizingAllowed) {
         NSTrackingArea *firstTrackingArea = [[NSTrackingArea alloc] initWithRect:applicationFirstCoverView.frame
                                                                          options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow
                                                                            owner:self
@@ -864,9 +864,9 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
     return result;
 }
 
-- (void)resizeApplicationCoverageUsingCursorLocation:(NSPoint)location
+- (void)dragCoverageUsingAnchorPoint:(NSPoint)location
 {
-    if (!self.applicationViewResizeable)
+    if (!self.isResizingAllowed)
         return;
 
     NSRect firstCoverFrame = [applicationFirstCoverView frame];
@@ -971,13 +971,13 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    [self resizeApplicationCoverageUsingCursorLocation:[theEvent locationInWindow]];
+    [self dragCoverageUsingAnchorPoint:[theEvent locationInWindow]];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
 }
-//
+
 - (void)mouseUp:(NSEvent *)theEvent
 {
     if (!NSPointInRect([theEvent locationInWindow], [applicationView frame])) {
