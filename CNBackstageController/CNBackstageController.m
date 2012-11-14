@@ -973,6 +973,10 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
+    if (applicationCoverIsDragging == NO) {
+        /// inform the delegate
+        [self backstageController:self willDragOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+    }
     [self dragCoverageUsingAnchorPoint:[theEvent locationInWindow]];
 }
 
@@ -989,6 +993,9 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
             applicationCoverIsDragging = NO;
             applicationFirstCoverView.frame = applicationFirstCoverView.layer.frame;
             applicationSecondCoverView.frame = applicationSecondCoverView.layer.frame;
+
+            /// inform the delegate
+            [self backstageController:self didDragOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
         }
     }
 }
