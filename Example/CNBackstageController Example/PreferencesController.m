@@ -71,22 +71,22 @@ typedef enum {
         self.toggleSizeWidthLabel.stringValue = NSLocalizedString(@"Horizontal toggle size should be", @"");
         [self.toggleSizeWidthPopupButton removeAllItems];
         [self.toggleSizeWidthPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
-                                                             NSLocalizedString(@"Half of Screen Width/Height", @""),
-                                                             NSLocalizedString(@"A Quarter of Screen Width/Height", @""),
-                                                             NSLocalizedString(@"Three Quarter of Screen Width/Height", @""),
-                                                             NSLocalizedString(@"One Third of Screen Width/Height", @""),
-                                                             NSLocalizedString(@"Two Third of Screen Width/Height", @""),
+                                                             NSLocalizedString(@"Half of Screen Width", @""),
+                                                             NSLocalizedString(@"A Quarter of Screen Width", @""),
+                                                             NSLocalizedString(@"Three Quarter of Screen Width", @""),
+                                                             NSLocalizedString(@"One Third of Screen Width", @""),
+                                                             NSLocalizedString(@"Two Third of Screen Width", @""),
                                                              nil]];
 
 
         self.toggleSizeHeightLabel.stringValue = NSLocalizedString(@"Vertical toggle size should be", @"");
         [self.toggleSizeHeightPopupButton removeAllItems];
         [self.toggleSizeHeightPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
-                                                              NSLocalizedString(@"Half of Screen Width/Height", @""),
-                                                              NSLocalizedString(@"A Quarter of Screen Width/Height", @""),
-                                                              NSLocalizedString(@"Three Quarter of Screen Width/Height", @""),
-                                                              NSLocalizedString(@"One Third of Screen Width/Height", @""),
-                                                              NSLocalizedString(@"Two Third of Screen Width/Height", @""),
+                                                              NSLocalizedString(@"Half of Screen Height", @""),
+                                                              NSLocalizedString(@"A Quarter of Screen Height", @""),
+                                                              NSLocalizedString(@"Three Quarter of Screen Height", @""),
+                                                              NSLocalizedString(@"One Third of Screen Height", @""),
+                                                              NSLocalizedString(@"Two Third of Screen Height", @""),
                                                               nil]];
 
 
