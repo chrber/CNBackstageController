@@ -68,22 +68,33 @@ typedef enum {
         [self.toggleDisplayPopupButton addItemsWithTitles:screens];
 
 
-        self.toggleSizeLabel.stringValue = NSLocalizedString(@"Toggle size should be", @"");
-        [self.toggleSizePopupButton removeAllItems];
-        [self.toggleSizePopupButton addItemsWithTitles:[NSArray arrayWithObjects:
-                                                        NSLocalizedString(@"Half of Screen Width/Height", @""),
-                                                        NSLocalizedString(@"A Quarter of Screen Width/Height", @""),
-                                                        NSLocalizedString(@"Three Quarter of Screen Width/Height", @""),
-                                                        NSLocalizedString(@"One Third of Screen Width/Height", @""),
-                                                        NSLocalizedString(@"Two Third of Screen Width/Height", @""),
-                                                        nil]];
+        self.toggleSizeWidthLabel.stringValue = NSLocalizedString(@"Horizontal toggle size should be", @"");
+        [self.toggleSizeWidthPopupButton removeAllItems];
+        [self.toggleSizeWidthPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
+                                                             NSLocalizedString(@"Half of Screen Width/Height", @""),
+                                                             NSLocalizedString(@"A Quarter of Screen Width/Height", @""),
+                                                             NSLocalizedString(@"Three Quarter of Screen Width/Height", @""),
+                                                             NSLocalizedString(@"One Third of Screen Width/Height", @""),
+                                                             NSLocalizedString(@"Two Third of Screen Width/Height", @""),
+                                                             nil]];
+
+
+        self.toggleSizeHeightLabel.stringValue = NSLocalizedString(@"Vertical toggle size should be", @"");
+        [self.toggleSizeHeightPopupButton removeAllItems];
+        [self.toggleSizeHeightPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
+                                                              NSLocalizedString(@"Half of Screen Width/Height", @""),
+                                                              NSLocalizedString(@"A Quarter of Screen Width/Height", @""),
+                                                              NSLocalizedString(@"Three Quarter of Screen Width/Height", @""),
+                                                              NSLocalizedString(@"One Third of Screen Width/Height", @""),
+                                                              NSLocalizedString(@"Two Third of Screen Width/Height", @""),
+                                                              nil]];
 
 
         self.visualEffectLabel.stringValue = NSLocalizedString(@"Sliding areas should have a", @"");
         self.visualEffectBlackOverlayCheckbox.title = NSLocalizedString(@"Black Overlay", @"");
         self.visualEffectGaussianBlurCheckbox.title = NSLocalizedString(@"Gaussian Blur", @"");
 
-        
+
         self.animationEffectLabel.stringValue = NSLocalizedString(@"Content of Application view should", @"");
         [self.animationEffectPopupButton removeAllItems];
         [self.animationEffectPopupButton addItemsWithTitles:[NSArray arrayWithObjects:
@@ -109,7 +120,9 @@ typedef enum {
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.toggleEdgePopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleEdgePreferencesKey]];
     [self.toggleDisplayPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleDisplayPreferencesKey]];
-    [self.toggleSizePopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleSizePreferencesKey]];
+    
+    [self.toggleSizeWidthPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleSizeWidthPreferencesKey]];
+    [self.toggleSizeHeightPopupButton selectItemAtIndex:[self.userDefaults integerForKey:CNToggleSizeHeightPreferencesKey]];
 
     self.visualEffectBlackOverlayCheckbox.state = ([self.userDefaults integerForKey:CNToggleVisualEffectPreferencesKey] & CNToggleVisualEffectOverlayBlack);
     [self.alphaValueSlider setEnabled:(self.visualEffectBlackOverlayCheckbox.state == NSOnState)];
@@ -154,8 +167,11 @@ typedef enum {
     else if (sender == self.toggleDisplayPopupButton) {
         [self.userDefaults setInteger:[self.toggleDisplayPopupButton indexOfSelectedItem] forKey:CNToggleDisplayPreferencesKey];
     }
-    else if (sender == self.toggleSizePopupButton) {
-        [self.userDefaults setInteger:[self.toggleSizePopupButton indexOfSelectedItem] forKey:CNToggleSizePreferencesKey];
+    else if (sender == self.toggleSizeWidthPopupButton) {
+        [self.userDefaults setInteger:[self.toggleSizeWidthPopupButton indexOfSelectedItem] forKey:CNToggleSizeWidthPreferencesKey];
+    }
+    else if (sender == self.toggleSizeHeightPopupButton) {
+        [self.userDefaults setInteger:[self.toggleSizeHeightPopupButton indexOfSelectedItem] forKey:CNToggleSizeHeightPreferencesKey];
     }
     else if (sender == self.animationEffectPopupButton) {
         [self.userDefaults setInteger:[self.animationEffectPopupButton indexOfSelectedItem] forKey:CNToggleAnimationEffectPreferencesKey];

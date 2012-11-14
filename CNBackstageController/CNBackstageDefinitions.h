@@ -92,6 +92,8 @@ typedef struct {
 /// These keys are used to save the enum values from above. CNBackstageController will handle the serialization of it automatically.
 extern NSString *CNToggleEdgePreferencesKey;
 extern NSString *CNToggleSizePreferencesKey;
+extern NSString *CNToggleSizeWidthPreferencesKey;
+extern NSString *CNToggleSizeHeightPreferencesKey;
 extern NSString *CNToggleDisplayPreferencesKey;
 extern NSString *CNToggleVisualEffectPreferencesKey;
 extern NSString *CNToggleAnimationEffectPreferencesKey;

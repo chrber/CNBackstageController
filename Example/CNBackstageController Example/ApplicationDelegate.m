@@ -54,7 +54,9 @@
     self.backstageController.toggleDisplay          = [self.defaults integerForKey:CNToggleDisplayPreferencesKey];
     self.backstageController.toggleVisualEffect     = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
     self.backstageController.toggleAnimationEffect  = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
-    self.backstageController.toggleSize             = CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen);
+    CGFloat width = [self.defaults integerForKey:CNToggleSizeWidthPreferencesKey];
+    CGFloat height = [self.defaults integerForKey:CNToggleSizeHeightPreferencesKey];
+    self.backstageController.toggleSize             = CNMakeToggleSize(width, height);
     self.backstageController.overlayAlpha           = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
 }
 

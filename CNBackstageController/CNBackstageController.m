@@ -39,6 +39,8 @@ static CGFloat kAnimationDuration = 0.25;
 /// NSUserDefaults keys
 NSString *CNToggleEdgePreferencesKey = @"CNToggleEdge";
 NSString *CNToggleSizePreferencesKey = @"CNToggleSize";
+NSString *CNToggleSizeWidthPreferencesKey = @"CNToggleSizeWidth";
+NSString *CNToggleSizeHeightPreferencesKey = @"CNToggleSizeHeight";
 NSString *CNToggleDisplayPreferencesKey = @"CNToggleDisplay";
 NSString *CNToggleVisualEffectPreferencesKey = @"CNToggleVisualEffect";
 NSString *CNToggleAnimationEffectPreferencesKey = @"CNToggleAnimationEffect";
