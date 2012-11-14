@@ -33,9 +33,11 @@
 #define CNBackstageDefinitions_h
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef enum {
-    CNToggleStateClosed = -1,                           // indictates that the current state of CNBackstageController is 'closed' (meaning: no applicationView is visible)
-    CNToggleStateOpened = 1                             // indictates that the current state of CNBackstageController is 'opened' (meaning: the applicationView is visible)
+    CNToggleStateCollapsed = -1,                        // indictates that the current state of CNBackstageController is 'closed' (meaning: no applicationView is visible)
+    CNToggleStateExpanded = 1                           // indictates that the current state of CNBackstageController is 'opened' (meaning: the applicationView is visible)
 } CNToggleState;
 
 typedef enum {
@@ -85,6 +87,7 @@ typedef struct {
 
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// NSUserDefaults keys
 /// These keys are used to save the enum values from above. CNBackstageController will handle the serialization of it automatically.
 extern NSString *CNToggleEdgePreferencesKey;
@@ -95,23 +98,26 @@ extern NSString *CNToggleAnimationEffectPreferencesKey;
 extern NSString *CNToggleAlphaValuePreferencesKey;
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Notifications
 /// All these notifications contains the sending CNBackstageController as the `object` value. The userInfo dictionary contains two objects.
 /// The first is the NSScreen object of the current toggle screen defined by the `toggleScreen` property using the dictionary key `CNToggleScreenUserInfoKey`.
 /// The second is the toggle edge the application view will appear defined by the `toggleEdge` property, wrapped in a NSNumber object using the dictionary key `CNToggleEdgeUserInfoKey`.
-extern NSString *CNBackstageControllerWillOpenScreenNotification;
-extern NSString *CNBackstageControllerDidOpenScreenNotification;
-extern NSString *CNBackstageControllerWillCloseScreenNotification;
-extern NSString *CNBackstageControllerDidCloseScreenNotification;
+extern NSString *CNBackstageControllerWillExpandOnScreenNotification;
+extern NSString *CNBackstageControllerDidExpandOnScreenNotification;
+extern NSString *CNBackstageControllerWillCollapseOnScreenNotification;
+extern NSString *CNBackstageControllerDidCollapseOnScreenNotification;
 extern NSString *CNBackstageControllerWillDragOnScreenNotification;
 extern NSString *CNBackstageControllerDidDragOnScreenNotification;
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Keys that are used for the userInfo dictionary in the notifications from above
 extern NSString *CNToggleScreenUserInfoKey;
 extern NSString *CNToggleEdgeUserInfoKey;
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Convenience Functions
 extern CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight);
 extern CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY);

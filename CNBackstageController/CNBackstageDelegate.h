@@ -30,12 +30,12 @@
  @param toggleScreen    The screen that will toggle the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view will appear.
  */
-- (void)backstageController:(CNBackstageController *)backstageController willOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController willExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  ...
  */
-- (void)backstageController:(CNBackstageController *)backstageController didOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController didExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  Informs the delegate that the screen `toggleScreen` will close on edge `toggleEdge`.
@@ -46,12 +46,12 @@
  @param toggleScreen    The screen that will close the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view did appear.
  */
-- (void)backstageController:(CNBackstageController *)backstageController willCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController willCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  ...
  */
-- (void)backstageController:(CNBackstageController *)backstageController didCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController didCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  ...

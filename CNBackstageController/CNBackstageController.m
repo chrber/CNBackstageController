@@ -46,10 +46,10 @@ NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
 
 
 /// Notifications
-NSString *CNBackstageControllerWillOpenScreenNotification = @"CNBackstageControllerWillOpenScreen";
-NSString *CNBackstageControllerDidOpenScreenNotification = @"CNBackstageControllerDidOpenScreen";
-NSString *CNBackstageControllerWillCloseScreenNotification = @"CNBackstageControllerWillCloseScreen";
-NSString *CNBackstageControllerDidCloseScreenNotification = @"CNBackstageControllerDidCloseScreen";
+NSString *CNBackstageControllerWillExpandOnScreenNotification = @"CNBackstageControllerWillExpandOnScreen";
+NSString *CNBackstageControllerDidExpandOnScreenNotification = @"CNBackstageControllerDidExpandOnScreen";
+NSString *CNBackstageControllerWillCollapseOnScreenNotification = @"CNBackstageControllerWillCollapseOnScreen";
+NSString *CNBackstageControllerDidCollapseOnScreenNotification = @"CNBackstageControllerDidCollapseOnScreen";
 NSString *CNBackstageControllerWillDragOnScreenNotification = @"CNBackstageControllerWillDragOnScreen";
 NSString *CNBackstageControllerDidDragOnScreenNotification = @"CNBackstageControllerDidDragOnScreen";
 
@@ -106,8 +106,8 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 }
 @property (readonly) NSRect currentToggleDisplayFrame;
 
-- (void)changeViewStateToOpenUsingCompletionHandler:(void(^)(void))completionHandler;
-- (void)changeViewStateToCloseUsingCompletionHandler:(void(^)(void))completionHandler;
+- (void)expandUsingCompletionHandler:(void(^)(void))completionHandler;
+- (void)collapseUsingCompletionHandler:(void(^)(void))completionHandler;
 - (void)activateVisualEffects;
 - (void)deactivateVisualEffects;
 - (NSScreen*)screenOfCurrentToggleDisplay;
@@ -183,7 +183,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         initialFirstCoverOrigin                 = NSZeroPoint;
         initialSecondCoverOrigin                = NSZeroPoint;
         initialApplicationViewFrame             = NSZeroRect;
-        toggleState                             = CNToggleStateClosed;
+        toggleState                             = CNToggleStateCollapsed;
     }
     return self;
 }
@@ -198,12 +198,12 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
     NSAssert(self.applicationViewController != nil, @"\n\nThe applicationViewController property must be NOT nil!\nAfter you created your CNBackstageController instance you have to set applicationViewController property.\n\n");
     
     switch (toggleState) {
-        case CNToggleStateClosed: [self changeViewStateToOpen]; break;
-        case CNToggleStateOpened: [self changeViewStateToClose]; break;
+        case CNToggleStateCollapsed: [self expand]; break;
+        case CNToggleStateExpanded: [self collapse]; break;
     }
 }
 
-- (void)changeViewStateToOpen
+- (void)expand
 {
     if (toggleAnimationIsRunning == NO) {
         toggleAnimationIsRunning = YES;
@@ -211,27 +211,27 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         [NSApp activateIgnoringOtherApps:YES];
 
         /// inform the delegate
-        [self backstageController:self willOpenScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+        [self backstageController:self willExpandOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
 
-        [self changeViewStateToOpenUsingCompletionHandler:^{
+        [self expandUsingCompletionHandler:^{
             /// inform the delegate
-            [self backstageController:self didOpenScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+            [self backstageController:self didExpandOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
             toggleAnimationIsRunning = NO;
         }];
     }
 }
 
-- (void)changeViewStateToClose
+- (void)collapse
 {
     if (toggleAnimationIsRunning == NO) {
         toggleAnimationIsRunning = YES;
 
         /// inform the delegate
-        [self backstageController:self willCloseScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+        [self backstageController:self willCollapseOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
 
-        [self changeViewStateToCloseUsingCompletionHandler:^{
+        [self collapseUsingCompletionHandler:^{
             /// inform the delegate
-            [self backstageController:self didCloseScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+            [self backstageController:self didCollapseOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
             toggleAnimationIsRunning = NO;
         }];
     }
@@ -266,7 +266,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (void)setToggleSize:(CNToggleSize)aToggleSize
 {
-    NSUInteger width, height;
+    NSUInteger width = 0, height = 0;
 
     switch (aToggleSize.width) {
         case CNToggleSizeQuarterScreen:
@@ -351,7 +351,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Helper
 
-- (void)changeViewStateToOpenUsingCompletionHandler:(void(^)(void))completionHandler
+- (void)expandUsingCompletionHandler:(void(^)(void))completionHandler
 {
     [self initializeApplicationWindow];
     [self buildLayerHierarchy];
@@ -365,8 +365,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
     switch (self.toggleAnimationEffect) {
         case CNToggleAnimationEffectFade:
-            applicationView.alphaValue = 0.0;
-            break;
+            applicationView.alphaValue = 0.0; break;
         default:
             break;
     }
@@ -379,10 +378,9 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
             case CNToggleAnimationEffectStatic:
                 break;
 
-            case CNToggleAnimationEffectFade: {
+            case CNToggleAnimationEffectFade:
                 [[applicationView animator] setAlphaValue:1.0];
                 break;
-            }
 
             case CNToggleAnimationEffectSlide: {
                 switch (self.toggleEdge) {
@@ -422,14 +420,14 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 
     } completionHandler:^{
-        toggleState = CNToggleStateOpened;
+        toggleState = CNToggleStateExpanded;
         toggleAnimationIsRunning = NO;
 
         completionHandler();
     }];
 }
 
-- (void)changeViewStateToCloseUsingCompletionHandler:(void(^)(void))completionHandler
+- (void)collapseUsingCompletionHandler:(void(^)(void))completionHandler
 {
     __block NSRect applicationFrame = [applicationView frame];
     __block NSRect screenSnapshotFirstFrame = [applicationFirstCoverView frame];
@@ -443,10 +441,9 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
             case CNToggleAnimationEffectStatic:
                 break;
 
-            case CNToggleAnimationEffectFade: {
+            case CNToggleAnimationEffectFade:
                 [[applicationView animator] setAlphaValue:0.0];
                 break;
-            }
 
             case CNToggleAnimationEffectSlide: {
                 switch (self.toggleEdge) {
@@ -492,7 +489,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         [self resignApplicationWindow];
 
         toggleAnimationIsRunning = NO;
-        toggleState = CNToggleStateClosed;
+        toggleState = CNToggleStateCollapsed;
 
         completionHandler();
     }];
@@ -985,7 +982,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 {
     if (!NSPointInRect([theEvent locationInWindow], [applicationView frame])) {
         if (applicationCoverIsDragging == NO) {
-            [self changeViewStateToClose];
+            [self collapse];
         } else {
             applicationCoverIsDragging = NO;
             applicationFirstCoverView.frame = applicationFirstCoverView.layer.frame;
@@ -997,14 +994,14 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 - (void)rightMouseDown:(NSEvent *)theEvent
 {
     if (!NSPointInRect([theEvent locationInWindow], [applicationView frame])) {
-        [self changeViewStateToClose];
+        [self collapse];
     }
 }
 
 - (void)otherMouseDown:(NSEvent *)theEvent
 {
     if (!NSPointInRect([theEvent locationInWindow], [applicationView frame])) {
-        [self changeViewStateToClose];
+        [self collapse];
     }
 }
 
@@ -1015,8 +1012,8 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (void)willResignActive:(NSNotification *)notification
 {
-    if ([self currentViewState] == CNToggleStateOpened) {
-        [self changeViewStateToClose];
+    if ([self currentViewState] == CNToggleStateExpanded) {
+        [self collapse];
     }
 }
 
@@ -1025,55 +1022,55 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate Callbacks
 
-- (void)backstageController:(CNBackstageController *)backstageController willOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController willExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [notifCenter postNotificationName:CNBackstageControllerWillOpenScreenNotification
+    [notifCenter postNotificationName:CNBackstageControllerWillExpandOnScreenNotification
                                     object:backstageController
                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
                                             toggleScreen, CNToggleScreenUserInfoKey,
                                             [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                                             nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController willOpenScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController willExpandOnScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController didOpenScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController didExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [notifCenter postNotificationName:CNBackstageControllerDidOpenScreenNotification
+    [notifCenter postNotificationName:CNBackstageControllerDidExpandOnScreenNotification
                                     object:backstageController
                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
                                             toggleScreen, CNToggleScreenUserInfoKey,
                                             [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                                             nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController didOpenScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController didExpandOnScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController willCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController willCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [notifCenter postNotificationName:CNBackstageControllerWillCloseScreenNotification
+    [notifCenter postNotificationName:CNBackstageControllerWillCollapseOnScreenNotification
                                     object:backstageController
                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
                                             toggleScreen, CNToggleScreenUserInfoKey,
                                             [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                                             nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController willCloseScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController willCollapseOnScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController didCloseScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController didCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
 {
-    [notifCenter postNotificationName:CNBackstageControllerDidCloseScreenNotification
+    [notifCenter postNotificationName:CNBackstageControllerDidCollapseOnScreenNotification
                                     object:backstageController
                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
                                             toggleScreen, CNToggleScreenUserInfoKey,
                                             [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                                             nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController didCloseScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController didCollapseOnScreen:toggleScreen onToggleEdge:toggleEdge];
     }
 }
 

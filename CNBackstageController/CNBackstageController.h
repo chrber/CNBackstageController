@@ -302,13 +302,22 @@
 @property (assign) CNToggleAnimationEffect toggleAnimationEffect;
 
 /**
- Boolean property that indicates whether the user can resize the coverage of applicationView or not.
+ Boolean property that indicates whether the user can resize the coverage of the applicationView or not.
  
+ The default value is `YES`.
+
+ @param YES The user can resize the applicationView by dragging its coverage.
+ @param NO  Resizing of the applicationView is disabled.
  */
 @property (assign) BOOL applicationViewResizeable;
 
 /**
- ...
+ Property that defines the minimum size the applicationView can be resized to.
+ 
+ Dependend on the current toggleEdge the **width** attribute (`CNToggleEdgeLeft`, `CNToggleEdgeRight` or `CNToggleEdgeSplitHorizontal`)
+ or the **height** attribute (`CNToggleEdgeTop`, `CNToggleEdgeBottom` or `CNToggleEdgeSplitVertical`) will be used.
+ 
+ The default value is `NSMakeSize(200.0f, 120.0f)`.
  */
 @property (assign) NSSize applicationViewMinSize;
 
@@ -317,7 +326,9 @@
 /** @name Managing the Layout */
 
 /**
- ...
+ Property to set the background color of the applicationView.
+ 
+ The value of this property will be assigned to backgroundColor property of the enclosing window. The default value is `[NSColor darkGrayColor]`.
  */
 @property (strong, nonatomic) NSColor *backgroundColor;
 
@@ -329,7 +340,10 @@
 /**
  Boolean property to control the drawing of shadows on applicationView.
 
- 
+ The default value is `YES`.
+
+ @param YES Shadows will be drawn on top of the applicationView.
+ @param NO  No shadows will be drawn.
  */
 @property (assign) BOOL useShadowsOnApplicationView;
 
@@ -340,7 +354,7 @@
 /**
  Changes the current view state of applicationView, dependent on the currentViewState.
  
- If the currentViewState has the value `CNToggleStateClosed`, then `CNBackstageController` will open the applicationView.
+ If the currentViewState has the value `CNToggleStateCollapsed`, then `CNBackstageController` will open the applicationView.
  Otherwise it will be closed.
  */
 - (void)toggleViewState;
@@ -348,21 +362,21 @@
 /**
  Shows `CNBackstageController`s applicationView.
  
- Changes the currentViewState to `CNToggleStateOpened`.
+ Changes the currentViewState to `CNToggleStateExpanded`.
  */
-- (void)changeViewStateToOpen;
+- (void)expand;
 
 /**
  Hides `CNBackstageController`s applicationView.
 
- Changes the currentViewState to `CNToggleStateClosed`.
+ Changes the currentViewState to `CNToggleStateCollapsed`.
  */
-- (void)changeViewStateToClose;
+- (void)collapse;
 
 /**
  Returns the current view state of applicationView.
  
- @return If the applicationView is visible the return value will be `CNToggleStateOpened`, otherwise `CNToggleStateClosed`.
+ @return If the applicationView is visible the return value will be `CNToggleStateExpanded`, otherwise `CNToggleStateCollapsed`.
  */
 - (CNToggleState)currentViewState;
 

@@ -303,7 +303,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CN;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "cocoa:naut";
 			};
 			buildConfigurationList = AAB960E016430A6200F952BC /* Build configuration list for PBXProject "CNBackstageController Example" */;
@@ -423,6 +423,7 @@
 		AA93C3D81643B1DF0053B260 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -430,6 +431,7 @@
 		AA93C3D91643B1DF0053B260 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -26,30 +26,11 @@
     [self.defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"]]];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self
-           selector:@selector(defaultsChanged:)
-               name:kDefaultsChangedNotificationKey
-             object:nil];
-
-    [nc addObserver:self
-           selector:@selector(backstageControllerNotification:)
-               name:CNBackstageControllerWillOpenScreenNotification
-             object:nil];
-
-    [nc addObserver:self
-           selector:@selector(backstageControllerNotification:)
-               name:CNBackstageControllerDidOpenScreenNotification
-             object:nil];
-
-    [nc addObserver:self
-           selector:@selector(backstageControllerNotification:)
-               name:CNBackstageControllerWillCloseScreenNotification
-             object:nil];
-
-    [nc addObserver:self
-           selector:@selector(backstageControllerNotification:)
-               name:CNBackstageControllerDidCloseScreenNotification
-             object:nil];
+    [nc addObserver:self selector:@selector(defaultsChanged:) name:kDefaultsChangedNotificationKey object:nil];
+    [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerWillExpandOnScreenNotification object:nil];
+    [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerDidExpandOnScreenNotification object:nil];
+    [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerWillCollapseOnScreenNotification object:nil];
+    [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerDidCollapseOnScreenNotification object:nil];
 
 
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
@@ -93,8 +74,8 @@
 
 - (void)defaultsChanged:(NSNotification *)notification
 {
-    if ([self.backstageController currentViewState] == CNToggleStateOpened) {
-        [self.backstageController changeViewStateToClose];
+    if ([self.backstageController currentViewState] == CNToggleStateExpanded) {
+        [self.backstageController collapse];
     }
     [self configureBackstageController];
 }

@@ -34,7 +34,10 @@
 @interface CNBackstageShadowView : NSView
 
 /**
- ...
+ Property to control where the shadows should be drawn.
+ 
+ Normally you don't have to set this property by yourself. The value will be forwarded by `CNBackstageController` if the
+ application becomes active and the application window is created.
  */
 @property (assign, nonatomic) CNToggleEdge toggleEdge;
 @end
