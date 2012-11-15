@@ -98,6 +98,7 @@ extern NSString *CNToggleDisplayPreferencesKey;
 extern NSString *CNToggleVisualEffectPreferencesKey;
 extern NSString *CNToggleAnimationEffectPreferencesKey;
 extern NSString *CNToggleAlphaValuePreferencesKey;
+extern NSString *CNToggleUseShadowsPreferencesKey;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

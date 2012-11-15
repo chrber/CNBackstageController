@@ -89,6 +89,7 @@ typedef enum {
                                                               NSLocalizedString(@"Two Third of Screen Height", @""),
                                                               nil]];
 
+        self.useShadowsCheckbox.title = NSLocalizedString(@"Use shadows on expanded application view", @"");
 
         self.visualEffectLabel.stringValue = NSLocalizedString(@"Sliding areas should have a", @"");
         self.visualEffectBlackOverlayCheckbox.title = NSLocalizedString(@"Black Overlay", @"");
@@ -178,6 +179,9 @@ typedef enum {
     }
     else if (sender == self.alphaValueSlider) {
         [self.userDefaults setInteger:self.alphaValueSlider.integerValue forKey:CNToggleAlphaValuePreferencesKey];
+    }
+    else if (sender == self.useShadowsCheckbox) {
+        [self.userDefaults setInteger:self.useShadowsCheckbox.state forKey:CNToggleUseShadowsPreferencesKey];
     }
     [self.userDefaults synchronize];
 

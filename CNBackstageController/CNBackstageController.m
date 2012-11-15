@@ -45,6 +45,7 @@ NSString *CNToggleDisplayPreferencesKey = @"CNToggleDisplay";
 NSString *CNToggleVisualEffectPreferencesKey = @"CNToggleVisualEffect";
 NSString *CNToggleAnimationEffectPreferencesKey = @"CNToggleAnimationEffect";
 NSString *CNToggleAlphaValuePreferencesKey = @"CNToggleAlphaValue";
+NSString *CNToggleUseShadowsPreferencesKey = @"CNToggleUseShadows";
 
 
 /// Notifications
@@ -616,13 +617,12 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
     [controllerWindowContentView addSubview:applicationView];
 
     // application shadow view
-    if (self.useShadows) {
-        shadowView = [[CNBackstageShadowView alloc] initWithFrame:[applicationView bounds]];
-        shadowView.toggleEdge = self.toggleEdge;
-        [shadowView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [applicationView addSubview:shadowView];
-        [applicationView setAutoresizesSubviews:YES];
-    }
+    shadowView = [[CNBackstageShadowView alloc] initWithFrame:[applicationView bounds]];
+    shadowView.toggleEdge = self.toggleEdge;
+    shadowView.useShadows = self.useShadows;
+    [shadowView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [applicationView addSubview:shadowView];
+    [applicationView setAutoresizesSubviews:YES];
 
     // Screen Snapshot, First
     [controllerWindowContentView addSubview:applicationFirstCoverView];

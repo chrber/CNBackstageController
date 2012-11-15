@@ -28,6 +28,8 @@
 @property (nonatomic, strong) IBOutlet NSTextField *toggleSizeHeightLabel;
 @property (nonatomic, strong) IBOutlet NSPopUpButton *toggleSizeHeightPopupButton;
 
+@property (nonatomic, strong) IBOutlet NSButton *useShadowsCheckbox;
+
 @property (nonatomic, strong) IBOutlet NSTextField *visualEffectLabel;
 @property (nonatomic, strong) IBOutlet NSButton *visualEffectBlackOverlayCheckbox;
 @property (nonatomic, strong) IBOutlet NSButton *visualEffectGaussianBlurCheckbox;

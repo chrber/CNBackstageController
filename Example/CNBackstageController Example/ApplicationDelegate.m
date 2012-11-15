@@ -31,6 +31,8 @@
     [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerDidExpandOnScreenNotification object:nil];
     [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerWillCollapseOnScreenNotification object:nil];
     [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerDidCollapseOnScreenNotification object:nil];
+    [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerWillDragOnScreenNotification object:nil];
+    [nc addObserver:self selector:@selector(backstageControllerNotification:) name:CNBackstageControllerDidDragOnScreenNotification object:nil];
 
 
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
@@ -45,19 +47,21 @@
     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
     self.backstageController.applicationViewController = self.appController;
     self.backstageController.backgroundColor = [NSColor colorWithPatternImage:[NSImage imageNamed:@"TexturedBackground-Linen-Middle"]];
+    self.backstageController.useShadows = NO;
     [self configureBackstageController];
 }
 
 - (void)configureBackstageController
 {
+    CGFloat width = [self.defaults integerForKey:CNToggleSizeWidthPreferencesKey];
+    CGFloat height = [self.defaults integerForKey:CNToggleSizeHeightPreferencesKey];
+    self.backstageController.toggleSize             = CNMakeToggleSize(width, height);
     self.backstageController.toggleEdge             = [self.defaults integerForKey:CNToggleEdgePreferencesKey];
     self.backstageController.toggleDisplay          = [self.defaults integerForKey:CNToggleDisplayPreferencesKey];
     self.backstageController.toggleVisualEffect     = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
     self.backstageController.toggleAnimationEffect  = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
-    CGFloat width = [self.defaults integerForKey:CNToggleSizeWidthPreferencesKey];
-    CGFloat height = [self.defaults integerForKey:CNToggleSizeHeightPreferencesKey];
-    self.backstageController.toggleSize             = CNMakeToggleSize(width, height);
     self.backstageController.overlayAlpha           = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
+    self.backstageController.useShadows             = [self.defaults integerForKey:CNToggleUseShadowsPreferencesKey];
 }
 
 
