@@ -785,6 +785,8 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (void)resignApplicationWindow
 {
+    self.window.alphaValue = 0.0;
+    
     [shadowView removeFromSuperview];
     [applicationFirstCoverOverlayView removeFromSuperview];
     [applicationFirstCoverView removeFromSuperview];

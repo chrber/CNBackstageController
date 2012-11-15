@@ -30,7 +30,8 @@
 
 #import "CNBackstageShadowView.h"
 
-static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineColor;
+static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineColor, *shadowColor;
+static NSShadow *edgeShadow;
 
 @implementation CNBackstageShadowView
 
@@ -41,6 +42,10 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
     endColor = [[NSColor blackColor] colorWithAlphaComponent:0.001];
     darkLineColor = [NSColor colorWithCalibratedRed:0.046 green:0.047 blue:0.047 alpha:1.000];
     lightLineColor = [NSColor colorWithDeviceRed:0.679 green:0.698 blue:0.698 alpha:1.000];
+    shadowColor = [NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:0.75];
+    edgeShadow = [[NSShadow alloc] init];
+    [edgeShadow setShadowBlurRadius:13.0f];
+    [edgeShadow setShadowColor:shadowColor];
 }
 
 - (void)setToggleEdge:(CNToggleEdge)toggleEdge
@@ -51,23 +56,21 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-    NSColor *shadowColor = [NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:0.75];
-    CGFloat shadowBlurRadius = 13.0f;
-
     switch (self.toggleEdge) {
         case CNToggleEdgeTop: {
             NSRect topRect = NSMakeRect(NSMinX(dirtyRect)-5, NSHeight(dirtyRect), NSWidth(dirtyRect)+10, 15);
             NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
 
-            CGContextSetShadowWithColor(context, CGSizeMake(0, -3), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(0, -3)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [topPath fill];
 
             NSRect leftRect = NSMakeRect(ceil(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 11, NSHeight(dirtyRect)+10);
             NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
 
-            CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(3, 0)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [leftPath fill];
 
@@ -81,13 +84,15 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
             NSRect leftRect = NSMakeRect(ceil(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 11, NSHeight(dirtyRect)+5);
             NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
 
-            CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(3, 0)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [leftPath fill];
 
             NSRect topRect = NSMakeRect(NSMinX(dirtyRect), NSHeight(dirtyRect), NSWidth(dirtyRect)+5, 15);
             NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(0, -3), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(0, -3)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [topPath fill];
             break;
@@ -96,13 +101,15 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
             NSRect topRect = NSMakeRect(NSMinX(dirtyRect)-5, ceil(NSMaxY(dirtyRect))-1, NSWidth(dirtyRect)+10, 15);
             NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
 
-            CGContextSetShadowWithColor(context, CGSizeMake(0, -3), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(0, -3)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [topPath fill];
 
             NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
             NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(3, 0)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [leftPath fill];
             break;
@@ -115,13 +122,15 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
 
             NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
             NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(3, 0)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [leftPath fill];
 
             NSRect topRect = NSMakeRect(NSMinX(dirtyRect), NSHeight(dirtyRect), NSWidth(dirtyRect)+5, 15);
             NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(0, -3), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(0, -3)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [topPath fill];
             break;
@@ -130,13 +139,15 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
         case CNToggleEdgeSplitHorizontal: {
             NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-9, NSMinY(dirtyRect)-5, 11, NSHeight(dirtyRect)+5);
             NSBezierPath *linePath = [NSBezierPath bezierPathWithRect:leftRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(3, 0)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [linePath fill];
 
             NSRect topRect = NSMakeRect(NSMinX(dirtyRect), NSHeight(dirtyRect), NSWidth(dirtyRect)+5, 15);
             NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(0, -3), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(0, -3)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [topPath fill];
 
@@ -150,13 +161,15 @@ static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineC
         case CNToggleEdgeSplitVertical: {
             NSRect topRect = NSMakeRect(NSMinX(dirtyRect)-5, floor(NSHeight(dirtyRect))-1, NSWidth(dirtyRect)+10, 15);
             NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(0, -3), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(0, 3)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [topPath fill];
 
             NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
             NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
-            CGContextSetShadowWithColor(context, CGSizeMake(3, 0), shadowBlurRadius, shadowColor.CGColor);
+            [edgeShadow setShadowOffset:NSMakeSize(3, 0)];
+            [edgeShadow set];
             [darkLineColor setFill];
             [leftPath fill];
 
