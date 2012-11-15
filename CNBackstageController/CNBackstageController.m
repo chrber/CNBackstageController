@@ -368,7 +368,8 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
     switch (self.toggleAnimationEffect) {
         case CNToggleAnimationEffectFade:
-            applicationView.alphaValue = 0.0; break;
+            applicationView.alphaValue = 0.0;
+            break;
         default:
             break;
     }
@@ -389,7 +390,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
                 switch (self.toggleEdge) {
                     case CNToggleEdgeTop:       applicationFrame.origin.y -= ceil(NSHeight(applicationFrame)); break;
                     case CNToggleEdgeBottom:    applicationFrame.origin.y += ceil(NSHeight(applicationFrame)); break;
-                    case CNToggleEdgeLeft:      applicationFrame.origin.x += ceil(NSHeight(applicationFrame)); break;
+                    case CNToggleEdgeLeft:      applicationFrame.origin.x += ceil(NSWidth(applicationFrame)); break;
                     case CNToggleEdgeRight:     applicationFrame.origin.x -= ceil(NSWidth(applicationFrame)); break;
                     default:
                         break;
