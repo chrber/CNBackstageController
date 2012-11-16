@@ -61,7 +61,7 @@
     self.backstageController.toggleVisualEffect     = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
     self.backstageController.toggleAnimationEffect  = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
     self.backstageController.overlayAlpha           = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
-    self.backstageController.useShadows             = [self.defaults integerForKey:CNToggleUseShadowsPreferencesKey];
+    self.backstageController.useShadows             = [self.defaults boolForKey:CNToggleUseShadowsPreferencesKey];
 }
 
 

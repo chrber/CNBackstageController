@@ -2,15 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CNToggleAlphaValue</key>
+	<string>75</string>
+	<key>CNToggleAnimationEffect</key>
+	<integer>0</integer>
 	<key>CNToggleDisplay</key>
 	<integer>0</integer>
 	<key>CNToggleEdge</key>
 	<integer>2</integer>
+	<key>CNToggleSizeHeight</key>
+	<integer>0</integer>
+	<key>CNToggleSizeWidth</key>
+	<integer>3</integer>
+	<key>CNToggleUseShadows</key>
+	<true/>
 	<key>CNToggleVisualEffect</key>
 	<integer>1</integer>
-	<key>CNToggleAnimationEffect</key>
-	<integer>0</integer>
-	<key>CNToggleAlphaValue</key>
-	<string>65</string>
 </dict>
 </plist>

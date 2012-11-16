@@ -181,7 +181,7 @@ typedef enum {
         [self.userDefaults setInteger:self.alphaValueSlider.integerValue forKey:CNToggleAlphaValuePreferencesKey];
     }
     else if (sender == self.useShadowsCheckbox) {
-        [self.userDefaults setInteger:self.useShadowsCheckbox.state forKey:CNToggleUseShadowsPreferencesKey];
+        [self.userDefaults setBool:self.useShadowsCheckbox.state forKey:CNToggleUseShadowsPreferencesKey];
     }
     [self.userDefaults synchronize];
 
