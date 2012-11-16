@@ -35,6 +35,8 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const NSUInteger kMaxNumberOfSupportedDisplays = 16;
+
 typedef enum {
     CNToggleStateCollapsed = -1,                        // indictates that the current state of CNBackstageController is 'closed' (meaning: no applicationView is visible)
     CNToggleStateExpanded = 1                           // indictates that the current state of CNBackstageController is 'opened' (meaning: the applicationView is visible)

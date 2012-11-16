@@ -114,15 +114,14 @@
  
  This property is controlled by one of four possible values:
  
-    enum {
+    typedef enum {
         CNToggleEdgeTop = 0,
         CNToggleEdgeBottom,
         CNToggleEdgeLeft,
         CNToggleEdgeRight,
         CNToggleEdgeSplitHorizontal,
         CNToggleEdgeSplitVertical
-    };
-    typedef NSUInteger CNToggleEdge;
+    } CNToggleEdge;
 
  `CNToggleEdgeTop`<br />
  The applicationView will appear from the top side of the screen that was selected by the property `toggleDisplay`.<br />
@@ -229,15 +228,15 @@
 /**
  Specifies the display to show the `applicationView` on.
  
- There are just four displays supported. You can specify it with one of these constants:
+ The max. number of displays `CNBackstageController` currently supports is 16. This number is defined by the constant `kMaxNumberOfSupportedDisplays`.
+ For a quick and easy usage there are four constants representing the first 4 displays (0 to 3):
  
-    enum {
-        CNToggleDisplayMain = 0,            // Main Display means where the system statusbar is placed
+    typedef enum {
+        CNToggleDisplayMain = 0,                            // Main Display means where the system statusbar is placed
         CNToggleDisplaySecond,
         CNToggleDisplayThird,
         CNToggleDisplayFourth
-    };
-    typedef NSUInteger CNToggleDisplay;
+    } CNToggleDisplay;
 
  `CNToggleDisplayMain`<br />
  The default value. Main display means that display where the system statusbar is placed.
@@ -328,12 +327,17 @@
 /**
  Property to set the background color of the applicationView.
  
- The value of this property will be assigned to backgroundColor property of the enclosing window. The default value is `[NSColor darkGrayColor]`.
+ The value of this property will be assigned to backgroundColor property of the enclosing window.<br />
+ The default value is `[NSColor darkGrayColor]`.
  */
 @property (strong, nonatomic) NSColor *backgroundColor;
 
 /**
  Property that gets and/or sets the opacity value of the screen snapshot overlays.
+ 
+ The default value is `0.75f`.
+ 
+ @param overlayAlpha    Any valid value in the range between `0` and `1`.
  */
 @property (assign) CGFloat overlayAlpha;
 

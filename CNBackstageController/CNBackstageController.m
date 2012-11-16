@@ -165,7 +165,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         _toggleAnimationEffect                  = CNToggleAnimationEffectStatic;
         _applicationViewController              = nil;
         _backgroundColor                        = [NSColor darkGrayColor];
-        _overlayAlpha                           = 0.75;
+        _overlayAlpha                           = 0.75f;
         _resizingAllowed                        = YES;
         _applicationViewMinSize                 = NSMakeSize(200.0f, 120.0f);
         _useShadows                             = YES;
@@ -627,8 +627,6 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
     // Screen Snapshot, First
     [controllerWindowContentView addSubview:applicationFirstCoverView];
-
-    // Screen Snapshot Overlay, First
     [applicationFirstCoverView addSubview:applicationFirstCoverOverlayView];
     applicationFirstCoverOverlayView.alphaValue = 0.0;
 
@@ -849,7 +847,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (CGDirectDisplayID)displayIDForCurrentToggleDisplay:(CNToggleDisplay)aToggleDisplay
 {
-    uint32_t MAX_TOGGLE_DISPLAYS = 16;   // number of supported displays
+    uint32_t MAX_TOGGLE_DISPLAYS = kMaxNumberOfSupportedDisplays;   // number of supported displays
     uint32_t displayCount;
     CGDirectDisplayID toggleDisplays[MAX_TOGGLE_DISPLAYS];
     CGGetOnlineDisplayList(MAX_TOGGLE_DISPLAYS, toggleDisplays, &displayCount);
