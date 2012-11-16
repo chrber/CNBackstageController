@@ -30,18 +30,15 @@
 
 #import "CNBackstageShadowView.h"
 
-static NSColor *startColor, *middleColor, *endColor, *darkLineColor, *lightLineColor, *shadowColor;
+static NSColor *darkLineColor, *brightLineColor, *shadowColor;
 static NSShadow *edgeShadow;
 
 @implementation CNBackstageShadowView
 
 + (void)initialize
 {
-    startColor = [[NSColor blackColor] colorWithAlphaComponent:0.55];
-    middleColor = [[NSColor blackColor] colorWithAlphaComponent:0.32];
-    endColor = [[NSColor blackColor] colorWithAlphaComponent:0.001];
     darkLineColor = [NSColor colorWithCalibratedRed:0.046 green:0.047 blue:0.047 alpha:1.000];
-    lightLineColor = [NSColor colorWithDeviceRed:0.679 green:0.698 blue:0.698 alpha:1.000];
+    brightLineColor = [NSColor colorWithDeviceRed:0.679 green:0.698 blue:0.698 alpha:1.000];
     shadowColor = [NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:0.75];
     edgeShadow = [[NSShadow alloc] init];
     [edgeShadow setShadowBlurRadius:13.0f];
@@ -89,7 +86,7 @@ static NSShadow *edgeShadow;
 
             NSRect bottomRect = NSMakeRect(NSMinX(dirtyRect), floor(NSMinY(dirtyRect)), NSWidth(dirtyRect), 1);
             NSBezierPath *bottomPath = [NSBezierPath bezierPathWithRect:bottomRect];
-            [lightLineColor setFill];
+            [brightLineColor setFill];
             [bottomPath fill];
             break;
         }
@@ -138,7 +135,7 @@ static NSShadow *edgeShadow;
         case CNToggleEdgeLeft: {
             NSRect rightRect = NSMakeRect(ceil(NSWidth(dirtyRect))-1, NSMinY(dirtyRect)-5, 7, NSHeight(dirtyRect)+10);
             NSBezierPath *rightPath = [NSBezierPath bezierPathWithRect:rightRect];
-            [lightLineColor setFill];
+            [brightLineColor setFill];
             [rightPath fill];
 
             NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
@@ -181,7 +178,7 @@ static NSShadow *edgeShadow;
 
             NSRect rightRect = NSMakeRect(NSMaxX(dirtyRect)-1, NSMinY(dirtyRect), 1, NSHeight(dirtyRect));
             linePath = [NSBezierPath bezierPathWithRect:rightRect];
-            [lightLineColor setFill];
+            [brightLineColor setFill];
             [linePath fill];
             break;
         }
@@ -206,7 +203,7 @@ static NSShadow *edgeShadow;
 
             NSRect lineBottomRect = NSMakeRect(NSMinX(dirtyRect), ceil(NSMinY(dirtyRect))+1, NSWidth(dirtyRect), 1);
             NSBezierPath *lineBottomPath = [NSBezierPath bezierPathWithRect:lineBottomRect];
-            [lightLineColor setFill];
+            [brightLineColor setFill];
             [lineBottomPath fill];
             break;
         }
