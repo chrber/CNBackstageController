@@ -1,11 +1,11 @@
 ##ChangeLog
 
 **v1.1.2** ||| *11-16-2012*
-- **Fixed**: a bug that occurs if the example was (complied &) executed on OSX 10.7.x
-- **Fixed**: a bug that occurs by sliding on the left side
+- **Fixed**: a bug that occured if the example was (complied &) executed on OSX 10.7.x
+- **Fixed**: a bug that occured by sliding on the left side
 - **Changed**: handling to control the drawing of shadows
 - **Updated**: example application (shadow handling)
-- **Added**: property 'useShadow' on CNBackstageShadowView
+- **Added**: property `useShadow` on `CNBackstageShadowView`
 
 -
 **v1.1.1** ||| *11-14-2012*

@@ -35,6 +35,7 @@
 
 
 static CGFloat kAnimationDuration = 0.25;
+const NSUInteger kMaxNumberOfSupportedDisplays = 16;
 
 /// NSUserDefaults keys
 NSString *CNToggleEdgePreferencesKey = @"CNToggleEdge";
@@ -252,14 +253,17 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 
 - (void)setApplicationViewController:(NSViewController<CNBackstageDelegate> *)applicationViewController
 {
-    _applicationViewController = applicationViewController;
-    applicationView = [_applicationViewController view];
-    self.delegate = _applicationViewController;
+    if (_applicationViewController != applicationViewController) {
+        _applicationViewController = nil;
+        _applicationViewController = applicationViewController;
+        applicationView = [_applicationViewController view];
+        self.delegate = _applicationViewController;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(willResignActive:)
-                                                 name:NSApplicationWillResignActiveNotification
-                                               object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(willResignActive:)
+                                                     name:NSApplicationWillResignActiveNotification
+                                                   object:nil];
+    }
 }
 
 - (CNToggleSize)toggleSize
