@@ -168,7 +168,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
         _backgroundColor                        = [NSColor darkGrayColor];
         _overlayAlpha                           = 0.75f;
         _resizingAllowed                        = YES;
-        _applicationViewMinSize                 = NSMakeSize(200.0f, 120.0f);
+        _toggleSizeMin                          = NSMakeSize(200.0f, 120.0f);
         _useShadows                             = YES;
 
         /// private properties
@@ -294,9 +294,9 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
                         width = aToggleSize.width;
                     }
 
-                    else if (aToggleSize.width <= self.applicationViewMinSize.width) {
+                    else if (aToggleSize.width <= self.toggleSizeMin.width) {
                         /// fallback
-                        width = self.applicationViewMinSize.width;
+                        width = self.toggleSizeMin.width;
 
                     } else {
                         /// fallback
@@ -325,12 +325,12 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
                 case CNToggleEdgeBottom:
                 case CNToggleEdgeSplitVertical: {
                     CGFloat windowHeight = NSHeight([[self window] frame]);
-                    if (aToggleSize.height <= windowHeight && aToggleSize.height >= self.applicationViewMinSize.height) {
+                    if (aToggleSize.height <= windowHeight && aToggleSize.height >= self.toggleSizeMin.height) {
                         height = aToggleSize.height;
                     }
 
-                    else if (aToggleSize.height <= self.applicationViewMinSize.height) {
-                        height = self.applicationViewMinSize.height;
+                    else if (aToggleSize.height <= self.toggleSizeMin.height) {
+                        height = self.toggleSizeMin.height;
 
                     } else {
                         /// fallback
@@ -898,7 +898,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
             offset = location.y - initialDraggingPoint.y;
             firstCoverFrame = NSMakeRect(NSMinX(firstCoverFrame), initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = NSMakeRect(NSMinX(applicationView.frame), NSMaxY(firstCoverFrame), NSWidth(applicationView.frame), NSHeight(initialApplicationViewFrame) - offset);
-            if (NSMinY(firstCoverFrame) <= 0 && NSHeight(appRect) >= self.applicationViewMinSize.height) {
+            if (NSMinY(firstCoverFrame) <= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
                 applicationView.frame = appRect;
                 applicationFirstCoverView.layer.frame = firstCoverFrame;
             }
@@ -908,7 +908,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
             offset = location.y - initialDraggingPoint.y;
             firstCoverFrame = NSMakeRect(NSMinX(firstCoverFrame), initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = NSMakeRect(NSMinX(applicationView.frame), NSMinY(applicationView.frame), NSWidth(applicationView.frame), NSHeight(initialApplicationViewFrame) + offset);
-            if (NSMaxY(firstCoverFrame) >= 0 && NSHeight(appRect) >= self.applicationViewMinSize.height) {
+            if (NSMaxY(firstCoverFrame) >= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
                 applicationView.frame = appRect;
                 applicationFirstCoverView.layer.frame = firstCoverFrame;
             }
@@ -918,7 +918,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
             offset = location.x - initialDraggingPoint.x;
             firstCoverFrame = NSMakeRect(initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = NSMakeRect(NSMinX(applicationView.frame), NSMinY(applicationView.frame), NSWidth(initialApplicationViewFrame) + offset, NSHeight(applicationView.frame));
-            if (NSMinX(firstCoverFrame) >= 0 && NSWidth(appRect) >= self.applicationViewMinSize.width) {
+            if (NSMinX(firstCoverFrame) >= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
                 applicationView.frame = appRect;
                 applicationFirstCoverView.layer.frame = firstCoverFrame;
             }
@@ -928,7 +928,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
             offset = location.x - initialDraggingPoint.x;
             firstCoverFrame = NSMakeRect(initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = NSMakeRect(NSMaxX(firstCoverFrame) + 1, NSMinY(applicationView.frame), NSWidth(initialApplicationViewFrame) - offset, NSHeight(applicationView.frame));
-            if (NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.applicationViewMinSize.width) {
+            if (NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
                 applicationView.frame = appRect;
                 applicationFirstCoverView.layer.frame = firstCoverFrame;
             }
@@ -944,7 +944,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
                 firstCoverFrame = NSMakeRect(initialFirstCoverOrigin.x - offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             }
             appRect = NSMakeRect(NSMaxX(firstCoverFrame) - 1, NSMinY(applicationView.frame), NSMinX(secondCoverFrame) - NSMaxX(firstCoverFrame) + 1, NSHeight(applicationView.frame));
-            if (NSMaxX(firstCoverFrame) >= 0 && NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.applicationViewMinSize.width) {
+            if (NSMaxX(firstCoverFrame) >= 0 && NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
                 applicationView.frame = appRect;
                 applicationFirstCoverView.layer.frame = firstCoverFrame;
                 applicationSecondCoverView.layer.frame = secondCoverFrame;
@@ -961,7 +961,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
                 secondCoverFrame = NSMakeRect(NSMinX(secondCoverFrame), initialSecondCoverOrigin.y + offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
             }
             appRect = NSMakeRect(NSMinX(applicationView.frame), NSMaxY(secondCoverFrame) - 1, NSWidth(applicationView.frame), NSMinY(firstCoverFrame) - NSMaxY(secondCoverFrame) + 1);
-            if (NSMinY(secondCoverFrame) <= 0 && NSHeight(appRect) >= self.applicationViewMinSize.height) {
+            if (NSMinY(secondCoverFrame) <= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
                 applicationView.frame = appRect;
                 applicationFirstCoverView.layer.frame = firstCoverFrame;
                 applicationSecondCoverView.layer.frame = secondCoverFrame;

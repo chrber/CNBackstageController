@@ -226,6 +226,16 @@
 @property (assign, nonatomic) CNToggleSize toggleSize;
 
 /**
+ Property that defines the minimum size the applicationView can be resized to.
+
+ Dependend on the current toggleEdge the **width** attribute (`CNToggleEdgeLeft`, `CNToggleEdgeRight` or `CNToggleEdgeSplitHorizontal`)
+ or the **height** attribute (`CNToggleEdgeTop`, `CNToggleEdgeBottom` or `CNToggleEdgeSplitVertical`) will be used.
+
+ The default value is `NSMakeSize(200.0f, 120.0f)`.
+ */
+@property (assign) NSSize toggleSizeMin;
+
+/**
  Specifies the display to show the `applicationView` on.
  
  The max. number of displays `CNBackstageController` currently supports is 16. This number is defined by the constant `kMaxNumberOfSupportedDisplays`.
@@ -309,16 +319,6 @@
  @param NO  Resizing of the applicationView is disabled.
  */
 @property (assign, getter = isResizingAllowed) BOOL resizingAllowed;
-
-/**
- Property that defines the minimum size the applicationView can be resized to.
- 
- Dependend on the current toggleEdge the **width** attribute (`CNToggleEdgeLeft`, `CNToggleEdgeRight` or `CNToggleEdgeSplitHorizontal`)
- or the **height** attribute (`CNToggleEdgeTop`, `CNToggleEdgeBottom` or `CNToggleEdgeSplitVertical`) will be used.
- 
- The default value is `NSMakeSize(200.0f, 120.0f)`.
- */
-@property (assign) NSSize applicationViewMinSize;
 
 
 #pragma mark - Managing the Layout
