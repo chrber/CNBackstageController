@@ -32,6 +32,7 @@
 		AA3457141643222F00E4CCE6 /* TexturedBackground-Paper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA34570C1643222F00E4CCE6 /* TexturedBackground-Paper.jpg */; };
 		AA34572716432D9C00E4CCE6 /* CNApplicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */; };
 		AA34572816432D9C00E4CCE6 /* CNApplicationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */; };
+		AA489301165D984E00C6F13A /* CNBackstageDragHandleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA489300165D984E00C6F13A /* CNBackstageDragHandleView.m */; };
 		AA6FA3C41643E8E100A90505 /* Grey_Curtains.icns in Resources */ = {isa = PBXBuildFile; fileRef = AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */; };
 		AA6FA3C71643ED2B00A90505 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA6FA3C61643ED2B00A90505 /* MainMenu.xib */; };
 		AAA51BFA164D104A00E5744A /* CNBackstageController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA51BF3164D104A00E5744A /* CNBackstageController.m */; };
@@ -77,6 +78,8 @@
 		AA34572416432D9C00E4CCE6 /* CNApplicationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNApplicationViewController.h; sourceTree = "<group>"; };
 		AA34572516432D9C00E4CCE6 /* CNApplicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNApplicationViewController.m; sourceTree = "<group>"; };
 		AA34572616432D9C00E4CCE6 /* CNApplicationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CNApplicationView.xib; sourceTree = "<group>"; };
+		AA4892FF165D984E00C6F13A /* CNBackstageDragHandleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageDragHandleView.h; sourceTree = "<group>"; };
+		AA489300165D984E00C6F13A /* CNBackstageDragHandleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBackstageDragHandleView.m; sourceTree = "<group>"; };
 		AA6FA3C31643E8E100A90505 /* Grey_Curtains.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Grey_Curtains.icns; path = ../Grey_Curtains.icns; sourceTree = "<group>"; };
 		AA6FA3C61643ED2B00A90505 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		AAA51BF2164D104A00E5744A /* CNBackstageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBackstageController.h; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 				AAA51BF5164D104A00E5744A /* CNBackstageDelegate.h */,
 				AAA51BF6164D104A00E5744A /* CNBackstageShadowView.h */,
 				AAA51BF7164D104A00E5744A /* CNBackstageShadowView.m */,
+				AA4892FF165D984E00C6F13A /* CNBackstageDragHandleView.h */,
+				AA489300165D984E00C6F13A /* CNBackstageDragHandleView.m */,
 				AAA51BF8164D104A00E5744A /* NSScreen+CNBackstageController.h */,
 				AAA51BF9164D104A00E5744A /* NSScreen+CNBackstageController.m */,
 			);
@@ -395,6 +400,7 @@
 				AAA51BFA164D104A00E5744A /* CNBackstageController.m in Sources */,
 				AAA51BFB164D104A00E5744A /* CNBackstageShadowView.m in Sources */,
 				AAA51BFC164D104A00E5744A /* NSScreen+CNBackstageController.m in Sources */,
+				AA489301165D984E00C6F13A /* CNBackstageDragHandleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
