@@ -42,8 +42,6 @@
 	
 	<option value="//api/name/applicationViewController">&nbsp;&nbsp;&nbsp;&nbsp;applicationViewController</option>
 	
-	<option value="//api/name/applicationViewMinSize">&nbsp;&nbsp;&nbsp;&nbsp;applicationViewMinSize</option>
-	
 	<option value="//api/name/backgroundColor">&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor</option>
 	
 	<option value="//api/name/delegate">&nbsp;&nbsp;&nbsp;&nbsp;delegate</option>
@@ -59,6 +57,8 @@
 	<option value="//api/name/toggleEdge">&nbsp;&nbsp;&nbsp;&nbsp;toggleEdge</option>
 	
 	<option value="//api/name/toggleSize">&nbsp;&nbsp;&nbsp;&nbsp;toggleSize</option>
+	
+	<option value="//api/name/toggleSizeMin">&nbsp;&nbsp;&nbsp;&nbsp;toggleSizeMin</option>
 	
 	<option value="//api/name/toggleVisualEffect">&nbsp;&nbsp;&nbsp;&nbsp;toggleVisualEffect</option>
 	
@@ -118,8 +118,6 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applicationViewController">applicationViewController</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applicationViewMinSize">applicationViewMinSize</a></span></li>
-	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/backgroundColor">backgroundColor</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delegate">delegate</a></span></li>
@@ -135,6 +133,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleEdge">toggleEdge</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleSize">toggleSize</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleSizeMin">toggleSizeMin</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleVisualEffect">toggleVisualEffect</a></span></li>
 	
@@ -301,6 +301,13 @@ see the results. You may also take a look at the Example project.</p>
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/toggleSizeMin">&nbsp;&nbsp;toggleSizeMin</a></code>
+		<span class="tooltip"><p>Property that defines the minimum size the applicationView can be resized to.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/toggleDisplay">&nbsp;&nbsp;toggleDisplay</a></code>
 		<span class="tooltip"><p>Specifies the display to show the <code>applicationView</code> on.</p></span>
 	</span>
@@ -324,13 +331,6 @@ see the results. You may also take a look at the Example project.</p>
 	<span class="tooltip">
 		<code><a href="#//api/name/resizingAllowed">&nbsp;&nbsp;resizingAllowed</a></code>
 		<span class="tooltip"><p>Boolean property that indicates whether the user can resize the coverage of the applicationView or not.</p></span>
-	</span>
-	<span class="task-item-suffix">property</span>
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/applicationViewMinSize">&nbsp;&nbsp;applicationViewMinSize</a></code>
-		<span class="tooltip"><p>Property that defines the minimum size the applicationView can be resized to.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -438,50 +438,6 @@ see the results. You may also take a look at the Example project.</p>
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>The applicationViewController can be any derivate of <code>NSWindowController</code>. <code>CNBackstageController</code> will handle its view as your application view.
 When you set this property <code>CNBackstageController</code> will automatically set its <a href="#//api/name/delegate">delegate</a> to the applicationViewController. Later you can overwrite the <a href="#//api/name/delegate">delegate</a> dependent on your needs.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/applicationViewMinSize" title="applicationViewMinSize"></a>
-	<h3 class="subsubtitle method-title">applicationViewMinSize</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Property that defines the minimum size the applicationView can be resized to.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>@property (assign) NSSize applicationViewMinSize</code></div>
-
-    
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Dependend on the current <a href="#//api/name/toggleEdge">toggleEdge</a> the <strong>width</strong> attribute (<code>CNToggleEdgeLeft</code>, <code>CNToggleEdgeRight</code> or <code>CNToggleEdgeSplitHorizontal</code>)
-or the <strong>height</strong> attribute (<code>CNToggleEdgeTop</code>, <code>CNToggleEdgeBottom</code> or <code>CNToggleEdgeSplitVertical</code>) will be used.</p>
-
-<p>The default value is <code>NSMakeSize(200.0f, 120.0f)</code>.</p>
 	</div>
 	
 	
@@ -972,6 +928,50 @@ The applicationView will appear using two thirds of a screen (height or width, d
 <p><strong>Default value</strong></p>
 
 <p>The default value of toggleSize is <code>CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen)</code>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/toggleSizeMin" title="toggleSizeMin"></a>
+	<h3 class="subsubtitle method-title">toggleSizeMin</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Property that defines the minimum size the applicationView can be resized to.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) NSSize toggleSizeMin</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Dependend on the current <a href="#//api/name/toggleEdge">toggleEdge</a> the <strong>width</strong> attribute (<code>CNToggleEdgeLeft</code>, <code>CNToggleEdgeRight</code> or <code>CNToggleEdgeSplitHorizontal</code>)
+or the <strong>height</strong> attribute (<code>CNToggleEdgeTop</code>, <code>CNToggleEdgeBottom</code> or <code>CNToggleEdgeSplitVertical</code>) will be used.</p>
+
+<p>The default value is <code>NSMakeSize(200.0f, 120.0f)</code>.</p>
 	</div>
 	
 	

@@ -12,7 +12,8 @@
 
 /**
  The CNBackstage Delegate provides a set of methods the user can implement to control the functionality of its own backstage
- instance.
+ instance. On each delegate call a related notification will be send too. So you can decide by yourself either to use the delegate mechanism
+ or `NSNotificationCenter` (or both).
  */
 
 @class CNBackstageController;
@@ -30,12 +31,12 @@
  @param toggleScreen    The screen that will toggle the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view will appear.
  */
-- (void)backstageController:(CNBackstageController *)backstageController willExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController willExpandOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  ...
  */
-- (void)backstageController:(CNBackstageController *)backstageController didExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController didExpandOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  Informs the delegate that the screen `toggleScreen` will close on edge `toggleEdge`.
@@ -46,20 +47,20 @@
  @param toggleScreen    The screen that will close the CNBackstageController's view.
  @param toggleEdge      The edge the CNBackstageController's view did appear.
  */
-- (void)backstageController:(CNBackstageController *)backstageController willCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController willCollapseOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  ...
  */
-- (void)backstageController:(CNBackstageController *)backstageController didCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController didCollapseOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  ...
  */
-- (void)backstageController:(CNBackstageController *)backstageController willDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController willDragOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge;
 
 /**
  ...
  */
-- (void)backstageController:(CNBackstageController *)backstageController didDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge;
+- (void)backstageController:(CNBackstageController *)backstageController didDragOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge;
 @end

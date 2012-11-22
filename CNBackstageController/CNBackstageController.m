@@ -107,21 +107,7 @@
 {
     self = [super init];
     if (self) {
-        /// properties of public API
-        _delegate                               = nil;
-        _toggleEdge                             = CNToggleEdgeTop;
-        _toggleSize                             = CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen);
-        _toggleDisplay                          = CNToggleDisplayMain;
-        _toggleVisualEffect                     = CNToggleVisualEffectOverlayBlack;
-        _toggleAnimationEffect                  = CNToggleAnimationEffectStatic;
-        _applicationViewController              = nil;
-        _backgroundColor                        = [NSColor darkGrayColor];
-        _overlayAlpha                           = 0.75f;
-        _resizingAllowed                        = YES;
-        _toggleSizeMin                          = NSMakeSize(200.0f, 120.0f);
-        _useShadows                             = YES;
-
-        /// private properties
+        /// IVARs
         _nc                                      = [NSNotificationCenter defaultCenter];
         _defaults                                = [NSUserDefaults standardUserDefaults];
         _applicationCoverIsDragging              = NO;
@@ -138,6 +124,20 @@
         _initialSecondCoverOrigin                = NSZeroPoint;
         _initialApplicationViewFrame             = NSZeroRect;
         _toggleState                             = CNToggleStateCollapsed;
+
+        /// properties of API
+        _delegate                               = nil;
+        _toggleEdge                             = CNToggleEdgeTop;
+        _toggleSize                             = CNMakeToggleSize(CNToggleSizeQuarterScreen, CNToggleSizeQuarterScreen);
+        _toggleDisplay                          = CNToggleDisplayMain;
+        _toggleVisualEffect                     = CNToggleVisualEffectOverlayBlack;
+        _toggleAnimationEffect                  = CNToggleAnimationEffectStatic;
+        _applicationViewController              = nil;
+        _backgroundColor                        = [NSColor darkGrayColor];
+        _overlayAlpha                           = 0.75f;
+        _resizingAllowed                        = YES;
+        _toggleSizeMin                          = NSMakeSize(200.0f, 120.0f);
+        _useShadows                             = YES;
     }
     return self;
 }
@@ -165,11 +165,11 @@
         [NSApp activateIgnoringOtherApps:YES];
 
         /// inform the delegate
-        [self backstageController:self willExpandOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+        [self backstageController:self willExpandOnScreen:[self screenOfCurrentToggleDisplay] toggleEdge:self.toggleEdge];
 
         [self expandUsingCompletionHandler:^{
             /// inform the delegate
-            [self backstageController:self didExpandOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+            [self backstageController:self didExpandOnScreen:[self screenOfCurrentToggleDisplay] toggleEdge:self.toggleEdge];
             _toggleAnimationIsRunning = NO;
         }];
     }
@@ -181,11 +181,11 @@
         _toggleAnimationIsRunning = YES;
 
         /// inform the delegate
-        [self backstageController:self willCollapseOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+        [self backstageController:self willCollapseOnScreen:[self screenOfCurrentToggleDisplay] toggleEdge:self.toggleEdge];
 
         [self collapseUsingCompletionHandler:^{
             /// inform the delegate
-            [self backstageController:self didCollapseOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+            [self backstageController:self didCollapseOnScreen:[self screenOfCurrentToggleDisplay] toggleEdge:self.toggleEdge];
             _toggleAnimationIsRunning = NO;
         }];
     }
@@ -928,7 +928,7 @@
 {
     if (_applicationCoverIsDragging == NO) {
         /// inform the delegate
-        [self backstageController:self willDragOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+        [self backstageController:self willDragOnScreen:[self screenOfCurrentToggleDisplay] toggleEdge:self.toggleEdge];
     }
     [self dragCoverageUsingAnchorPoint:[theEvent locationInWindow]];
 }
@@ -948,7 +948,7 @@
             _applicationSecondCoverView.frame = _applicationSecondCoverView.layer.frame;
 
             /// inform the delegate
-            [self backstageController:self didDragOnScreen:[self screenOfCurrentToggleDisplay] onToggleEdge:self.toggleEdge];
+            [self backstageController:self didDragOnScreen:[self screenOfCurrentToggleDisplay] toggleEdge:self.toggleEdge];
         }
     }
 }
@@ -984,7 +984,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNBackstage Delegate Callbacks
 
-- (void)backstageController:(CNBackstageController *)backstageController willExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController willExpandOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerWillExpandOnScreenNotification
                       object:backstageController
@@ -993,11 +993,11 @@
                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController willExpandOnScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController willExpandOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController didExpandOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController didExpandOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerDidExpandOnScreenNotification
                       object:backstageController
@@ -1006,11 +1006,11 @@
                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController didExpandOnScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController didExpandOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController willCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController willCollapseOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerWillCollapseOnScreenNotification
                       object:backstageController
@@ -1019,11 +1019,11 @@
                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController willCollapseOnScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController willCollapseOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController didCollapseOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController didCollapseOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerDidCollapseOnScreenNotification
                       object:backstageController
@@ -1032,11 +1032,11 @@
                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController didCollapseOnScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController didCollapseOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController willDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController willDragOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerWillDragOnScreenNotification
                       object:backstageController
@@ -1045,11 +1045,11 @@
                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController willDragOnScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController willDragOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
 }
 
-- (void)backstageController:(CNBackstageController *)backstageController didDragOnScreen:(NSScreen *)toggleScreen onToggleEdge:(CNToggleEdge)toggleEdge
+- (void)backstageController:(CNBackstageController *)backstageController didDragOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerDidDragOnScreenNotification
                       object:backstageController
@@ -1058,7 +1058,7 @@
                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate backstageController:backstageController didDragOnScreen:toggleScreen onToggleEdge:toggleEdge];
+        [self.delegate backstageController:backstageController didDragOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
 }
 

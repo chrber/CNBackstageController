@@ -134,7 +134,8 @@
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
 						<p>The CNBackstage Delegate provides a set of methods the user can implement to control the functionality of its own backstage
-instance.</p>
+instance. On each delegate call a related notification will be send too. So you can decide by yourself either to use the delegate mechanism
+or <code>NSNotificationCenter</code> (or both).</p>
 					</div>
 					
 					
