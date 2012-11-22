@@ -35,7 +35,8 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern const NSUInteger kMaxNumberOfSupportedDisplays;
+extern const uint32_t kMaxNumberOfSupportedDisplays;
+extern const CGFloat kAnimationDuration;
 
 typedef enum {
     CNToggleStateCollapsed = -1,                        // indictates that the current state of CNBackstageController is 'closed' (meaning: no applicationView is visible)

@@ -44,7 +44,12 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    // Drawing code here.
+    NSBezierPath *handlePath = [NSBezierPath bezierPathWithRoundedRect:dirtyRect xRadius:15 yRadius:15];
+    [[[NSColor blackColor] colorWithAlphaComponent:0.5] setFill];
+    [handlePath fill];
+
+    [[[NSColor whiteColor] colorWithAlphaComponent:0.75] setStroke];
+    [handlePath stroke];
 }
 
 @end
