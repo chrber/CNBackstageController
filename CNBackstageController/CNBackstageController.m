@@ -149,7 +149,7 @@
 
 - (void)toggleViewState
 {
-    NSAssert(self.applicationViewController != nil, @"\n\nThe applicationViewController property must be NOT nil!\nAfter you created your CNBackstageController instance you have to set applicationViewController property.\n\n");
+    NSAssert(self.applicationViewController != nil, @"\n\nThe applicationViewController property must NOT be nil!\nAfter you created your CNBackstageController instance you have to set applicationViewController property.\n\n");
     
     switch (_toggleState) {
         case CNToggleStateCollapsed: [self expand]; break;
