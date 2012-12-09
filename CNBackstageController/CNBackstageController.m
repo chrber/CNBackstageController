@@ -792,7 +792,8 @@
 
 - (CGImageRef)snapshotOfDisplayWithID:(CGDirectDisplayID)displayID
 {
-    return CGDisplayCreateImageForRect(displayID, CGRectMake(0, 0 + [self thicknessOfSystemStatusBarForCurrentToggleDisplay],
+    return CGDisplayCreateImageForRect(displayID, CNRectMake([self screenOfCurrentToggleDisplay],
+                                                             0, 0 + [self thicknessOfSystemStatusBarForCurrentToggleDisplay],
                                                              NSWidth(self.currentToggleDisplayFrame),
                                                              NSHeight(self.currentToggleDisplayFrame) - [self thicknessOfSystemStatusBarForCurrentToggleDisplay]));
 }
