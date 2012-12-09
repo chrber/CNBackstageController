@@ -591,13 +591,13 @@
 
     if (self.isResizingAllowed) {
         NSTrackingArea *firstTrackingArea = [[NSTrackingArea alloc] initWithRect:_applicationFirstCoverView.frame
-                                                                         options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow
+                                                                         options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag
                                                                            owner:self
                                                                         userInfo:nil];
         [_applicationFirstCoverView addTrackingArea:firstTrackingArea];
 
         NSTrackingArea *secondTrackingArea = [[NSTrackingArea alloc] initWithRect:_applicationSecondCoverView.frame
-                                                                         options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow
+                                                                         options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag
                                                                            owner:self
                                                                         userInfo:nil];
         [_applicationSecondCoverView addTrackingArea:secondTrackingArea];
@@ -702,11 +702,11 @@
 
         case CNToggleEdgeSplitHorizontal: {
             _applicationFirstCoverView.frame = NSMakeRect(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
-            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
+            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake([self screenOfCurrentToggleDisplay], NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             _applicationFirstCoverOverlayView.frame = _applicationFirstCoverView.bounds;
 
             _applicationSecondCoverView.frame = NSMakeRect(NSWidth(contentViewBounds)/2 + 1, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSWidth(contentViewBounds)/2, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake([self screenOfCurrentToggleDisplay], NSWidth(contentViewBounds)/2, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             _applicationSecondCoverOverlayView.frame = _applicationSecondCoverView.bounds;
 
             _applicationFirstCoverView.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -718,11 +718,11 @@
 
         case CNToggleEdgeSplitVertical:
             _applicationFirstCoverView.frame = NSMakeRect(NSMinX(contentViewBounds), NSMaxY(contentViewBounds) - floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds),floor( NSHeight(contentViewBounds)/2));
-            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
+            CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake([self screenOfCurrentToggleDisplay], NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             _applicationFirstCoverOverlayView.frame = _applicationFirstCoverView.bounds;
 
             _applicationSecondCoverView.frame = NSMakeRect(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2));
-            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CGRectMake(NSMinX(contentViewBounds), floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
+            CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake([self screenOfCurrentToggleDisplay], NSMinX(contentViewBounds), floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             _applicationSecondCoverOverlayView.frame = _applicationSecondCoverView.bounds;
 
             _applicationFirstCoverView.layer.contents = (__bridge id)(snapshotFirstSplit);
@@ -751,7 +751,7 @@
     _applicationSecondCoverView = [[NSView alloc] init];
     _applicationSecondCoverOverlayView = [[NSView alloc] init];
     [self.window close];
-    self.window = [NSWindow new];
+    self.window = nil;
 }
 
 - (int)thicknessOfSystemStatusBarForCurrentToggleDisplay
@@ -1116,6 +1116,14 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
     toggleSize.width = aWidth;
     toggleSize.height = aHeight;
     return toggleSize;
+}
+
+CGRect CNRectMake(NSScreen *currentScreen, CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
+    CGFloat scaling = 1.0f;
+    if ([currentScreen respondsToSelector:@selector(backingScaleFactor)]) {
+        scaling = [currentScreen backingScaleFactor];
+    }
+    return CGRectMake(x * scaling, y * scaling, width * scaling, height * scaling);
 }
 
 

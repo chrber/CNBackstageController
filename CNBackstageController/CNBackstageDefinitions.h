@@ -127,6 +127,6 @@ extern NSString *CNToggleEdgeUserInfoKey;
 /// Convenience Functions
 extern CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight);
 extern CNToggleFrameDeltas CNMakeToggleFrameDeltas(CGFloat deltaX, CGFloat deltaY);
-
+extern CGRect CNRectMake(NSScreen *currentScreen, CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 
 #endif
