@@ -688,7 +688,6 @@
     CGDirectDisplayID displayID = [self displayIDForCurrentToggleDisplay:self.toggleDisplay];
     CGImageRef snapshotRef = [self snapshotOfDisplayWithID:displayID];
     NSRect contentViewBounds = [[[self window] contentView] bounds];
-    NSScreen *toggleScreen = [self screenOfCurrentToggleDisplay];
 
     switch (self.toggleEdge) {
         case CNToggleEdgeTop:
@@ -702,6 +701,7 @@
         }
 
         case CNToggleEdgeSplitHorizontal: {
+            NSScreen *toggleScreen = [self screenOfCurrentToggleDisplay];
             _applicationFirstCoverView.frame = CGRectMake(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
             CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake(toggleScreen, NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             _applicationFirstCoverOverlayView.frame = _applicationFirstCoverView.bounds;
@@ -717,7 +717,8 @@
             break;
         }
 
-        case CNToggleEdgeSplitVertical:
+        case CNToggleEdgeSplitVertical: {
+            NSScreen *toggleScreen = [self screenOfCurrentToggleDisplay];
             _applicationFirstCoverView.frame = CGRectMake(NSMinX(contentViewBounds), NSMaxY(contentViewBounds) - floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds),floor( NSHeight(contentViewBounds)/2));
             CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake(toggleScreen, NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             _applicationFirstCoverOverlayView.frame = _applicationFirstCoverView.bounds;
@@ -731,6 +732,7 @@
             CGImageRelease(snapshotFirstSplit);
             CGImageRelease(snapshotSecondSplit);
             break;
+        }
     }
     CGImageRelease(snapshotRef);
 }
@@ -841,8 +843,7 @@
 
     NSRect appRect = NSZeroRect;
     CGFloat offset;
-    NSScreen *toggleScreen = [self screenOfCurrentToggleDisplay];
-    
+
     switch (self.toggleEdge) {
         case CNToggleEdgeTop: {
             offset = location.y - _initialDraggingPoint.y;
