@@ -702,11 +702,11 @@
         }
 
         case CNToggleEdgeSplitHorizontal: {
-            _applicationFirstCoverView.frame = CNRectMake(toggleScreen, NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
+            _applicationFirstCoverView.frame = CGRectMake(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
             CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake(toggleScreen, NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             _applicationFirstCoverOverlayView.frame = _applicationFirstCoverView.bounds;
 
-            _applicationSecondCoverView.frame = CNRectMake(toggleScreen, NSWidth(contentViewBounds)/2 + 1, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
+            _applicationSecondCoverView.frame = CGRectMake(NSWidth(contentViewBounds)/2 + 1, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds));
             CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake(toggleScreen, NSWidth(contentViewBounds)/2, NSMinY(contentViewBounds), NSWidth(contentViewBounds)/2, NSHeight(contentViewBounds)));
             _applicationSecondCoverOverlayView.frame = _applicationSecondCoverView.bounds;
 
@@ -718,11 +718,11 @@
         }
 
         case CNToggleEdgeSplitVertical:
-            _applicationFirstCoverView.frame = CNRectMake(toggleScreen, NSMinX(contentViewBounds), NSMaxY(contentViewBounds) - floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds),floor( NSHeight(contentViewBounds)/2));
+            _applicationFirstCoverView.frame = CGRectMake(NSMinX(contentViewBounds), NSMaxY(contentViewBounds) - floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds),floor( NSHeight(contentViewBounds)/2));
             CGImageRef snapshotFirstSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake(toggleScreen, NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             _applicationFirstCoverOverlayView.frame = _applicationFirstCoverView.bounds;
 
-            _applicationSecondCoverView.frame = CNRectMake(toggleScreen, NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2));
+            _applicationSecondCoverView.frame = CGRectMake(NSMinX(contentViewBounds), NSMinY(contentViewBounds), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2));
             CGImageRef snapshotSecondSplit = CGImageCreateWithImageInRect(snapshotRef, CNRectMake(toggleScreen, NSMinX(contentViewBounds), floor(NSHeight(contentViewBounds)/2), NSWidth(contentViewBounds), floor(NSHeight(contentViewBounds)/2)));
             _applicationSecondCoverOverlayView.frame = _applicationSecondCoverView.bounds;
 
@@ -846,8 +846,8 @@
     switch (self.toggleEdge) {
         case CNToggleEdgeTop: {
             offset = location.y - _initialDraggingPoint.y;
-            firstCoverFrame = CNRectMake(toggleScreen, NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-            appRect = CNRectMake(toggleScreen, NSMinX(_applicationView.frame), NSMaxY(firstCoverFrame), NSWidth(_applicationView.frame), NSHeight(_initialApplicationViewFrame) - offset);
+            firstCoverFrame = CGRectMake(NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            appRect = CGRectMake(NSMinX(_applicationView.frame), NSMaxY(firstCoverFrame), NSWidth(_applicationView.frame), NSHeight(_initialApplicationViewFrame) - offset);
             if (NSMinY(firstCoverFrame) <= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
                 _applicationView.frame = appRect;
                 _applicationFirstCoverView.layer.frame = firstCoverFrame;
@@ -856,8 +856,8 @@
         }
         case CNToggleEdgeBottom: {
             offset = location.y - _initialDraggingPoint.y;
-            firstCoverFrame = CNRectMake(toggleScreen, NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-            appRect = CNRectMake(toggleScreen, NSMinX(_applicationView.frame), NSMinY(_applicationView.frame), NSWidth(_applicationView.frame), NSHeight(_initialApplicationViewFrame) + offset);
+            firstCoverFrame = CGRectMake(NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            appRect = CGRectMake(NSMinX(_applicationView.frame), NSMinY(_applicationView.frame), NSWidth(_applicationView.frame), NSHeight(_initialApplicationViewFrame) + offset);
             if (NSMaxY(firstCoverFrame) >= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
                 _applicationView.frame = appRect;
                 _applicationFirstCoverView.layer.frame = firstCoverFrame;
@@ -866,8 +866,8 @@
         }
         case CNToggleEdgeLeft: {
             offset = location.x - _initialDraggingPoint.x;
-            firstCoverFrame = CNRectMake(toggleScreen, _initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-            appRect = CNRectMake(toggleScreen, NSMinX(_applicationView.frame), NSMinY(_applicationView.frame), NSWidth(_initialApplicationViewFrame) + offset, NSHeight(_applicationView.frame));
+            firstCoverFrame = CGRectMake(_initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            appRect = CGRectMake(NSMinX(_applicationView.frame), NSMinY(_applicationView.frame), NSWidth(_initialApplicationViewFrame) + offset, NSHeight(_applicationView.frame));
             if (NSMinX(firstCoverFrame) >= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
                 _applicationView.frame = appRect;
                 _applicationFirstCoverView.layer.frame = firstCoverFrame;
@@ -876,8 +876,8 @@
         }
         case CNToggleEdgeRight: {
             offset = location.x - _initialDraggingPoint.x;
-            firstCoverFrame = CNRectMake(toggleScreen, _initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-            appRect = CNRectMake(toggleScreen, NSMaxX(firstCoverFrame) + 1, NSMinY(_applicationView.frame), NSWidth(_initialApplicationViewFrame) - offset, NSHeight(_applicationView.frame));
+            firstCoverFrame = CGRectMake(_initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+            appRect = CGRectMake(NSMaxX(firstCoverFrame) + 1, NSMinY(_applicationView.frame), NSWidth(_initialApplicationViewFrame) - offset, NSHeight(_applicationView.frame));
             if (NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
                 _applicationView.frame = appRect;
                 _applicationFirstCoverView.layer.frame = firstCoverFrame;
@@ -887,13 +887,13 @@
         case CNToggleEdgeSplitHorizontal: {
             offset = location.x - _initialDraggingPoint.x;
             if (NSPointInRect(location, firstCoverFrame)) {
-                firstCoverFrame = CNRectMake(toggleScreen, _initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-                secondCoverFrame = CNRectMake(toggleScreen, _initialSecondCoverOrigin.x - offset, NSMinY(secondCoverFrame), NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+                firstCoverFrame = CGRectMake(_initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+                secondCoverFrame = CGRectMake(_initialSecondCoverOrigin.x - offset, NSMinY(secondCoverFrame), NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
             } else {
-                firstCoverFrame = CNRectMake(toggleScreen, _initialFirstCoverOrigin.x - offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-                secondCoverFrame = CNRectMake(toggleScreen, _initialSecondCoverOrigin.x + offset, NSMinY(secondCoverFrame), NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+                firstCoverFrame = CGRectMake(_initialFirstCoverOrigin.x - offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+                secondCoverFrame = CGRectMake(_initialSecondCoverOrigin.x + offset, NSMinY(secondCoverFrame), NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
             }
-            appRect = CNRectMake(toggleScreen, NSMaxX(firstCoverFrame) - 1, NSMinY(_applicationView.frame), NSMinX(secondCoverFrame) - NSMaxX(firstCoverFrame) + 1, NSHeight(_applicationView.frame));
+            appRect = CGRectMake(NSMaxX(firstCoverFrame) - 1, NSMinY(_applicationView.frame), NSMinX(secondCoverFrame) - NSMaxX(firstCoverFrame) + 1, NSHeight(_applicationView.frame));
             if (NSMaxX(firstCoverFrame) >= 0 && NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
                 _applicationView.frame = appRect;
                 _applicationFirstCoverView.layer.frame = firstCoverFrame;
@@ -904,13 +904,13 @@
         case CNToggleEdgeSplitVertical: {
             offset = location.y - _initialDraggingPoint.y;
             if (NSPointInRect(location, firstCoverFrame)) {
-                firstCoverFrame = CNRectMake(toggleScreen, NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-                secondCoverFrame = CNRectMake(toggleScreen, NSMinX(secondCoverFrame), _initialSecondCoverOrigin.y - offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+                firstCoverFrame = CGRectMake(NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+                secondCoverFrame = CGRectMake(NSMinX(secondCoverFrame), _initialSecondCoverOrigin.y - offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
             } else {
-                firstCoverFrame = CNRectMake(toggleScreen, NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y - offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
-                secondCoverFrame = CNRectMake(toggleScreen, NSMinX(secondCoverFrame), _initialSecondCoverOrigin.y + offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
+                firstCoverFrame = CGRectMake(NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y - offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
+                secondCoverFrame = CGRectMake(NSMinX(secondCoverFrame), _initialSecondCoverOrigin.y + offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
             }
-            appRect = CNRectMake(toggleScreen, NSMinX(_applicationView.frame), NSMaxY(secondCoverFrame) - 1, NSWidth(_applicationView.frame), NSMinY(firstCoverFrame) - NSMaxY(secondCoverFrame) + 1);
+            appRect = CGRectMake(NSMinX(_applicationView.frame), NSMaxY(secondCoverFrame) - 1, NSWidth(_applicationView.frame), NSMinY(firstCoverFrame) - NSMaxY(secondCoverFrame) + 1);
             if (NSMinY(secondCoverFrame) <= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
                 _applicationView.frame = appRect;
                 _applicationFirstCoverView.layer.frame = firstCoverFrame;
@@ -1121,11 +1121,7 @@ CNToggleSize CNMakeToggleSize(NSUInteger aWidth, NSUInteger aHeight) {
 }
 
 CGRect CNRectMake(NSScreen *currentScreen, CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
-    CGFloat scaling = 1.0f;
-    if ([currentScreen respondsToSelector:@selector(backingScaleFactor)]) {
-        scaling = [currentScreen backingScaleFactor];
-    }
-    return CGRectMake(x * scaling, y * scaling, width * scaling, height * scaling);
+    return [currentScreen convertRectToBacking:CGRectMake(x, y, width, height)];
 }
 
 
