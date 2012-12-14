@@ -137,7 +137,8 @@
         _overlayAlpha               = 0.75f;
         _resizingAllowed            = YES;
         _toggleSizeMin              = NSMakeSize(200.0f, 120.0f);
-        _useShadows                 = YES;
+        _shouldUseShadows           = YES;
+        _shadowIntensity            = CNShadowIntensityNormal;
     }
     return self;
 }
@@ -322,14 +323,14 @@
 
     switch (self.toggleAnimationEffect) {
         case CNToggleAnimationEffectFade:
-            _applicationView.alphaValue = 0.0;
+            [_applicationView setAlphaValue:0.0];
             break;
         default:
             break;
     }
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        context.duration = kAnimationDuration;
+        context.duration = kCNAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
         switch (self.toggleAnimationEffect) {
@@ -392,7 +393,7 @@
     __block NSRect screenSnapshotSecondFrame = [_applicationSecondCoverView frame];
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        context.duration = kAnimationDuration;
+        context.duration = kCNAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
         switch (self.toggleAnimationEffect) {
@@ -574,7 +575,8 @@
     // application shadow view
     _shadowView = [[CNBackstageShadowView alloc] initWithFrame:[_applicationView bounds]];
     _shadowView.toggleEdge = self.toggleEdge;
-    _shadowView.useShadows = self.useShadows;
+    _shadowView.shouldUseShadows = self.shouldUseShadows;
+    _shadowView.shadowIntensity = self.shadowIntensity;
     [_shadowView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [_applicationView addSubview:_shadowView];
 
@@ -802,7 +804,7 @@
 
 - (CGDirectDisplayID)displayIDForCurrentToggleDisplay:(CNToggleDisplay)aToggleDisplay
 {
-    uint32_t MAX_TOGGLE_DISPLAYS = kMaxNumberOfSupportedDisplays;   // number of supported displays
+    uint32_t MAX_TOGGLE_DISPLAYS = kCNMaxNumberOfSupportedDisplays;   // number of supported displays
     uint32_t displayCount;
     CGDirectDisplayID toggleDisplays[MAX_TOGGLE_DISPLAYS];
     CGGetOnlineDisplayList(MAX_TOGGLE_DISPLAYS, toggleDisplays, &displayCount);
@@ -846,7 +848,7 @@
 
     switch (self.toggleEdge) {
         case CNToggleEdgeTop: {
-            offset = location.y - _initialDraggingPoint.y;
+            offset = location.y - ceil(_initialDraggingPoint.y);
             firstCoverFrame = CGRectMake(NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = CGRectMake(NSMinX(_applicationView.frame), NSMaxY(firstCoverFrame), NSWidth(_applicationView.frame), NSHeight(_initialApplicationViewFrame) - offset);
             if (NSMinY(firstCoverFrame) <= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
@@ -856,7 +858,7 @@
             break;
         }
         case CNToggleEdgeBottom: {
-            offset = location.y - _initialDraggingPoint.y;
+            offset = location.y - ceil(_initialDraggingPoint.y);
             firstCoverFrame = CGRectMake(NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = CGRectMake(NSMinX(_applicationView.frame), NSMinY(_applicationView.frame), NSWidth(_applicationView.frame), NSHeight(_initialApplicationViewFrame) + offset);
             if (NSMaxY(firstCoverFrame) >= 0 && NSHeight(appRect) >= self.toggleSizeMin.height) {
@@ -866,7 +868,7 @@
             break;
         }
         case CNToggleEdgeLeft: {
-            offset = location.x - _initialDraggingPoint.x;
+            offset = location.x - ceil(_initialDraggingPoint.x);
             firstCoverFrame = CGRectMake(_initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = CGRectMake(NSMinX(_applicationView.frame), NSMinY(_applicationView.frame), NSWidth(_initialApplicationViewFrame) + offset, NSHeight(_applicationView.frame));
             if (NSMinX(firstCoverFrame) >= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
@@ -876,7 +878,7 @@
             break;
         }
         case CNToggleEdgeRight: {
-            offset = location.x - _initialDraggingPoint.x;
+            offset = location.x - ceil(_initialDraggingPoint.x);
             firstCoverFrame = CGRectMake(_initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
             appRect = CGRectMake(NSMaxX(firstCoverFrame) + 1, NSMinY(_applicationView.frame), NSWidth(_initialApplicationViewFrame) - offset, NSHeight(_applicationView.frame));
             if (NSMinX(firstCoverFrame) <= 0 && NSWidth(appRect) >= self.toggleSizeMin.width) {
@@ -886,7 +888,7 @@
             break;
         }
         case CNToggleEdgeSplitHorizontal: {
-            offset = location.x - _initialDraggingPoint.x;
+            offset = location.x - ceil(_initialDraggingPoint.x);
             if (NSPointInRect(location, firstCoverFrame)) {
                 firstCoverFrame = CGRectMake(_initialFirstCoverOrigin.x + offset, NSMinY(firstCoverFrame), NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
                 secondCoverFrame = CGRectMake(_initialSecondCoverOrigin.x - offset, NSMinY(secondCoverFrame), NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
@@ -903,7 +905,7 @@
             break;
         }
         case CNToggleEdgeSplitVertical: {
-            offset = location.y - _initialDraggingPoint.y;
+            offset = location.y - ceil(_initialDraggingPoint.y);
             if (NSPointInRect(location, firstCoverFrame)) {
                 firstCoverFrame = CGRectMake(NSMinX(firstCoverFrame), _initialFirstCoverOrigin.y + offset, NSWidth(firstCoverFrame), NSHeight(firstCoverFrame));
                 secondCoverFrame = CGRectMake(NSMinX(secondCoverFrame), _initialSecondCoverOrigin.y - offset, NSWidth(secondCoverFrame), NSHeight(secondCoverFrame));
@@ -1074,8 +1076,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Constants & Convenience Functions
 
-const CGFloat kAnimationDuration = 0.25;
-const uint32_t kMaxNumberOfSupportedDisplays = 16;
+const CGFloat kCNAnimationDuration = 0.35;
+const uint32_t kCNMaxNumberOfSupportedDisplays = 16;
 
 /// NSUserDefaults keys
 NSString *CNToggleEdgePreferencesKey = @"CNToggleEdge";

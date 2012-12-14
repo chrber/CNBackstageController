@@ -47,5 +47,14 @@
  Normally you don't have to set this property by yourself. The value will be forwarded by `CNBackstageController` if the
  application becomes active and the application window is created.
  */
-@property (assign) BOOL useShadows;
+@property (assign) BOOL shouldUseShadows;
+
+/**
+ Specifies the intensity of the aplicationView's shadow drawing.
+
+ Normally you don't have to set this property by yourself. The value will be forwarded by `CNBackstageController` if the
+ application becomes active and the application window is created.
+ */
+@property (assign, nonatomic) CNShadowIntensity shadowIntensity;
+
 @end

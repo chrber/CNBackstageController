@@ -35,8 +35,8 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern const uint32_t kMaxNumberOfSupportedDisplays;
-extern const CGFloat kAnimationDuration;
+extern const uint32_t kCNMaxNumberOfSupportedDisplays;
+extern const CGFloat kCNAnimationDuration;
 
 typedef enum {
     CNToggleStateCollapsed = -1,                        // indictates that the current state of CNBackstageController is 'closed' (meaning: no applicationView is visible)
@@ -87,6 +87,12 @@ typedef struct {
     CGFloat deltaX;
     CGFloat deltaY;
 } CNToggleFrameDeltas;
+
+typedef enum {
+    CNShadowIntensityNormal = 0,
+    CNShadowIntensityLighter,
+    CNShadowIntensityDarker
+} CNShadowIntensity;
 
 
 

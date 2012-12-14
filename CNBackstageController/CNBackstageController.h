@@ -238,7 +238,7 @@
 /**
  Specifies the display to show the `applicationView` on.
  
- The max. number of displays `CNBackstageController` currently supports is 16. This number is defined by the constant `kMaxNumberOfSupportedDisplays`.
+ The max. number of displays `CNBackstageController` currently supports is 16. This number is defined by the constant `kCNMaxNumberOfSupportedDisplays`.
  For a quick and easy usage there are four constants representing the first 4 displays (0 to 3):
  
     typedef enum {
@@ -349,7 +349,26 @@
  @param YES Shadows will be drawn on top of the applicationView.
  @param NO  No shadows will be drawn.
  */
-@property (assign) BOOL useShadows;
+@property (assign) BOOL shouldUseShadows;
+
+/**
+ Specifies the intensity of the aplicationView's shadow drawing.
+ 
+ There are just three constant values available. These values are defined as follows:
+ 
+    typedef enum {
+        CNShadowIntensityNormal = 0,
+        CNShadowIntensityLighter,
+        CNShadowIntensityDarker
+    } CNShadowIntensity;
+
+ `CNShadowIntensityNormal` is defined as `[NSColor colorWithCalibratedWhite:0.000 alpha:0.550]`.<br />
+ 
+ `CNShadowIntensityLighter` is defined as `[NSColor colorWithCalibratedWhite:0.000 alpha:0.350]`.<br />
+ 
+ `CNShadowIntensityDarker` is defined as `[NSColor colorWithCalibratedWhite:0.000 alpha:0.750]`.<br />
+ */
+@property (assign) CNShadowIntensity shadowIntensity;
 
 
 #pragma mark - API

@@ -47,7 +47,8 @@
     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
     self.backstageController.applicationViewController = self.appController;
     self.backstageController.backgroundColor = [NSColor colorWithPatternImage:[NSImage imageNamed:@"TexturedBackground-Linen-Middle"]];
-    self.backstageController.useShadows = NO;
+    self.backstageController.shouldUseShadows = NO;
+//    self.backstageController.shadowIntensity = CNShadowIntensityLighter;
     [self configureBackstageController];
 }
 
@@ -61,7 +62,7 @@
     self.backstageController.toggleVisualEffect     = [self.defaults integerForKey:CNToggleVisualEffectPreferencesKey];
     self.backstageController.toggleAnimationEffect  = [self.defaults integerForKey:CNToggleAnimationEffectPreferencesKey];
     self.backstageController.overlayAlpha           = ([self.defaults integerForKey:CNToggleAlphaValuePreferencesKey] * 0.01);
-    self.backstageController.useShadows             = [self.defaults boolForKey:CNToggleUseShadowsPreferencesKey];
+    self.backstageController.shouldUseShadows             = [self.defaults boolForKey:CNToggleUseShadowsPreferencesKey];
 }
 
 
