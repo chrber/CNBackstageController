@@ -5,8 +5,8 @@
 //  Copyright (c) 2012 cocoa:naut. All rights reserved.
 //
 
-#ifndef CNGridView_Example_CNLog_h
-#define CNGridView_Example_CNLog_h
+#ifndef CNLog_h
+#define CNLog_h
 
 #ifdef DEBUG
     #define CNLog(aParam, ...)      NSLog(@"%s(%d): " aParam, ((strrchr(__FILE__, '/') ? : __FILE__- 1) + 1), __LINE__, ##__VA_ARGS__)
