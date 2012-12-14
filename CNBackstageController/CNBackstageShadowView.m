@@ -64,6 +64,7 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
     self = [super init];
     if (self) {
         _shouldUseShadows = YES;
+        _shadowIntensity = CNShadowIntensityNormal;
     }
     return self;
 }
@@ -78,15 +79,9 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
     if (_shadowIntensity != shadowIntensity) {
         _shadowIntensity = shadowIntensity;
         switch (_shadowIntensity) {
-            case CNShadowIntensityNormal:
-                [edgeShadow setShadowColor:shadowColorNormal];
-                break;
-            case CNShadowIntensityLighter:
-                [edgeShadow setShadowColor:shadowColorLighter];
-                break;
-            case CNShadowIntensityDarker:
-                [edgeShadow setShadowColor:shadowColorDarker];
-                break;
+            case CNShadowIntensityNormal:   [edgeShadow setShadowColor:shadowColorNormal]; break;
+            case CNShadowIntensityLighter:  [edgeShadow setShadowColor:shadowColorLighter]; break;
+            case CNShadowIntensityDarker:   [edgeShadow setShadowColor:shadowColorDarker]; break;
         }
     }
 }
@@ -103,9 +98,9 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
             if (self.shouldUseShadows) {
                 [edgeShadow setShadowOffset:shadowOffsetTop];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect topRect = NSMakeRect(NSMinX(dirtyRect)-5, NSHeight(dirtyRect), NSWidth(dirtyRect)+10, 15);
                 NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
+                [shadowRectColor setFill];
                 [topPath fill];
             }
             NSRect bottomRect = NSMakeRect(NSMinX(dirtyRect), ceil(NSMinY(dirtyRect)), NSWidth(dirtyRect), 1);
@@ -118,16 +113,16 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
             if (self.shouldUseShadows) {
                 [edgeShadow setShadowOffset:shadowOffsetTop];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect topRect = NSMakeRect(NSMinX(dirtyRect), NSHeight(dirtyRect), NSWidth(dirtyRect)+5, 15);
                 NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
+                [shadowRectColor setFill];
                 [topPath fill];
 
                 [edgeShadow setShadowOffset:shadowOffsetLeft];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
                 NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
+                [shadowRectColor setFill];
                 [leftPath fill];
             }
             NSRect leftLineRect = NSMakeRect(ceil(NSMinX(dirtyRect)), NSMinY(dirtyRect), 1, NSHeight(dirtyRect));
@@ -140,9 +135,9 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
             if (self.shouldUseShadows) {
                 [edgeShadow setShadowOffset:shadowOffsetTop];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect topRect = NSMakeRect(NSMinX(dirtyRect)-5, ceil(NSMaxY(dirtyRect))-1, NSWidth(dirtyRect)+10, 15);
                 NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
+                [shadowRectColor setFill];
                 [topPath fill];
             }
             NSRect topLineRect = NSMakeRect(NSMinX(dirtyRect), ceil(NSMaxY(dirtyRect)), NSWidth(dirtyRect), 1);
@@ -155,16 +150,16 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
             if (self.shouldUseShadows) {
                 [edgeShadow setShadowOffset:shadowOffsetTop];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect topRect = NSMakeRect(NSMinX(dirtyRect), NSHeight(dirtyRect), NSWidth(dirtyRect)+5, 15);
                 NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
+                [shadowRectColor setFill];
                 [topPath fill];
 
                 [edgeShadow setShadowOffset:shadowOffsetRight];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect rightRect = NSMakeRect(ceil(NSMaxX(dirtyRect)), NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
                 NSBezierPath *rightPath = [NSBezierPath bezierPathWithRect:rightRect];
+                [shadowRectColor setFill];
                 [rightPath fill];
             }
             NSRect rightLineRect = NSMakeRect(ceil(NSWidth(dirtyRect))-1, NSMinY(dirtyRect)-5, 7, NSHeight(dirtyRect)+10);
@@ -177,16 +172,16 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
             if (self.shouldUseShadows) {
                 [edgeShadow setShadowOffset:shadowOffsetLeft];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect leftRect = NSMakeRect(floor(NSMinX(dirtyRect))-10, NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
                 NSBezierPath *leftPath = [NSBezierPath bezierPathWithRect:leftRect];
+                [shadowRectColor setFill];
                 [leftPath fill];
 
                 [edgeShadow setShadowOffset:shadowOffsetRight];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect rightRect = NSMakeRect(ceil(NSMaxX(dirtyRect)), NSMinY(dirtyRect)-5, 10, NSHeight(dirtyRect)+5);
                 NSBezierPath *rightPath = [NSBezierPath bezierPathWithRect:rightRect];
+                [shadowRectColor setFill];
                 [rightPath fill];
             }
             NSRect leftLineRect = NSMakeRect(floor(NSMinX(dirtyRect))+1, NSMinY(dirtyRect), 1, NSHeight(dirtyRect));
@@ -204,9 +199,9 @@ static NSSize shadowOffsetTop, shadowOffsetLeft, shadowOffsetRight;
             if (self.shouldUseShadows) {
                 [edgeShadow setShadowOffset:shadowOffsetTop];
                 [edgeShadow set];
-                [shadowRectColor setFill];
                 NSRect topRect = NSMakeRect(NSMinX(dirtyRect)-5, NSHeight(dirtyRect), NSWidth(dirtyRect)+10, 15);
                 NSBezierPath *topPath = [NSBezierPath bezierPathWithRect:topRect];
+                [shadowRectColor setFill];
                 [topPath fill];
             }
             NSRect topLineRect = NSMakeRect(NSMinX(dirtyRect), floor(NSMaxY(dirtyRect))-1, NSWidth(dirtyRect), 1);
