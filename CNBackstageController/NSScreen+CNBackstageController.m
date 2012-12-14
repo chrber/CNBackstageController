@@ -98,13 +98,8 @@ typedef NSUInteger CNDockOrientation;
     
     switch ([NSScreen dockOrientation]) {
         case CNDockOrientationLeft:
-        case CNDockOrientationRight:
-            result = (NSWidth(visibleFrame) == NSWidth(totalFrame) ? NO : YES);
-            break;
-            
-        case CNDockOrientationBottom:
-            result = (NSHeight(visibleFrame) == (NSHeight(totalFrame) - statusBarThickness) ? NO : YES);
-            break;
+        case CNDockOrientationRight:    result = (NSWidth(visibleFrame) == NSWidth(totalFrame) ? NO : YES); break;
+        case CNDockOrientationBottom:   result = (NSHeight(visibleFrame) == (NSHeight(totalFrame) - statusBarThickness) ? NO : YES); break;
     }
     return result;
 }
