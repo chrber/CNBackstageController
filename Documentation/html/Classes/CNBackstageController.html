@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
-		<meta name="generator" content="appledoc 2.1 (build 840)" />
+		<meta name="generator" content="appledoc 2.1 (build 858)" />
 	</head>
 	<body>
 		<header id="top_header">
@@ -50,6 +50,10 @@
 	
 	<option value="//api/name/resizingAllowed">&nbsp;&nbsp;&nbsp;&nbsp;resizingAllowed</option>
 	
+	<option value="//api/name/shadowIntensity">&nbsp;&nbsp;&nbsp;&nbsp;shadowIntensity</option>
+	
+	<option value="//api/name/shouldUseShadows">&nbsp;&nbsp;&nbsp;&nbsp;shouldUseShadows</option>
+	
 	<option value="//api/name/toggleAnimationEffect">&nbsp;&nbsp;&nbsp;&nbsp;toggleAnimationEffect</option>
 	
 	<option value="//api/name/toggleDisplay">&nbsp;&nbsp;&nbsp;&nbsp;toggleDisplay</option>
@@ -61,8 +65,6 @@
 	<option value="//api/name/toggleSizeMin">&nbsp;&nbsp;&nbsp;&nbsp;toggleSizeMin</option>
 	
 	<option value="//api/name/toggleVisualEffect">&nbsp;&nbsp;&nbsp;&nbsp;toggleVisualEffect</option>
-	
-	<option value="//api/name/useShadows">&nbsp;&nbsp;&nbsp;&nbsp;useShadows</option>
 	
 	
 	
@@ -126,6 +128,10 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/resizingAllowed">resizingAllowed</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/shadowIntensity">shadowIntensity</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/shouldUseShadows">shouldUseShadows</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleAnimationEffect">toggleAnimationEffect</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleDisplay">toggleDisplay</a></span></li>
@@ -137,8 +143,6 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleSizeMin">toggleSizeMin</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/toggleVisualEffect">toggleVisualEffect</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/useShadows">useShadows</a></span></li>
 	
 </ul></li>
 
@@ -358,8 +362,15 @@ see the results. You may also take a look at the Example project.</p>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/useShadows">&nbsp;&nbsp;useShadows</a></code>
+		<code><a href="#//api/name/shouldUseShadows">&nbsp;&nbsp;shouldUseShadows</a></code>
 		<span class="tooltip"><p>Boolean property to control the drawing of shadows on applicationView.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/shadowIntensity">&nbsp;&nbsp;shadowIntensity</a></code>
+		<span class="tooltip"><p>Specifies the intensity of the aplicationView&rsquo;s shadow drawing.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -645,6 +656,116 @@ The default value is <code>[NSColor darkGrayColor]</code>.</p>
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/shadowIntensity" title="shadowIntensity"></a>
+	<h3 class="subsubtitle method-title">shadowIntensity</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies the intensity of the aplicationView&rsquo;s shadow drawing.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) CNShadowIntensity shadowIntensity</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>There are just three constant values available. These values are defined as follows:</p>
+
+<pre><code>typedef enum {
+    CNShadowIntensityNormal = 0,
+    CNShadowIntensityLighter,
+    CNShadowIntensityDarker
+} CNShadowIntensity;
+</code></pre>
+
+<p><code>CNShadowIntensityNormal</code> is defined as <code>[NSColor colorWithCalibratedWhite:0.000 alpha:0.550]</code>.<br /></p>
+
+<p><code>CNShadowIntensityLighter</code> is defined as <code>[NSColor colorWithCalibratedWhite:0.000 alpha:0.350]</code>.<br /></p>
+
+<p><code>CNShadowIntensityDarker</code> is defined as <code>[NSColor colorWithCalibratedWhite:0.000 alpha:0.750]</code>.<br /></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/shouldUseShadows" title="shouldUseShadows"></a>
+	<h3 class="subsubtitle method-title">shouldUseShadows</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Boolean property to control the drawing of shadows on applicationView.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) BOOL shouldUseShadows</code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>YES</em></dt>
+			<dd><p>Shadows will be drawn on top of the applicationView.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>NO</em></dt>
+			<dd><p>No shadows will be drawn.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The default value is <code>YES</code>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNBackstageController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/toggleAnimationEffect" title="toggleAnimationEffect"></a>
 	<h3 class="subsubtitle method-title">toggleAnimationEffect</h3>
 	
@@ -728,7 +849,7 @@ While the controller is toggling, the content of the application view will be sl
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The max. number of displays <code>CNBackstageController</code> currently supports is 16. This number is defined by the constant <code>kMaxNumberOfSupportedDisplays</code>.
+		<p>The max. number of displays <code>CNBackstageController</code> currently supports is 16. This number is defined by the constant <code>kCNMaxNumberOfSupportedDisplays</code>.
 For a quick and easy usage there are four constants representing the first 4 displays (0 to 3):</p>
 
 <pre><code>typedef enum {
@@ -1059,62 +1180,6 @@ Spreads pixels of the screen snapshot by a Gaussian distribution.</p>
 	
 </div>
 						
-						<div class="section-method">
-	<a name="//api/name/useShadows" title="useShadows"></a>
-	<h3 class="subsubtitle method-title">useShadows</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Boolean property to control the drawing of shadows on applicationView.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>@property (assign) BOOL useShadows</code></div>
-
-    
-	
-	<div class="method-subsection arguments-section parameters">
-		<h4 class="method-subtitle parameter-title">Parameters</h4>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>YES</em></dt>
-			<dd><p>Shadows will be drawn on top of the applicationView.</p></dd>
-		</dl>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>NO</em></dt>
-			<dd><p>No shadows will be drawn.</p></dd>
-		</dl>
-		
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>The default value is <code>YES</code>.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNBackstageController.h</code><br />
-	</div>				
-	
-	
-</div>
-						
 					</div>
 					
 					
@@ -1147,7 +1212,7 @@ Spreads pixels of the screen snapshot by a Gaussian distribution.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The singleton instance of <code>CNBackstageController</code>.</p>
+		<p>This is the designated initializer.</p>
 	</div>
 	
 	
@@ -1350,9 +1415,9 @@ Otherwise it will be closed.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-11-22)</span><br />
+						<p><span class="copyright">&copy; 2012 cocoa:naut. All rights reserved. (Last updated: 2012-12-15)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 840)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
 						
 					</div>
 				</div>

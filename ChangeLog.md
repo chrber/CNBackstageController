@@ -1,14 +1,21 @@
 ##ChangeLog
 
-**v1.1.2** ||| *11-16-2012*
-- **Fixed**: a bug that occured if the example was (complied &) executed on OSX 10.7.x
+**v1.1.3** ||| *2012-12-15*
+- **Fixed**: a bug on animation effect `CNToggleAnimationEffectFade` that never let the applicationView fade in, but fade out
+- **Changed**: renamed property `useShadows` to `shouldUseShadows`
+- **Changed**: completely revised the shadow drawing section
+- **Added**: property `shadowIntensity`
+
+-
+**v1.1.2** ||| *2012-11-16*
+- **Fixed**: a bug that occured if the example was (compiled &) executed on OSX 10.7.x
 - **Fixed**: a bug that occured by sliding on the left side
 - **Changed**: handling to control the drawing of shadows
 - **Updated**: example application (shadow handling)
 - **Added**: property `useShadow` on `CNBackstageShadowView`
 
 -
-**v1.1.1** ||| *11-14-2012*
+**v1.1.1** ||| *2012-11-14*
 - **Changed**: API - some method names/signatures were changed:<br />
                - `changeViewStateToOpen` &rarr; `expand`<br />
                - `changeViewStateToClose` &rarr; `collapse`<br />
@@ -27,7 +34,7 @@
                - `backstageController:didCloseScreen:onToggleEdge:` &rarr; `backstageController:didCollapseOnScreen:onToggleEdge:`<br />
 
 -
-**v1.1.0** ||| *11-09-2012*
+**v1.1.0** ||| *2012-11-09*
 - **Changed**: File splitting - `CNBackstageDelegate` and `CNBackstageShadowView` are no longer included in `CNBackstageController`. They are seperate files by now.
 - **Changed**: the property `toggleSize` is no longer a `NSUInteger`!<br>It's a `CNToggleSize` struct which makes more sense regarding its name. Please take a look at the [documentation](http://cnbackstagecontroller.cocoanaut.com/documentation/Classes/CNBackstageController.html#//api/name/toggleSize) for more details.
 - **Added**: tags in Github repository to handle versioning
@@ -39,5 +46,5 @@
 - **Added**: property `NSSize applicationViewMinSize` to define a minimum size of the applicationView related to the active `toggleEdge` property
 
 -
-**v1.0.0** ||| *11-01-2012*
+**v1.0.0** ||| *2012-11-01*
 - first initial version
