@@ -35,7 +35,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - CNBackstageController Extension
+#pragma mark CNBackstageController Extension
 
 @interface CNBackstageController() {
     NSApplicationPresentationOptions _presentationOptionsBackup;
@@ -151,7 +151,7 @@
 - (void)toggleViewState
 {
     NSAssert(self.applicationViewController != nil, @"\n\nThe applicationViewController property must NOT be nil!\nAfter you created your CNBackstageController instance you have to set applicationViewController property.\n\n");
-    
+
     switch (_toggleState) {
         case CNToggleStateCollapsed: [self expand]; break;
         case CNToggleStateExpanded: [self collapse]; break;
@@ -255,7 +255,6 @@
                     }
                     break;
                 }
-                default: break;
             }
             break;
         }
@@ -289,7 +288,6 @@
                     }
                     break;
                 }
-                default: break;
             }
             break;
         }
@@ -325,8 +323,6 @@
         case CNToggleAnimationEffectFade:
             [_applicationView setAlphaValue:0.0];
             break;
-        default:
-            break;
     }
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
@@ -347,8 +343,6 @@
                     case CNToggleEdgeBottom:    applicationFrame.origin.y += ceil(NSHeight(applicationFrame)); break;
                     case CNToggleEdgeLeft:      applicationFrame.origin.x += ceil(NSWidth(applicationFrame)); break;
                     case CNToggleEdgeRight:     applicationFrame.origin.x -= ceil(NSWidth(applicationFrame)); break;
-                    default:
-                        break;
                 }
                 [[_applicationView animator] setFrame:applicationFrame];
                 break;
@@ -558,7 +552,7 @@
     [controllerWindow setReleasedWhenClosed:YES];
     [controllerWindow setBackgroundColor:self.backgroundColor];
     [controllerWindow setCollectionBehavior:(NSWindowCollectionBehaviorDefault |
-                                             NSWindowCollectionBehaviorManaged |
+                                             NSWindowCollectionBehaviorTransient |
                                              NSWindowCollectionBehaviorFullScreenAuxiliary)];
     [[controllerWindow contentView] setWantsLayer:YES];
     [self setWindow:controllerWindow];
@@ -585,23 +579,23 @@
     [_applicationFirstCoverView addSubview:_applicationFirstCoverOverlayView];
     _applicationFirstCoverOverlayView.alphaValue = 0.0f;
 
-    if (self.toggleEdge == CNToggleEdgeSplitHorizontal || self.toggleEdge == CNToggleEdgeSplitVertical) {
-        [controllerWindowContentView addSubview:_applicationSecondCoverView];
-        [_applicationSecondCoverView addSubview:_applicationSecondCoverOverlayView];
-        _applicationSecondCoverOverlayView.alphaValue = 0.0f;
-    }
-
     if (self.isResizingAllowed) {
-        NSTrackingArea *firstTrackingArea = [[NSTrackingArea alloc] initWithRect:_applicationFirstCoverView.frame
+        NSTrackingArea *firstTrackingArea = [[NSTrackingArea alloc] initWithRect:_applicationFirstCoverView.layer.frame
                                                                          options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag
                                                                            owner:self
                                                                         userInfo:nil];
         [_applicationFirstCoverView addTrackingArea:firstTrackingArea];
+    }
 
-        NSTrackingArea *secondTrackingArea = [[NSTrackingArea alloc] initWithRect:_applicationSecondCoverView.frame
-                                                                         options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag
-                                                                           owner:self
-                                                                        userInfo:nil];
+    if (self.toggleEdge == CNToggleEdgeSplitHorizontal || self.toggleEdge == CNToggleEdgeSplitVertical) {
+        [controllerWindowContentView addSubview:_applicationSecondCoverView];
+        [_applicationSecondCoverView addSubview:_applicationSecondCoverOverlayView];
+        _applicationSecondCoverOverlayView.alphaValue = 0.0f;
+
+        NSTrackingArea *secondTrackingArea = [[NSTrackingArea alloc] initWithRect:_applicationSecondCoverView.layer.frame
+                                                                          options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag
+                                                                            owner:self
+                                                                         userInfo:nil];
         [_applicationSecondCoverView addTrackingArea:secondTrackingArea];
     }
 }
@@ -742,7 +736,7 @@
 - (void)resignApplicationWindow
 {
     self.window.alphaValue = 0.0;
-    
+
     [_shadowView removeFromSuperview];
     [_applicationFirstCoverOverlayView removeFromSuperview];
     [_applicationFirstCoverView removeFromSuperview];
@@ -829,8 +823,8 @@
     if (!self.isResizingAllowed)
         return;
 
-    NSRect firstCoverFrame = [_applicationFirstCoverView frame];
-    NSRect secondCoverFrame = [_applicationSecondCoverView frame];
+    NSRect firstCoverFrame = [_applicationFirstCoverView.layer frame];
+    NSRect secondCoverFrame = [_applicationSecondCoverView.layer frame];
     if (!NSPointInRect(location, firstCoverFrame) && !NSPointInRect(location, secondCoverFrame))
         return;
 
@@ -839,8 +833,8 @@
         _applicationCoverIsDragging = YES;
         _initialDraggingPoint = location;
         _initialApplicationViewFrame = _applicationView.frame;
-        _initialFirstCoverOrigin = [_applicationFirstCoverView frame].origin;
-        _initialSecondCoverOrigin = [_applicationSecondCoverView frame].origin;
+        _initialFirstCoverOrigin = [_applicationFirstCoverView.layer frame].origin;
+        _initialSecondCoverOrigin = [_applicationSecondCoverView.layer frame].origin;
     }
 
     NSRect appRect = NSZeroRect;
@@ -992,11 +986,11 @@
 - (void)backstageController:(CNBackstageController *)backstageController willExpandOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerWillExpandOnScreenNotification
-                      object:backstageController
-                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                              toggleScreen, CNToggleScreenUserInfoKey,
-                              [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
-                              nil]];
+                       object:backstageController
+                     userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                               toggleScreen, CNToggleScreenUserInfoKey,
+                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate backstageController:backstageController willExpandOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
@@ -1005,11 +999,11 @@
 - (void)backstageController:(CNBackstageController *)backstageController didExpandOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerDidExpandOnScreenNotification
-                      object:backstageController
-                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                              toggleScreen, CNToggleScreenUserInfoKey,
-                              [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
-                              nil]];
+                       object:backstageController
+                     userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                               toggleScreen, CNToggleScreenUserInfoKey,
+                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate backstageController:backstageController didExpandOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
@@ -1018,11 +1012,11 @@
 - (void)backstageController:(CNBackstageController *)backstageController willCollapseOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerWillCollapseOnScreenNotification
-                      object:backstageController
-                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                              toggleScreen, CNToggleScreenUserInfoKey,
-                              [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
-                              nil]];
+                       object:backstageController
+                     userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                               toggleScreen, CNToggleScreenUserInfoKey,
+                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate backstageController:backstageController willCollapseOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
@@ -1031,11 +1025,11 @@
 - (void)backstageController:(CNBackstageController *)backstageController didCollapseOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerDidCollapseOnScreenNotification
-                      object:backstageController
-                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                              toggleScreen, CNToggleScreenUserInfoKey,
-                              [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
-                              nil]];
+                       object:backstageController
+                     userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                               toggleScreen, CNToggleScreenUserInfoKey,
+                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate backstageController:backstageController didCollapseOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
@@ -1044,11 +1038,11 @@
 - (void)backstageController:(CNBackstageController *)backstageController willDragOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerWillDragOnScreenNotification
-                      object:backstageController
-                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                              toggleScreen, CNToggleScreenUserInfoKey,
-                              [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
-                              nil]];
+                       object:backstageController
+                     userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                               toggleScreen, CNToggleScreenUserInfoKey,
+                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate backstageController:backstageController willDragOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
@@ -1057,11 +1051,11 @@
 - (void)backstageController:(CNBackstageController *)backstageController didDragOnScreen:(NSScreen *)toggleScreen toggleEdge:(CNToggleEdge)toggleEdge
 {
     [_nc postNotificationName:CNBackstageControllerDidDragOnScreenNotification
-                      object:backstageController
-                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                              toggleScreen, CNToggleScreenUserInfoKey,
-                              [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
-                              nil]];
+                       object:backstageController
+                     userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                               toggleScreen, CNToggleScreenUserInfoKey,
+                               [NSNumber numberWithInteger:toggleEdge], CNToggleEdgeUserInfoKey,
+                               nil]];
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate backstageController:backstageController didDragOnScreen:toggleScreen toggleEdge:toggleEdge];
     }
@@ -1076,7 +1070,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Constants & Convenience Functions
 
-const CGFloat kCNAnimationDuration = 0.35;
+const CGFloat kCNAnimationDuration = 0.42;
 const uint32_t kCNMaxNumberOfSupportedDisplays = 16;
 
 /// NSUserDefaults keys
