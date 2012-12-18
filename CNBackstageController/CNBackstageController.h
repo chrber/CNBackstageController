@@ -85,7 +85,7 @@
 /**
  Returns the singleton instance of `CNBackstageController`.
  
- The singleton instance of `CNBackstageController`.
+ This is the designated initializer.
  */
 + (id)sharedInstance;
 
