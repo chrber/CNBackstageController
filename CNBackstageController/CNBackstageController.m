@@ -226,8 +226,6 @@
 {
     NSUInteger width = 0, height = 0;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wno-switch-enum"
     switch (aToggleSize.width) {
         case CNToggleSizeQuarterScreen:
         case CNToggleSizeHalfScreen:
@@ -257,6 +255,8 @@
                     }
                     break;
                 }
+                default:
+                    break;
             }
             break;
         }
@@ -290,6 +290,8 @@
                     }
                     break;
                 }
+                default:
+                    break;
             }
             break;
         }
@@ -312,9 +314,6 @@
 
 - (void)expandUsingCompletionHandler:(void(^)(void))completionHandler
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wno-switch-enum"
-
     [self initializeApplicationWindow];
     [self buildLayerHierarchy];
     [self createSnapshotOfCurrentToggleDisplay];
@@ -349,10 +348,13 @@
                     case CNToggleEdgeBottom:    applicationFrame.origin.y += ceil(NSHeight(applicationFrame)); break;
                     case CNToggleEdgeLeft:      applicationFrame.origin.x += ceil(NSWidth(applicationFrame)); break;
                     case CNToggleEdgeRight:     applicationFrame.origin.x -= ceil(NSWidth(applicationFrame)); break;
+                    default: break;
                 }
                 [[_applicationView animator] setFrame:applicationFrame];
                 break;
             }
+            default:
+                break;
         }
 
         // configure the screen snapshot view
@@ -371,6 +373,9 @@
                 screenSnapshotFirstFrame.origin.y += ceil(NSHeight(applicationFrame)/2)-1;
                 screenSnapshotSecondFrame.origin.y -= ceil(NSHeight(applicationFrame)/2)-1;
                 break;
+
+            default:
+                break;
         }
 
         [self activateVisualEffects];
@@ -384,7 +389,6 @@
 
         completionHandler();
     }];
-#pragma clang diagnostic pop
 }
 
 - (void)collapseUsingCompletionHandler:(void(^)(void))completionHandler
@@ -411,8 +415,7 @@
                     case CNToggleEdgeBottom:    applicationFrame.origin.y -= ceil(NSHeight(applicationFrame)); break;
                     case CNToggleEdgeLeft:      applicationFrame.origin.x -= NSWidth(applicationFrame); break;
                     case CNToggleEdgeRight:     applicationFrame.origin.x += NSWidth(applicationFrame); break;
-                    default:
-                        break;
+                    default: break;
                 }
                 [[_applicationView animator] setFrame:applicationFrame];
                 break;
