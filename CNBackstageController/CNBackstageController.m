@@ -226,6 +226,8 @@
 {
     NSUInteger width = 0, height = 0;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wno-switch-enum"
     switch (aToggleSize.width) {
         case CNToggleSizeQuarterScreen:
         case CNToggleSizeHalfScreen:
@@ -292,7 +294,8 @@
             break;
         }
     }
-
+#pragma clang diagnostic pop
+    
     _toggleSize = CNMakeToggleSize(width, height);
 }
 
@@ -309,6 +312,9 @@
 
 - (void)expandUsingCompletionHandler:(void(^)(void))completionHandler
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wno-switch-enum"
+
     [self initializeApplicationWindow];
     [self buildLayerHierarchy];
     [self createSnapshotOfCurrentToggleDisplay];
@@ -378,6 +384,7 @@
 
         completionHandler();
     }];
+#pragma clang diagnostic pop
 }
 
 - (void)collapseUsingCompletionHandler:(void(^)(void))completionHandler
