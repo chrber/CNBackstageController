@@ -1,3 +1,6 @@
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=phranck&url=https://github.com/phranck/CNBackstageController&title=CNBackstageController&tags=github&category=software)
+
+
 ##Overview
 `CNBackstageController` is an derivative of `NSWindowController` and a special impelementation to show you the content you would like to see. The goal of `CNBackstageController` is to provide the developer a slightly different interface for presenting an application.
 

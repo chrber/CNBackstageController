@@ -203,43 +203,43 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>The use of <code>CNBackstageController</code> is quite simple and straight forward. Normally with <code>CNBackstageController</code> you create a
-so called agent app. They do not appear in the Dock or the Force Quit window. To create an agent app a special property in your
+						<p>The use of <code>CNBackstageController</code> is quite simple and straight forward. Normally with <code>CNBackstageController</code> you create a<br/>
+so called agent app. They do not appear in the Dock or the Force Quit window. To create an agent app a special property in your<br/>
 Info.plist must be set. Its name is <code>LSUIElement</code> and its value must be <code>YES</code>.</p>
 
 <p>And now just follow these steps:</p>
 
 <ol>
 <li>Open Xcode and create a new <em>Cocoa Application</em> project.<br /></li>
-<li><p>Click on the <em>MainMenu.xib</em> file in your Project Browser, locate the Object Browser and delete all included items,
+<li><p>Click on the <em>MainMenu.xib</em> file in your Project Browser, locate the Object Browser and delete all included items,<br/>
  <strong>except</strong> the <strong>Application Delegate</strong>  object.</p>
 
 <p> It should look like this one:</p>
 
 <p> <img src="/images/XcodeObjectsBrowser.png"></p></li>
-<li><p>Create your <code>NSViewController</code> instance with a NIB file containing all your application sepcific stuff, place your controls
+<li><p>Create your <code>NSViewController</code> instance with a NIB file containing all your application sepcific stuff, place your controls<br/>
  and objects and make all the connections in Interface Builder related to your needs.</p></li>
-<li><p>In your AppDelegate define two properties. One will be our backstage controller, the other one will be our <code>NSViewController</code>
+<li><p>In your AppDelegate define two properties. One will be our backstage controller, the other one will be our <code>NSViewController</code><br/>
  from step 3.</p>
 
-<pre><code> @property (strong) CNBackstageController *backstageController;      // your backstage controller
- @property (strong) CNApplicationViewController *appController;      // your application view controller
+<pre><code> @property (strong) CNBackstageController *backstageController;      // your backstage controller  
+ @property (strong) CNApplicationViewController *appController;      // your application view controller  
 </code></pre></li>
 <li><p>Now you create instances for these two properties:</p>
 
-<pre><code> - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
- {
-     [...]
+<pre><code> - (void)applicationDidFinishLaunching:(NSNotification *)aNotification  
+ {  
+     [...]  
 
-     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];
-     self.backstageController = [CNBackstageController sharedInstance];
-     self.backstageController.applicationViewController = self.appController;
- }
+     self.appController = [[CNApplicationViewController alloc] initWithNibName:@"CNApplicationView" bundle:nil];  
+     self.backstageController = [CNBackstageController sharedInstance];  
+     self.backstageController.applicationViewController = self.appController;  
+ }  
 </code></pre></li>
 </ol>
 
 
-<p>After these five steps you will have a fully functional backstage controller. Play around with all the other properties and
+<p>After these five steps you will have a fully functional backstage controller. Play around with all the other properties and<br/>
 see the results. You may also take a look at the Example project.</p>
 
 <h2>Related Sample Code</h2>
@@ -447,7 +447,7 @@ see the results. You may also take a look at the Example project.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The applicationViewController can be any derivate of <code>NSWindowController</code>. <code>CNBackstageController</code> will handle its view as your application view.
+		<p>The applicationViewController can be any derivate of <code>NSWindowController</code>. <code>CNBackstageController</code> will handle its view as your application view.<br/>
 When you set this property <code>CNBackstageController</code> will automatically set its <a href="#//api/name/delegate">delegate</a> to the applicationViewController. Later you can overwrite the <a href="#//api/name/delegate">delegate</a> dependent on your needs.</p>
 	</div>
 	
@@ -489,7 +489,7 @@ When you set this property <code>CNBackstageController</code> will automatically
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The value of this property will be assigned to backgroundColor property of the enclosing window.<br />
+		<p>The value of this property will be assigned to backgroundColor property of the enclosing window.<br /><br/>
 The default value is <code>[NSColor darkGrayColor]</code>.</p>
 	</div>
 	
@@ -681,11 +681,11 @@ The default value is <code>[NSColor darkGrayColor]</code>.</p>
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>There are just three constant values available. These values are defined as follows:</p>
 
-<pre><code>typedef enum {
-    CNShadowIntensityNormal = 0,
-    CNShadowIntensityLighter,
-    CNShadowIntensityDarker
-} CNShadowIntensity;
+<pre><code>typedef enum {  
+    CNShadowIntensityNormal = 0,  
+    CNShadowIntensityLighter,  
+    CNShadowIntensityDarker  
+} CNShadowIntensity;  
 </code></pre>
 
 <p><code>CNShadowIntensityNormal</code> is defined as <code>[NSColor colorWithCalibratedWhite:0.000 alpha:0.550]</code>.<br /></p>
@@ -789,23 +789,23 @@ The default value is <code>[NSColor darkGrayColor]</code>.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Each time if the <code>applicationView</code> is shown, the animation can make use of different effects while toggling. The supported
+		<p>Each time if the <code>applicationView</code> is shown, the animation can make use of different effects while toggling. The supported<br/>
 effects are specified in <code>CNToggleAnimationEffect</code>.</p>
 
-<pre><code>typedef enum {
-    CNToggleAnimationEffectStatic = 0,
-    CNToggleAnimationEffectFade,
-    CNToggleAnimationEffectSlide
-} CNToggleAnimationEffect;
+<pre><code>typedef enum {  
+    CNToggleAnimationEffectStatic = 0,  
+    CNToggleAnimationEffectFade,  
+    CNToggleAnimationEffectSlide  
+} CNToggleAnimationEffect;  
 </code></pre>
 
-<p><code>CNToggleAnimationEffectStatic</code><br />
+<p><code>CNToggleAnimationEffectStatic</code><br /><br/>
 While the controller is toggling, the content of the application view keep staying on its place.</p>
 
-<p><code>CNToggleAnimationEffectApplicationContentFade</code><br />
+<p><code>CNToggleAnimationEffectApplicationContentFade</code><br /><br/>
 While the controller is toggling, the content of the application view will be fade in.</p>
 
-<p><code>CNToggleAnimationEffectApplicationContentSlide</code><br />
+<p><code>CNToggleAnimationEffectApplicationContentSlide</code><br /><br/>
 While the controller is toggling, the content of the application view will be slide in.</p>
 
 <p>The default value is <code>CNToggleAnimationEffectStatic</code>.</p>
@@ -849,19 +849,20 @@ While the controller is toggling, the content of the application view will be sl
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The max. number of displays <code>CNBackstageController</code> currently supports is 16. This number is defined by the constant <code>kCNMaxNumberOfSupportedDisplays</code>.
+		<p>The max. number of displays <code>CNBackstageController</code> currently supports is 16. This number is defined by the constant <code>kCNMaxNumberOfSupportedDisplays</code>.<br/>
 For a quick and easy usage there are four constants representing the first 4 displays (0 to 3):</p>
 
-<pre><code>typedef enum {
-    CNToggleDisplayMain = 0,                            // Main Display means where the system statusbar is placed
-    CNToggleDisplaySecond,
-    CNToggleDisplayThird,
-    CNToggleDisplayFourth
-} CNToggleDisplay;
+<pre><code>typedef enum {  
+    CNToggleDisplayMain = 0,                            // Main Display means where the system statusbar is placed  
+    CNToggleDisplaySecond,  
+    CNToggleDisplayThird,  
+    CNToggleDisplayFourth  
+} CNToggleDisplay;  
 </code></pre>
 
-<p><code>CNToggleDisplayMain</code><br />
-The default value. Main display means that display where the system statusbar is placed.</p><div class="note"><p><strong>Note:</strong> These are just constants for four displays. You may of course own more than four displays, and <code>CNBackstageController</code> will provide them all!</p></div>
+<p><code>CNToggleDisplayMain</code><br /><br/>
+The default value. Main display means that display where the system statusbar is placed.</p><blockquote><p>%note%<br/>
+<strong>Note:</strong> These are just constants for four displays. You may of course own more than four displays, and <code>CNBackstageController</code> will provide them all!</p></blockquote>
 	</div>
 	
 	
@@ -904,33 +905,33 @@ The default value. Main display means that display where the system statusbar is
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>This property is controlled by one of four possible values:</p>
 
-<pre><code>typedef enum {
-    CNToggleEdgeTop = 0,
-    CNToggleEdgeBottom,
-    CNToggleEdgeLeft,
-    CNToggleEdgeRight,
-    CNToggleEdgeSplitHorizontal,
-    CNToggleEdgeSplitVertical
-} CNToggleEdge;
+<pre><code>typedef enum {  
+    CNToggleEdgeTop = 0,  
+    CNToggleEdgeBottom,  
+    CNToggleEdgeLeft,  
+    CNToggleEdgeRight,  
+    CNToggleEdgeSplitHorizontal,  
+    CNToggleEdgeSplitVertical  
+} CNToggleEdge;  
 </code></pre>
 
-<p><code>CNToggleEdgeTop</code><br />
-The applicationView will appear from the top side of the screen that was selected by the property <a href="#//api/name/toggleDisplay"><code>toggleDisplay</code></a>.<br />
+<p><code>CNToggleEdgeTop</code><br /><br/>
+The applicationView will appear from the top side of the screen that was selected by the property <a href="#//api/name/toggleDisplay"><code>toggleDisplay</code></a>.<br /><br/>
 This is the default value.</p>
 
-<p><code>CNToggleEdgeBottom</code><br />
+<p><code>CNToggleEdgeBottom</code><br /><br/>
 The applicationView will appear from the bottom side of the screen that was selected by the property <a href="#//api/name/toggleDisplay"><code>toggleDisplay</code></a>.</p>
 
-<p><code>CNToggleEdgeLeft</code><br />
+<p><code>CNToggleEdgeLeft</code><br /><br/>
 The applicationView will appear from the left side of the screen that was selected by the property <a href="#//api/name/toggleDisplay"><code>toggleDisplay</code></a>.</p>
 
-<p><code>CNToggleEdgeRight</code><br />
+<p><code>CNToggleEdgeRight</code><br /><br/>
 The applicationView will appear from the right side of the screen that was selected by the property <a href="#//api/name/toggleDisplay"><code>toggleDisplay</code></a>.</p>
 
-<p><code>CNToggleEdgeSplitHorizontal</code><br />
+<p><code>CNToggleEdgeSplitHorizontal</code><br /><br/>
 The aplicationView will appear in the horizontal middle of the screen. The overlaid screen content will be splitted into a left and a right half that slides apart.</p>
 
-<p><code>CNToggleEdgeSplitVertical</code><br />
+<p><code>CNToggleEdgeSplitVertical</code><br /><br/>
 The aplicationView will appear in the vertical middle of the screen. The overlaid screen content will be splitted into a top and a bottom half that slides apart.</p>
 	</div>
 	
@@ -976,43 +977,43 @@ The aplicationView will appear in the vertical middle of the screen. The overlai
 
 <p><strong>The CNToggleSize data type</strong></p>
 
-<pre><code>typedef struct {
-    NSUInteger width;
-    NSUInteger height;
-} CNToggleSize;
+<pre><code>typedef struct {  
+    NSUInteger width;  
+    NSUInteger height;  
+} CNToggleSize;  
 </code></pre>
 
-<p>To set the width and height attributes of toggleSize you can use any value that is in the range of your displays resolution. These are <em>absolute values</em>.<br />
+<p>To set the width and height attributes of toggleSize you can use any value that is in the range of your displays resolution. These are <em>absolute values</em>.<br /><br/>
 Furthermore you can choose between five constants to set <em>relative values</em> for <code>toggleSize.width</code> and <code>toggleSize.height</code>. Dependent on your display size the <em>absolute values</em> related to these constants are calculated in real time.</p>
 
 <p><strong>The predfined CNToggleSize constants to set relative values</strong></p>
 
-<pre><code>enum {
-    CNToggleSizeHalfScreen = 0,
-    CNToggleSizeQuarterScreen,
-    CNToggleSizeThreeQuarterScreen,
-    CNToggleSizeOneThirdScreen,
-    CNToggleSizeTwoThirdsScreen
-};
+<pre><code>enum {  
+    CNToggleSizeHalfScreen = 0,  
+    CNToggleSizeQuarterScreen,  
+    CNToggleSizeThreeQuarterScreen,  
+    CNToggleSizeOneThirdScreen,  
+    CNToggleSizeTwoThirdsScreen  
+};  
 </code></pre>
 
 <p>So, the usage of that convenience function may look different, because it&rsquo;s allowed to mix absolute and relative values.</p>
 
 <p><strong>Examples for the use of CNMakeToggleSize()</strong></p>
 
-<pre><code>CNBackstageController *myController = [CNBackstageController sharedInstance];
+<pre><code>CNBackstageController *myController = [CNBackstageController sharedInstance];  
 
-// by setting toggleEdge to CNToggleEdgeTop just toggleSize.height with the 
-// value of 300 pixel is relevant
-myController.toggleEdge = CNToggleEdgeTop;
-myController.toggleSize = CNMakeToggleSize(650, 300);
+// by setting toggleEdge to CNToggleEdgeTop just toggleSize.height with the   
+// value of 300 pixel is relevant  
+myController.toggleEdge = CNToggleEdgeTop;  
+myController.toggleSize = CNMakeToggleSize(650, 300);  
 
-//
-myController.toggleEdge = CNToggleEdgeRight;
-myController.toggleSize = CNMakeToggleSize(450, CNToggleSizeQuarterScreen);
+//  
+myController.toggleEdge = CNToggleEdgeRight;  
+myController.toggleSize = CNMakeToggleSize(450, CNToggleSizeQuarterScreen);  
 
-//
-myController.toggleSize = CNMakeToggleSize(CNToggleSizeHalfScreen, CNToggleSizeOneThirdScreen);
+//  
+myController.toggleSize = CNMakeToggleSize(CNToggleSizeHalfScreen, CNToggleSizeOneThirdScreen);  
 </code></pre>
 
 <p>What will happen on these three examples? So, let me explain a bit more.<br /></p>
@@ -1031,19 +1032,19 @@ myController.toggleSize = CNMakeToggleSize(CNToggleSizeHalfScreen, CNToggleSizeO
 
 <p><strong>Constant description</strong></p>
 
-<p><code>CNToggleSizeHalfScreen</code><br />
+<p><code>CNToggleSizeHalfScreen</code><br /><br/>
 The applicationView will appear using the half screen width or height (depending on the value given in <code>toggleEdge</code>).<br /></p>
 
-<p><code>CNToggleSizeQuarterScreen</code><br />
+<p><code>CNToggleSizeQuarterScreen</code><br /><br/>
 The applicationView will appear using the quarter screen width or height (depending on the value given in <code>toggleEdge</code>).</p>
 
-<p><code>CNToggleSizeThreeQuarterScreen</code><br />
+<p><code>CNToggleSizeThreeQuarterScreen</code><br /><br/>
 The applicationView will appear using three quarter of a screen (height or width, depending on the value given in <code>toggleEdge</code>).</p>
 
-<p><code>CNToggleSizeOneThirdScreen</code><br />
+<p><code>CNToggleSizeOneThirdScreen</code><br /><br/>
 The applicationView will appear using one third of a screen (height or width, depending on the value given in <code>toggleEdge</code>).</p>
 
-<p><code>CNToggleSizeTwoThirdsScreen</code><br />
+<p><code>CNToggleSizeTwoThirdsScreen</code><br /><br/>
 The applicationView will appear using two thirds of a screen (height or width, depending on the value given in <code>toggleEdge</code>).</p>
 
 <p><strong>Default value</strong></p>
@@ -1089,7 +1090,7 @@ The applicationView will appear using two thirds of a screen (height or width, d
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Dependend on the current <a href="#//api/name/toggleEdge">toggleEdge</a> the <strong>width</strong> attribute (<code>CNToggleEdgeLeft</code>, <code>CNToggleEdgeRight</code> or <code>CNToggleEdgeSplitHorizontal</code>)
+		<p>Dependend on the current <a href="#//api/name/toggleEdge">toggleEdge</a> the <strong>width</strong> attribute (<code>CNToggleEdgeLeft</code>, <code>CNToggleEdgeRight</code> or <code>CNToggleEdgeSplitHorizontal</code>)<br/>
 or the <strong>height</strong> attribute (<code>CNToggleEdgeTop</code>, <code>CNToggleEdgeBottom</code> or <code>CNToggleEdgeSplitVertical</code>) will be used.</p>
 
 <p>The default value is <code>NSMakeSize(200.0f, 120.0f)</code>.</p>
@@ -1133,28 +1134,29 @@ or the <strong>height</strong> attribute (<code>CNToggleEdgeTop</code>, <code>CN
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>On toggling the application view in and out you can use visual effects to focus the users attention more or less on its application view.
+		<p>On toggling the application view in and out you can use visual effects to focus the users attention more or less on its application view.<br/>
 The supported effects are specified in <code>CNToggleVisualEffect</code>. You can use multiple of these effects, combined using the C bitwise OR operator.</p>
 
-<pre><code>typedef enum {
-    CNToggleVisualEffectNone            = 0,
-    CNToggleVisualEffectOverlayBlack    = 1 &lt;&lt; 0,
-    CNToggleVisualEffectGaussianBlur    = 1 &lt;&lt; 1
-} CNToggleVisualEffect;
+<pre><code>typedef enum {  
+    CNToggleVisualEffectNone            = 0,  
+    CNToggleVisualEffectOverlayBlack    = 1 &lt;&lt; 0,  
+    CNToggleVisualEffectGaussianBlur    = 1 &lt;&lt; 1  
+} CNToggleVisualEffect;  
 </code></pre>
 
-<p><code>CNToggleVisualEffectNone</code><br />
+<p><code>CNToggleVisualEffectNone</code><br /><br/>
 There is no visual effect over Finder snapshot area.</p>
 
-<p><code>CNToggleAnimationEffectOverlayBlack</code><br />
-A black transparent overlay is shown over the Finder snapshot area. Its alpha value can be manipulated using the
+<p><code>CNToggleAnimationEffectOverlayBlack</code><br /><br/>
+A black transparent overlay is shown over the Finder snapshot area. Its alpha value can be manipulated using the<br/>
 property <a href="#//api/name/overlayAlpha">overlayAlpha</a>.</p>
 
-<p><code>CNToggleVisualEffectGaussianBlur</code><br />
+<p><code>CNToggleVisualEffectGaussianBlur</code><br /><br/>
 Spreads pixels of the screen snapshot by a Gaussian distribution.</p>
 
-<p><strong>Default Value</strong><br />
-<code>CNToggleVisualEffectOverlayBlack</code><br /></p><div class="warning"><p><strong>Warning:</strong> Using the <code>CNToggleAnimationEffectGaussianBlur</code> will decrease the animation performance!</p></div>
+<p><strong>Default Value</strong><br /><br/>
+<code>CNToggleVisualEffectOverlayBlack</code><br /></p><blockquote><p>%warning%<br/>
+<strong>Warning:</strong> Using the <code>CNToggleAnimationEffectGaussianBlur</code> will decrease the animation performance!</p></blockquote>
 	</div>
 	
 	
@@ -1384,7 +1386,7 @@ Spreads pixels of the screen snapshot by a Gaussian distribution.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>If the <a href="#//api/name/currentViewState">currentViewState</a> has the value <code>CNToggleStateCollapsed</code>, then <code>CNBackstageController</code> will open the applicationView.
+		<p>If the <a href="#//api/name/currentViewState">currentViewState</a> has the value <code>CNToggleStateCollapsed</code>, then <code>CNBackstageController</code> will open the applicationView.<br/>
 Otherwise it will be closed.</p>
 	</div>
 	
@@ -1415,7 +1417,7 @@ Otherwise it will be closed.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-01-23)</span><br />
+						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-04-27)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
 						
