@@ -1,0 +1,3 @@
+language: objective-c
+xcode_project: 'Example/CNBackstageController Example.xcodeproj'
+xcode_scheme: 'CNBackstageController Example'
